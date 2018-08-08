@@ -32,6 +32,9 @@ var game;
         };
         PlayerPokers.prototype.showResult = function (pos, result) {
             var bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
+            if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                bipai = game.GameModel.ins.roundModel.result.bipai[0];
+            }
             if (result.ty > 0) {
                 // this.m_imt_teshu.visible=true;
                 return;
@@ -39,6 +42,7 @@ var game;
             this.m_porka.visible = true;
             var start = 0;
             var end = 0;
+            this.m_txt_score_result.text = "";
             if (pos == 0) {
                 start = 0;
                 end = 3;
@@ -58,7 +62,27 @@ var game;
                 else {
                     this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
                 }
-                this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+                }
+                else {
+                    if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
+                        if (bipai.getWinById(result.uid).w1 == result.uid) {
+                            this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_scoretop.text = "赢";
+                        }
+                        else if (bipai.getWinById(result.uid).w1 == "") {
+                            this.m_txt_scoretop.text = "";
+                        }
+                        else {
+                            this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_scoretop.text = "输";
+                        }
+                    }
+                    else {
+                        this.m_txt_scoretop.text = "";
+                    }
+                }
             }
             else if (pos == 1) {
                 this.m_porka1.visible = true;
@@ -79,7 +103,27 @@ var game;
                 else {
                     this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
                 }
-                this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+                }
+                else {
+                    if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
+                        if (bipai.getWinById(result.uid).w2 == result.uid) {
+                            this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_mid.text = "赢";
+                        }
+                        else if (bipai.getWinById(result.uid).w2 == '') {
+                            this.m_txt_score_mid.text = "";
+                        }
+                        else {
+                            this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_mid.text = "输";
+                        }
+                    }
+                    else {
+                        this.m_txt_score_mid.text = "";
+                    }
+                }
             }
             else if (pos == 2) {
                 this.m_porka1.visible = true;
@@ -100,7 +144,61 @@ var game;
                 else {
                     this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
                 }
-                this.m_txt_score_down.text = bipai.scoredownstr.toString();
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    this.m_txt_score_down.text = bipai.scoredownstr.toString();
+                    if (game.GameModel.ins.roomModel.fuid != result.uid) {
+                        if (bipai.px > 0) {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_result.text = "翻倍";
+                        }
+                        else {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_result.text = "不翻倍";
+                        }
+                    }
+                    else {
+                        if (result.sc >= 0) {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                        }
+                        else {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                        }
+                        var f = "";
+                        if (result.sc > 0) {
+                            f = "+";
+                        }
+                        this.m_txt_score_result.text = "总得分：" + f + result.sc;
+                    }
+                }
+                else {
+                    if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
+                        if (bipai.getWinById(result.uid).w3 == result.uid) {
+                            this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_down.text = "赢";
+                        }
+                        else if (bipai.getWinById(result.uid).w3 == "") {
+                            this.m_txt_score_down.text = "";
+                        }
+                        else {
+                            this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_down.text = "输";
+                        }
+                    }
+                    else {
+                        this.m_txt_score_down.text = "";
+                    }
+                    if (result.sc >= 0) {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                    }
+                    else {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                    }
+                    var f = "";
+                    if (result.sc > 0) {
+                        f = "+";
+                    }
+                    this.m_txt_score_result.text = f + result.sc;
+                }
             }
             this.m_t1.play(this.effectEnd, this);
             for (var i = start; i < end; i++) {
@@ -120,7 +218,7 @@ var game;
             if (pos == 0) {
                 start = 0;
                 end = 3;
-                this.m_porka.y = -33;
+                this.m_porka.y = -73;
                 this.m_porka1.visible = false;
                 this.m_porka5.visible = false;
                 for (var i = 2; i < 5; i++) {
@@ -137,7 +235,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 3;
                 end = 8;
-                this.m_porka.y = 18;
+                this.m_porka.y = -22;
                 this.m_porka1.showResult(result.midCards[0]);
                 this.m_porka2.showResult(result.midCards[1]);
                 this.m_porka3.showResult(result.midCards[2]);
@@ -152,7 +250,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 8;
                 end = 13;
-                this.m_porka.y = 81;
+                this.m_porka.y = 31;
                 this.m_porka1.showResult(result.downCards[0]);
                 this.m_porka2.showResult(result.downCards[1]);
                 this.m_porka3.showResult(result.downCards[2]);

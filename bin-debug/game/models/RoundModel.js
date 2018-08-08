@@ -40,6 +40,13 @@ var game;
     }());
     game.DaQiang = DaQiang;
     __reflect(DaQiang.prototype, "game.DaQiang");
+    var Win = (function () {
+        function Win() {
+        }
+        return Win;
+    }());
+    game.Win = Win;
+    __reflect(Win.prototype, "game.Win");
     var ResultBP = (function () {
         function ResultBP() {
         }
@@ -49,6 +56,7 @@ var game;
             this.scoredown = 0;
             this.dq = new DaQiang();
             this.dq.uid = this.uid;
+            this.wins = [];
             for (var i = 0; i < this.rs.length; i++) {
                 var bp = this.rs[i];
                 this.scoretop += bp['sc1'];
@@ -59,6 +67,12 @@ var game;
                         this.dq.tarIds.push(bp['uid']);
                     }
                 }
+                var win = new Win();
+                win.uid = bp['uid'];
+                win.w1 = bp['w1'];
+                win.w2 = bp['w2'];
+                win.w3 = bp['w3'];
+                this.wins.push(win);
             }
             this.scoretop *= -1;
             this.scoremid *= -1;
@@ -66,6 +80,14 @@ var game;
             this.scoretopstr = this.scoretop > 0 ? ("+" + this.scoretop) : this.scoretop.toString();
             this.scoremidstr = this.scoremid > 0 ? ("+" + this.scoremid) : this.scoremid.toString();
             this.scoredownstr = this.scoredown > 0 ? ("+" + this.scoredown) : this.scoredown.toString();
+        };
+        ResultBP.prototype.getWinById = function (uid) {
+            for (var i = 0; i < this.wins.length; i++) {
+                if (this.wins[i].uid == uid) {
+                    return this.wins[i];
+                }
+            }
+            return null;
         };
         return ResultBP;
     }());

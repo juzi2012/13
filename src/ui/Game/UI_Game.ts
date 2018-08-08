@@ -20,8 +20,10 @@ module UI.Game {
 		public m_btn_chat:fairygui.GButton;
 		public m_btn_talk:fairygui.GButton;
 		public m_img_start:fairygui.GImage;
-		public m_txt_fid:fairygui.GTextField;
 		public m_btn_start:fairygui.GButton;
+		public m_txt_room:fairygui.GTextField;
+		public m_txt_jushu:fairygui.GTextField;
+		public m_txt_roomtype:fairygui.GTextField;
 		public m_sharetips:fairygui.GGroup;
 		public m_btn_continue:fairygui.GButton;
 		public m_t1:fairygui.Transition;
@@ -55,10 +57,12 @@ module UI.Game {
 			this.m_btn_chat = <fairygui.GButton><any>(this.getChildAt(16));
 			this.m_btn_talk = <fairygui.GButton><any>(this.getChildAt(17));
 			this.m_img_start = <fairygui.GImage><any>(this.getChildAt(18));
-			this.m_txt_fid = <fairygui.GTextField><any>(this.getChildAt(19));
-			this.m_btn_start = <fairygui.GButton><any>(this.getChildAt(20));
-			this.m_sharetips = <fairygui.GGroup><any>(this.getChildAt(23));
-			this.m_btn_continue = <fairygui.GButton><any>(this.getChildAt(24));
+			this.m_btn_start = <fairygui.GButton><any>(this.getChildAt(19));
+			this.m_txt_room = <fairygui.GTextField><any>(this.getChildAt(21));
+			this.m_txt_jushu = <fairygui.GTextField><any>(this.getChildAt(22));
+			this.m_txt_roomtype = <fairygui.GTextField><any>(this.getChildAt(23));
+			this.m_sharetips = <fairygui.GGroup><any>(this.getChildAt(27));
+			this.m_btn_continue = <fairygui.GButton><any>(this.getChildAt(28));
 			this.m_t1 = this.getTransitionAt(0);
 		}
 	}

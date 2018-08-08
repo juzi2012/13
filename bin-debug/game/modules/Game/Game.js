@@ -113,7 +113,25 @@ var game;
             App.MessageCenter.addListener(game.MsgEnum.GAME_ASKFOR_DISMISS, this.UserAskForDismiss, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_ANSWER_FAILED, this.RoomDismissFailed, this);
             App.MessageCenter.addListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
-            this.mContent.m_txt_fid.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
+            this.mContent.m_txt_room.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
+            switch (game.GameModel.ins.roomModel.rinfo.rp) {
+                case 2:
+                    this.mContent.m_txt_roomtype.text = "方片十三水";
+                    break;
+                case 3:
+                    this.mContent.m_txt_roomtype.text = "加一色十三水";
+                    break;
+                case 4:
+                    this.mContent.m_txt_roomtype.text = "大小王十三水";
+                    break;
+                case 5:
+                    this.mContent.m_txt_roomtype.text = "六人十三水";
+                    break;
+                case 6:
+                    this.mContent.m_txt_roomtype.text = "纯一色十三水";
+                    break;
+            }
+            this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
             //如果是断线重连进来的，则会判断是否是已经开局
             if (game.GameModel.ins.roomModel.isReConnectInRoom) {
                 if (game.GameModel.ins.roomModel.reConnectState == 1) {
@@ -259,6 +277,7 @@ var game;
             this.getPlayerById(msg.uid).onBaiPaiEnd();
         };
         Game.prototype.doRestart = function () {
+            this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
             for (var i = 0; i < this.curHeadAry.length; i++) {
                 this.curHeadAry[i].restart();
                 if (game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
@@ -319,7 +338,7 @@ var game;
                             i = 0;
                             _a.label = 3;
                         case 3:
-                            if (!(i < bipai.length)) return [3 /*break*/, 6];
+                            if (!(i < cards.length)) return [3 /*break*/, 6];
                             uid = cards[i].uid;
                             if (!(special_uid.indexOf(uid) < 0)) return [3 /*break*/, 5];
                             playerHead = this.getPlayerById(uid);

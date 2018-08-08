@@ -22,6 +22,9 @@ module game {
 		public showResult(pos:number,result:ResultCard):void
 		{
 			let bipai:ResultBP = GameModel.ins.roundModel.getResultBPByUid(result.uid);
+			if(GameModel.ins.roomModel.rinfo.zz==1){
+				bipai = GameModel.ins.roundModel.result.bipai[0];
+			}
 			if(result.ty>0){
 				// this.m_imt_teshu.visible=true;
 				return;
@@ -29,7 +32,7 @@ module game {
 			this.m_porka.visible=true;
 			let start:number=0;
 			let end:number=0;
-			
+			this.m_txt_score_result.text="";
 			if(pos==0){
 				start=0;
 				end=3;
@@ -49,7 +52,23 @@ module game {
 				}else{
 					this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
 				}
-				this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+				}else{
+					if(GameModel.ins.roomModel.rinfo.zuid!=result.uid){
+						if(bipai.getWinById(result.uid).w1==result.uid){
+							this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+							this.m_txt_scoretop.text = "赢";
+						}else if(bipai.getWinById(result.uid).w1==""){
+							this.m_txt_scoretop.text = "";
+						}else{
+							this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+							this.m_txt_scoretop.text = "输";
+						}
+					}else{
+						this.m_txt_scoretop.text = "";
+					}
+				}
 			}else if(pos==1){
 				this.m_porka1.visible=true;
 				this.m_porka5.visible=true;
@@ -69,7 +88,24 @@ module game {
 				}else{
 					this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
 				}
-				this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+				}else{
+					if(GameModel.ins.roomModel.rinfo.zuid!=result.uid){
+						if(bipai.getWinById(result.uid).w2==result.uid){
+							this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+							this.m_txt_score_mid.text = "赢";
+						}else if(bipai.getWinById(result.uid).w2==''){
+							this.m_txt_score_mid.text = "";
+						}else{
+							this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+							this.m_txt_score_mid.text = "输";
+						}
+					}else{
+						this.m_txt_score_mid.text="";
+					}
+				}
+				
 			}else if(pos==2){
 				this.m_porka1.visible=true;
 				this.m_porka5.visible=true;
@@ -89,7 +125,55 @@ module game {
 				}else{
 					this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
 				}
-				this.m_txt_score_down.text = bipai.scoredownstr.toString();
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					this.m_txt_score_down.text = bipai.scoredownstr.toString();
+					if(GameModel.ins.roomModel.fuid!=result.uid){
+						if(bipai.px>0){
+							this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+							this.m_txt_score_result.text="翻倍";
+						}else{
+							this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+							this.m_txt_score_result.text="不翻倍";
+						}
+					}else{
+						if(result.sc>=0){
+							this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+						}else{
+							this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+						}
+						let f:string="";
+						if(result.sc>0){
+							f = "+";
+						}
+						this.m_txt_score_result.text="总得分："+f+result.sc;
+					}
+				}else{
+					if(GameModel.ins.roomModel.rinfo.zuid!=result.uid){
+						if(bipai.getWinById(result.uid).w3==result.uid){
+							this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+							this.m_txt_score_down.text = "赢";
+						}else if(bipai.getWinById(result.uid).w3==""){
+							this.m_txt_score_down.text = "";
+						}else{
+							this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+							this.m_txt_score_down.text = "输";
+						}
+						
+					}else{
+						this.m_txt_score_down.text = "";
+					}
+					if(result.sc>=0){
+						this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+					}else{
+						this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+					}
+					let f:string="";
+					if(result.sc>0){
+						f = "+";
+					}
+					this.m_txt_score_result.text=f+result.sc;
+				}
+				
 			}
 			this.m_t1.play(this.effectEnd,this);
 

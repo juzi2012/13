@@ -31,7 +31,7 @@ module UI.Game {
 		public m_txt_score_mid:fairygui.GTextField;
 		public m_txt_score_down:fairygui.GTextField;
 		public m_imt_teshu:fairygui.GImage;
-		public m_img_fanbei:fairygui.GImage;
+		public m_txt_score_result:fairygui.GTextField;
 		public m_t0:fairygui.Transition;
 		public m_t1:fairygui.Transition;
 
@@ -75,7 +75,7 @@ module UI.Game {
 			this.m_txt_score_mid = <fairygui.GTextField><any>(this.getChildAt(25));
 			this.m_txt_score_down = <fairygui.GTextField><any>(this.getChildAt(26));
 			this.m_imt_teshu = <fairygui.GImage><any>(this.getChildAt(27));
-			this.m_img_fanbei = <fairygui.GImage><any>(this.getChildAt(28));
+			this.m_txt_score_result = <fairygui.GTextField><any>(this.getChildAt(28));
 			this.m_t0 = this.getTransitionAt(0);
 			this.m_t1 = this.getTransitionAt(1);
 		}

@@ -50,7 +50,7 @@ var UI;
                 this.m_txt_score_mid = (this.getChildAt(25));
                 this.m_txt_score_down = (this.getChildAt(26));
                 this.m_imt_teshu = (this.getChildAt(27));
-                this.m_img_fanbei = (this.getChildAt(28));
+                this.m_txt_score_result = (this.getChildAt(28));
                 this.m_t0 = this.getTransitionAt(0);
                 this.m_t1 = this.getTransitionAt(1);
             };

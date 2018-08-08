@@ -3,6 +3,7 @@ module game {
 		public constructor(){
 			
 		}
+		public rp:number;//房间类型
 		public fc:number;//"fc":1, //1 房主付 2均分
 		public friend:number;//"friend":0,//备用
 		public jm:number;//"jm":0,    //是否加马
@@ -79,6 +80,7 @@ module game {
 			this.rid = msg.rid;
 			this.rinfo = new RoomInfo();
 			this.rinfo.fc = msg.rinfo.fc;
+			this.rinfo.rp = msg.rinfo.rp;
 			this.rinfo.friend = msg.rinfo.friend;
 			this.rinfo.jm = msg.rinfo.jm;
 			this.rinfo.nnum = msg.rinfo.nnum;
@@ -129,10 +131,11 @@ module game {
 			this.rinfo.jm = msg.rinfo.jm;
 			this.rinfo.nnum = msg.rinfo.nnum;
 			this.rinfo.pn = msg.rinfo.pn;
+			this.rinfo.rp = msg.rinfo.rp;
 			this.rinfo.safe = msg.rinfo.safe;
 			this.rinfo.snum = msg.rinfo.snum;
 			this.rinfo.zuid = msg.dealer;
-
+			this.rinfo.zz = msg.rinfo.zz;
 			this.reConnectState = msg.status;
 			if(this.users==null){
 				this.users = new Array<User>();

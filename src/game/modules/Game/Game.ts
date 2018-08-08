@@ -75,7 +75,25 @@ module game {
 
 			App.MessageCenter.addListener(MsgEnum.STOP_PLAY_MUSIC,this.playMusic,this);
 
-			this.mContent.m_txt_fid.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
+			this.mContent.m_txt_room.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
+			switch(GameModel.ins.roomModel.rinfo.rp){
+				case 2:
+				this.mContent.m_txt_roomtype.text = "方片十三水";
+				break;
+				case 3:
+				this.mContent.m_txt_roomtype.text = "加一色十三水";
+				break;
+				case 4:
+				this.mContent.m_txt_roomtype.text = "大小王十三水";
+				break;
+				case 5:
+				this.mContent.m_txt_roomtype.text = "六人十三水";
+				break;
+				case 6:
+				this.mContent.m_txt_roomtype.text = "纯一色十三水";
+				break;
+			}
+			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 
 			//如果是断线重连进来的，则会判断是否是已经开局
 			if(GameModel.ins.roomModel.isReConnectInRoom){
@@ -237,6 +255,7 @@ module game {
 		}
 		private doRestart():void
 		{
+			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 			for(let i:number=0;i<this.curHeadAry.length;i++){
 				this.curHeadAry[i].restart();
 				if(GameModel.ins.uid == GameModel.ins.roomModel.fuid){
@@ -283,7 +302,7 @@ module game {
 			await this.sleep(500);
 
 			for(let j:number = 0;j<3;j++){
-				for(let i:number=0;i<bipai.length;i++){
+				for(let i:number=0;i<cards.length;i++){
 					let uid:string = cards[i].uid;
 					if(special_uid.indexOf(uid)<0){
 						let playerHead:PlayerHead = this.getPlayerById(uid);

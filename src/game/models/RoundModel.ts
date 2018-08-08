@@ -40,6 +40,14 @@ module game {
 		public uid:string;
 		public tarIds:Array<string>;
 	}
+	export class Win{
+		public constructor(){
+		}
+		public uid:string;
+		public w1:string;
+		public w2:string;
+		public w3:string;
+	}
 	export class ResultBP{
 		public constructor(){
 
@@ -55,12 +63,14 @@ module game {
 		public scoretopstr:string;//上分数
 		public scoremidstr:string;//中分数
 		public scoredownstr:string;//下分数
+		public wins:Array<Win>;
 		public initRS():void{
 			this.scoretop = 0;
 			this.scoremid = 0;
 			this.scoredown = 0;
 			this.dq = new DaQiang();
 			this.dq.uid= this.uid;
+			this.wins = [];
 			for(let i:number=0;i<this.rs.length;i++){
 				let bp:any = this.rs[i];
 				this.scoretop+=bp['sc1'];
@@ -71,6 +81,13 @@ module game {
 						this.dq.tarIds.push(bp['uid'])
 					}
 				}
+				let win:Win = new Win();
+				win.uid = bp['uid'];
+				
+				win.w1 = bp['w1'];
+				win.w2 = bp['w2'];
+				win.w3 = bp['w3'];
+				this.wins.push(win);
 			}
 			this.scoretop*=-1;
 			this.scoremid*=-1;
@@ -78,6 +95,15 @@ module game {
 			this.scoretopstr = this.scoretop>0?("+"+this.scoretop):this.scoretop.toString();
 			this.scoremidstr = this.scoremid>0?("+"+this.scoremid):this.scoremid.toString();
 			this.scoredownstr = this.scoredown>0?("+"+this.scoredown):this.scoredown.toString();
+		}
+		public getWinById(uid:string):Win
+		{
+			for(let i:number=0;i<this.wins.length;i++){
+				if(this.wins[i].uid==uid){
+					return this.wins[i];
+				}
+			}
+			return null;
 		}
 	}
 	export class RoundModel {
