@@ -159,7 +159,7 @@ module game {
 
 			for(let i:number=start;i<end;i++){
 				let poker = this['m_pork'+i] as Pork;
-				poker.showResult(cards[i])
+				poker.showResult(cards[i]);
 			}
 		}
 		private effectEnd():void
