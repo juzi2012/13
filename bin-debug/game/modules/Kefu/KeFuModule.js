@@ -35,8 +35,13 @@ var game;
             _super.prototype.preShow.call(this, data);
         };
         KeFuModule.prototype.onCopy = function () {
-            //  window.clipboardData.getData("text");
-            //  egre
+            var cb = new game.Clipboard().setText("123232312");
+            if (cb) {
+                game.AlertUtil.floatMsg("复制成功");
+            }
+            else {
+                game.AlertUtil.floatMsg("复制失败");
+            }
         };
         KeFuModule.prototype.show = function (data) {
             _super.prototype.show.call(this, data);

@@ -21,8 +21,12 @@ module game {
 		}
 		private onCopy():void
 		{
-			//  window.clipboardData.getData("text");
-			//  egre
+			let cb:boolean = new Clipboard().setText("123232312");
+			if(cb){
+				AlertUtil.floatMsg("复制成功");
+			}else{
+				AlertUtil.floatMsg("复制失败");
+			}
 		}
 		public show(data?:any):void
 		{
