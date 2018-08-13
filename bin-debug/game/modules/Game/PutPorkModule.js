@@ -65,18 +65,22 @@ var game;
             this.mContent.m_btn_ok.addClickListener(this.onOk, this);
             this.mContent.m_btn_help.addClickListener(this.onHelp, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_BAIPAI, this.BaiPaiCallBack, this);
-            var teshuId = game.PorkUtilExtends.isTeShuPai(game.GameModel.ins.roundModel.myCard);
-            if (teshuId > 0) {
-                game.AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]" + game.PorkUtilExtends.getTeShuPai(teshuId) + "[/COLOR]\n是否选择免摆？", new core.Handler(this, this.mianBai));
+            var teshuVO = game.PorkUtilExtends.isTeShuPai(game.GameModel.ins.roundModel.myCard);
+            if (teshuVO != null && teshuVO.type > 0) {
+                game.AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]" + game.PorkUtilExtends.getTeShuPai(teshuVO.type) + "[/COLOR]\n是否选择免摆？", new core.Handler(this, this.mianBai, [teshuVO]));
             }
             this.topSelectAry = [];
             this.midSelectAry = [];
             this.downSelectAry = [];
             this.preShowCpl();
         };
-        PutPorkModule.prototype.mianBai = function () {
+        PutPorkModule.prototype.mianBai = function (teshuVO) {
             var msg = new C2T_Message_BaiPai();
-            msg.cards = game.GameModel.ins.roundModel.serverCard;
+            var arr = [];
+            for (var i = 0; i < teshuVO.arr.length; i++) {
+                arr.push(game.PorkUtil.ChangeClientToServer(teshuVO.arr[i].data));
+            }
+            msg.cards = arr;
             msg.mb = 1;
             game.ServerEngine.sendBaiPai(msg);
         };

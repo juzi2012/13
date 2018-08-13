@@ -68,7 +68,7 @@ module game {
 		public restart():void
 		{
 			this.m_img_finish.visible=false;
-			this.pokers.m_txt_score_down.visible=false;
+			this.pokers.m_txt_score_result.visible=false;
 			this.m_ctrlState.selectedIndex=0;
 			this.m_score.text="0";
 		}

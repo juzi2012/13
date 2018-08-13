@@ -120,8 +120,10 @@ var game;
             fairygui.UIPackage.addPackage("GameHelper");
             fairygui.UIPackage.addPackage("Rank");
             fairygui.UIPackage.addPackage("Result");
+            fairygui.UIPackage.addPackage("TestPork");
             ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
             ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
+            // ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
             if (game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.isReConnectInRoom) {
                 ModuleMgr.ins.showModule(ModuleEnum.GAME);
             }

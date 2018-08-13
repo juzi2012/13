@@ -40,6 +40,7 @@ class RegModuleTask{
         this.regModule(ModuleEnum.CHAT, LayerEnum.POPUP, game.ChatModule, []);
         this.regModule(ModuleEnum.USERINFO, LayerEnum.POPUP, game.UserInfoPanel, []);
         this.regModule(ModuleEnum.REPLAY, LayerEnum.SCENE, game.GameReplay, []);
+        this.regModule(ModuleEnum.TESTPORK, LayerEnum.POPUP, game.TestPorkModule, []);
         
     }
 

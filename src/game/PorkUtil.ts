@@ -69,7 +69,7 @@ module game {
 			return myCardAry;
 		}
 		public static RuffleCard1():Array<PorkVO>{
-			let serverArr:Array<number> = [6,30,27,21,51,24,8,9,11,13,59,62,26];//[61,58,9,5,46,30,57,14,27,20,28,62,34];
+			let serverArr:Array<number> = [12,34,44,10,62,57,2,55,50,53,51,60,26];//[61,58,9,5,46,30,57,14,27,20,28,62,34];
 			let resultArr:Array<PorkVO> =[];
 			for(let i:number=0;i<serverArr.length;i++){
 				resultArr.push(new PorkVO(this.ChangeServerCardToClient(serverArr[i])));

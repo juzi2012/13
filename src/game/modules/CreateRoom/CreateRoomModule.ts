@@ -194,7 +194,7 @@ module game {
 		{
 			let arr:Array<any> = this.getRoomInfo();
 			// ServerEngine.createRoom(ty,pn,jn,zz,jm,fc,core.Handler.create(this,this.createRoomCallBack));
-			ServerEngine.createRoom(arr[0],arr[1],2,arr[3],arr[4],arr[5],arr[6],core.Handler.create(this,this.createRoomCallBack));
+			ServerEngine.createRoom(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],core.Handler.create(this,this.createRoomCallBack));
 		}
 		private getRoomInfo():Array<any>
 		{

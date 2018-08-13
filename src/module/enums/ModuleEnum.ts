@@ -31,4 +31,5 @@ enum ModuleEnum {
     FLOAT,
     USERINFO,
     REPLAY,
+    TESTPORK,
 }

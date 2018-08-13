@@ -39,6 +39,7 @@ var RegModuleTask = (function () {
         this.regModule(ModuleEnum.CHAT, LayerEnum.POPUP, game.ChatModule, []);
         this.regModule(ModuleEnum.USERINFO, LayerEnum.POPUP, game.UserInfoPanel, []);
         this.regModule(ModuleEnum.REPLAY, LayerEnum.SCENE, game.GameReplay, []);
+        this.regModule(ModuleEnum.TESTPORK, LayerEnum.POPUP, game.TestPorkModule, []);
     };
     RegModuleTask.prototype.regModule = function (moduleId, layerKind, moduleCls, groups) {
         if (groups === void 0) { groups = null; }

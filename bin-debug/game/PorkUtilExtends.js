@@ -3,6 +3,15 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 };
 var game;
 (function (game) {
+    var TeShuVO = (function () {
+        function TeShuVO(_type, _arr) {
+            this.type = _type;
+            this.arr = _arr;
+        }
+        return TeShuVO;
+    }());
+    game.TeShuVO = TeShuVO;
+    __reflect(TeShuVO.prototype, "game.TeShuVO");
     var PorkUtilExtends = (function () {
         function PorkUtilExtends() {
         }
@@ -45,55 +54,73 @@ var game;
         // 是否是特殊牌
         PorkUtilExtends.isTeShuPai = function (cards) {
             if (cards.length < 13) {
-                return -1;
+                return null;
             }
-            if (this.isQingLong(cards)) {
-                return 16;
+            var result = [];
+            result = this.getQingLong(cards);
+            if (result != null) {
+                return new TeShuVO(16, result);
             }
-            if (this.isYiTiaoLong(cards)) {
-                return 15;
+            result = this.getYiTiaoLong(cards);
+            if (result != null) {
+                return new TeShuVO(15, result);
+                ;
             }
-            if (this.isSanFenTianXia(cards)) {
-                return 14;
+            result = this.getSanFenTianXia(cards);
+            if (result != null) {
+                return new TeShuVO(14, result);
             }
-            if (this.isSiTaoSanTiao(cards)) {
-                return 13;
+            result = this.getSiTaoSanTiao(cards);
+            if (result != null) {
+                return new TeShuVO(13, result);
             }
-            if (this.QuanDa(cards)) {
-                return 12;
+            result = this.QuanDa(cards);
+            if (result != null) {
+                return new TeShuVO(12, result);
             }
-            if (this.QuanXiao(cards)) {
-                return 11;
+            result = this.QuanXiao(cards);
+            if (result != null) {
+                return new TeShuVO(11, result);
             }
-            if (this.isCouYiSe(cards)) {
-                return 10;
+            result = this.getCouYiSe(cards);
+            if (result != null) {
+                return new TeShuVO(10, result);
             }
-            if (this.isWuDuiSanTiao(cards)) {
-                return 9;
+            result = this.getWuDuiSanTiao(cards);
+            if (result != null) {
+                return new TeShuVO(9, result);
             }
-            if (this.isTieZhiLiuDuiBan(cards)) {
-                return 8;
+            result = this.getTieZhiLiuDuiBan(cards);
+            if (result != null) {
+                return new TeShuVO(8, result);
             }
-            if (this.isSanShunAndHasTongHua(cards)) {
-                return 7;
+            result = this.getSanShunAndHasTongHua(cards);
+            if (result != null) {
+                return new TeShuVO(7, result);
             }
-            if (this.isSanTongHuaTongHuaShun(cards)) {
-                return 6;
+            result = this.getSanTongHuaTongHuaShun(cards);
+            if (result != null) {
+                return new TeShuVO(6, result);
             }
-            if (this.isWangZhe(cards)) {
-                return 5;
+            result = this.getWangZhe(cards);
+            if (result != null) {
+                return new TeShuVO(5, result);
             }
-            if (this.isLiuDuiBan(cards)) {
-                return 4;
+            result = this.isLiuDuiBan(cards);
+            if (result != null) {
+                return new TeShuVO(4, result);
             }
-            if (this.isSanTongHua(cards)) {
-                return 3;
+            result = this.getSanTongHua(cards);
+            if (result != null) {
+                return new TeShuVO(3, result);
             }
-            if (this.isSanShunZi(cards)) {
-                return 2;
+            result = this.getSanShunZi(cards);
+            if (result != null) {
+                return new TeShuVO(2, result);
             }
-            if (this.isSanJianDao(cards)) {
-                return 1;
+            result = this.getSanJianDao(cards);
+            if (result != null) {
+                return new TeShuVO(1, result);
             }
             // return this.isQingLong(cards)
             // 	|| this.isYiTiaoLong(cards)
@@ -114,18 +141,12 @@ var game;
         };
         ;
         // 是否是清龙
-        PorkUtilExtends.isQingLong = function (cards) {
+        PorkUtilExtends.getQingLong = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            // var card20 = KQCard.contain20(cards);
-            // if(card20.length > 0) {
-            // 	return false;
-            // }
-            /**
-             *
-             */
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var colorS = []; //黑桃
             var colorH = []; //红心
             var colorC = []; //梅花
@@ -156,85 +177,88 @@ var game;
                 }
             }
             if (colorSum.length == 1) {
-                if (colorSum[0] == 13) {
-                    if (this.isYiTiaoLong(cards)) {
-                        // var teShuCard = cards.filter(function(i){return i});
-                        // teShuCard = this.cardsFromArray(teShuCard);
-                        // teShuCard.sort(function(a,b){
-                        // 	return b.point - a.point;
-                        // });
-                        // teShuCard = KQCard.convertToServerCards(teShuCard);
-                        // var a1 = teShuCard.splice(0,5);
-                        // var a2 = teShuCard.splice(0,5);
-                        // cc.teShuPaiCards = [teShuCard, a2, a1];
-                        return true;
+                if (colorSum[0] == (13 - gAry.length)) {
+                    if (this.getYiTiaoLong(cards) != null) {
+                        return cards;
                     }
                 }
             }
-            return false;
+            return null;
         };
         ;
         /*是否一条龙*/
-        PorkUtilExtends.isYiTiaoLong = function (cards) {
+        PorkUtilExtends.getYiTiaoLong = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            // var card20 = KQCard.contain20(cards);
-            // if(card20.length > 0) {
-            // 	return false;
-            // }
-            var number = cards.map(function (card) {
+            var gAry = game.PorkUtil.filtGuiPai(cards);
+            var number = cards.filter(function (card) {
+                if (card.point < 65) {
+                    return card;
+                }
+            }).map(function (card) {
                 return card.point;
             }).sort(function (n1, n2) {
                 return n1 - n2;
             });
-            for (var i = 0; i < cards.length - 1; i++) {
+            for (var i = 0; i < number.length - 1; i++) {
                 if (number[i] != number[i + 1] - 1) {
-                    return false;
+                    if (gAry.length > 0) {
+                        gAry.pop();
+                    }
+                    else {
+                        return null;
+                    }
                 }
             }
-            // var teShuCard = cards.filter(function(i){return i});
-            // teShuCard = KQCard.cardsFromArray(teShuCard);
-            // teShuCard.forEach(function(a){
-            // 	if(a.scores == 1) a.scores = 14;
-            // });
-            // teShuCard.sort(function(a,b){
-            // 	return b.scores - a.scores;
-            // });
-            // teShuCard = KQCard.convertToServerCards(teShuCard);
-            // var a1 = teShuCard.splice(0,5);
-            // var a2 = teShuCard.splice(0,5);
-            // cc.teShuPaiCards = [teShuCard, a2, a1];
-            //cc.log(cc.teShuPaiCards )
-            //cc.log('--------728')
-            return true;
+            return cards;
         };
         ;
         // 是否是 “三分天下”
-        PorkUtilExtends.isSanFenTianXia = function (cards) {
+        PorkUtilExtends.getSanFenTianXia = function (cards) {
             var length = 13;
             if (cards.length < length) {
-                return false;
+                return null;
             }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var tieZhiLength = 4;
             var pointHelper = new CardPointsHelper(cards);
             var numberOfTieZhi = 0;
             for (var prop in pointHelper.pointNumbers) {
-                var value = pointHelper.pointNumbers[prop];
-                if (value == tieZhiLength) {
-                    numberOfTieZhi = numberOfTieZhi + 1;
+                if (Number(prop) < 65) {
+                    var value = pointHelper.pointNumbers[prop];
+                    if (value == tieZhiLength) {
+                        numberOfTieZhi = numberOfTieZhi + 1;
+                    }
+                    else {
+                        if (value == (tieZhiLength - 1) && gAry.length > 0) {
+                            gAry.pop();
+                            numberOfTieZhi = numberOfTieZhi + 1;
+                        }
+                        else if (value == (tieZhiLength - 2) && gAry.length > 1) {
+                            gAry.pop();
+                            gAry.pop();
+                            numberOfTieZhi = numberOfTieZhi + 1;
+                        }
+                    }
                 }
             }
-            return numberOfTieZhi === 3;
+            if (numberOfTieZhi === 3) {
+                return cards;
+            }
+            else {
+                return null;
+            }
         };
         ;
         // 是否是 “四套三条”
-        PorkUtilExtends.isSiTaoSanTiao = function (cards) {
+        PorkUtilExtends.getSiTaoSanTiao = function (cards) {
             var length = 13;
             if (cards.length < length) {
-                return false;
+                return null;
             }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var sanTiaoLength = 3;
             var pointHelper = new CardPointsHelper(cards);
             var numberOfSanTiao = 0;
@@ -243,40 +267,53 @@ var game;
                 if (value == sanTiaoLength) {
                     numberOfSanTiao = numberOfSanTiao + 1;
                 }
+                else if (value == sanTiaoLength - 1 && gAry.length > 0) {
+                    gAry.pop();
+                    numberOfSanTiao = numberOfSanTiao + 1;
+                }
+                else if (value == sanTiaoLength - 2 && gAry.length > 1) {
+                    gAry.pop();
+                    gAry.pop();
+                    numberOfSanTiao = numberOfSanTiao + 1;
+                }
             }
-            return numberOfSanTiao == 4;
+            if (numberOfSanTiao == 4) {
+                return cards;
+            }
+            else {
+                return null;
+            }
         };
         ;
         PorkUtilExtends.QuanDa = function (cards) {
-            var result = true;
+            var result = cards;
+            // let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].point < 8) {
-                    result = false;
-                    break;
+                    return null;
                 }
             }
             return result;
         };
         PorkUtilExtends.QuanXiao = function (cards) {
-            var result = true;
+            var result = cards;
+            // let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
             for (var i = 0; i < cards.length; i++) {
-                if (cards[i].point > 8) {
-                    result = false;
-                    break;
+                if (cards[i].point > 8 && (cards[i].point != 501 && cards[i].point != 502)) {
+                    return null;
                 }
             }
             return result;
         };
-        /*是否凑一色*/
-        PorkUtilExtends.isCouYiSe = function (cards) {
+        /*是否凑一色
+        * 全部是方块+红心的牌或全部是黑桃+梅花的牌
+        */
+        PorkUtilExtends.getCouYiSe = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            // var card20 = KQCard.contain20(cards);
-            // if(card20.length > 0) {
-            // 	return false;
-            // }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var colorS = []; //黑桃
             var colorH = []; //红心
             for (var i = 0; i < cards.length; i++) {
@@ -287,18 +324,19 @@ var game;
                     colorH.push(cards[i]); //全红
                 }
             }
-            if (colorS.length == 13 || colorH.length == 13) {
-                return true;
+            if (((colorS.length + gAry.length) == 13) || ((colorH.length + gAry.length) == 13)) {
+                return cards;
             }
-            return false;
+            return null;
         };
         ;
         //五队三条
-        PorkUtilExtends.isWuDuiSanTiao = function (cards) {
+        PorkUtilExtends.getWuDuiSanTiao = function (cards) {
             var length = 13;
             if (cards.length < length) {
-                return false;
+                return null;
             }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var duiZiLength = 2;
             var sanTiaoLength = 3;
             //计算一个牌数组内的相同点数的牌的张数
@@ -306,131 +344,119 @@ var game;
             var numberOfDuiZi = 0;
             var numberOfSanTiao = 0;
             for (var prop in cardNumbers) {
-                var value = cardNumbers[prop];
-                if (value == duiZiLength) {
-                    numberOfDuiZi = numberOfDuiZi + 1;
-                }
-                else if (value == sanTiaoLength) {
-                    numberOfSanTiao = numberOfSanTiao + 1;
-                }
-                else if (value >= 4) {
-                    numberOfDuiZi = numberOfDuiZi + 2;
+                if (Number(prop) < 65) {
+                    var value = cardNumbers[prop];
+                    if (value == 1 && gAry.length > 0) {
+                        value = 2;
+                        gAry.pop();
+                    }
+                    if (value == duiZiLength) {
+                        numberOfDuiZi = numberOfDuiZi + 1;
+                    }
+                    else if (value == sanTiaoLength) {
+                        numberOfSanTiao = numberOfSanTiao + 1;
+                    }
+                    else if (value >= 4) {
+                        numberOfDuiZi = numberOfDuiZi + 2;
+                    }
                 }
             }
-            return numberOfDuiZi == 5 && numberOfSanTiao == 1;
+            if (numberOfDuiZi == 6 && gAry.length > 0) {
+                numberOfDuiZi = 5;
+                numberOfSanTiao += 1;
+            }
+            if (numberOfDuiZi == 5 && numberOfSanTiao == 1) {
+                return cards;
+            }
+            else {
+                return null;
+            }
         };
         //铁支六对半
-        PorkUtilExtends.isTieZhiLiuDuiBan = function (cards) {
-            if (this.isLiuDuiBan(cards) == true && this.containTieZhi(cards)) {
-                return true;
+        PorkUtilExtends.getTieZhiLiuDuiBan = function (cards) {
+            if (this.isLiuDuiBan(cards) != null && this.containTieZhi(cards)) {
+                return cards;
             }
-            return false;
+            return null;
         };
         // 是否是 含同花顺的三顺子
-        PorkUtilExtends.isSanShunAndHasTongHua = function (cards) {
+        PorkUtilExtends.getSanShunAndHasTongHua = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            // var card20 = KQCard.contain20(cards);
-            // if(card20.length > 0) {
-            // 	return false;
-            // }
-            if (this.isSanShunZi(cards) && this.containTongHuaShun(cards)) {
-                return true;
+            var shunzi = this.getSanShunZi(cards);
+            if (shunzi != null && (game.PorkUtil.isTongHua(shunzi.slice(0, 3), 3) || game.PorkUtil.isTongHua(shunzi.slice(3, 8)) || game.PorkUtil.isTongHua(shunzi.slice(8, 13)))) {
+                return shunzi;
             }
-            return false;
-            // let colorCardsObject = this._colorClassCards(cards);
-            // var subCards = [];
-            // for (let prop in colorCardsObject) {
-            // 	let cards = colorCardsObject[prop];
-            // 	subCards.push(cards);
-            // }
-            // if (subCards.length != 3) {
-            // 	return false;
-            // }
-            // subCards = subCards.sort((s1, s2)=> {
-            // 	return s1.length - s2.length;
-            // });
-            // let touCards = subCards[0];
-            // let zhongCards = subCards[1];
-            // let weiCards = subCards[2];
-            // if ((touCards.length != 3) || (zhongCards.length != 5) || (weiCards.length != 5)) {
-            // 	return false;
-            // }
-            // return this._isSanTongHuaShun(touCards, zhongCards, weiCards);
+            return null;
         };
         ;
         //三个同花并且含有同花顺
-        PorkUtilExtends.isSanTongHuaTongHuaShun = function (cards) {
-            if (this.isSanTongHua(cards) && this.containTongHuaShun(cards)) {
-                return true;
+        PorkUtilExtends.getSanTongHuaTongHuaShun = function (cards) {
+            var result = this.getSanTongHua(cards);
+            if (result != null && (game.PorkUtil.isShunZi(result.slice(0, 3), 3) || game.PorkUtil.isShunZi(result.slice(3, 8)) || game.PorkUtil.isShunZi(result.slice(8, 13)))) {
+                return result;
             }
-            return false;
+            return null;
         };
         //是否是王者
-        PorkUtilExtends.isWangZhe = function (cardAry) {
+        PorkUtilExtends.getWangZhe = function (cardAry) {
             var cards = cardAry.concat([]);
             var gAry = game.PorkUtil.filtGuiPai(cards);
             if (gAry.length < 2) {
-                return false;
+                return null;
             }
             if (this.checkHasMidAndDown(cards, true)) {
-                return true;
+                return null;
             }
-            return false;
+            return null;
         };
         // 是否是六对半
         PorkUtilExtends.isLiuDuiBan = function (cards) {
-            var length = 12;
+            var length = 13;
             if (cards.length < length) {
-                return false;
+                return null;
             }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var duiZiLength = 2;
             //计算一个牌数组内的相同点数的牌的张数
             var cardNumbers = this.GetCardPointsSameCount(cards);
             var numberOfDuiZi = 0;
             var numberOfYi = 0;
             for (var prop in cardNumbers) {
-                var value = cardNumbers[prop];
-                if (value == duiZiLength || value == 3) {
-                    numberOfDuiZi = numberOfDuiZi + 1;
-                }
-                else if (value == 4) {
-                    numberOfDuiZi = numberOfDuiZi + 2;
-                }
-                else if (value == 1) {
-                    numberOfYi += 1;
+                if (Number(prop) < 65) {
+                    var value = cardNumbers[prop];
+                    if (value == duiZiLength || value == 3) {
+                        numberOfDuiZi = numberOfDuiZi + 1;
+                    }
+                    else if (value == 4) {
+                        numberOfDuiZi = numberOfDuiZi + 2;
+                    }
+                    else if (value == 1) {
+                        if (numberOfYi == 1 && gAry.length > 0) {
+                            numberOfDuiZi = numberOfDuiZi + 1;
+                            gAry.pop();
+                        }
+                        else {
+                            numberOfYi += 1;
+                        }
+                    }
                 }
             }
             if (numberOfDuiZi == 6) {
-                // var teShuCard = cards.filter(function(i){return i});
-                // teShuCard = KQCard.cardsFromArray(teShuCard);
-                // teShuCard.forEach(function(a){
-                // 	if(a.scores == 1) a.scores = 14;
-                // });
-                // teShuCard.sort(function(a,b){
-                // 	return b.scores - a.scores;
-                // });
-                // teShuCard = KQCard.convertToServerCards(teShuCard);
-                // var a1 = teShuCard.splice(0,5);
-                // var a2 = teShuCard.splice(0,5);
-                // cc.teShuPaiCards = [teShuCard, a2, a1];
-                return true;
+                return cards;
             }
-            return false;
+            return null;
         };
         ;
         //三同花
-        PorkUtilExtends.isSanTongHua = function (cards) {
+        PorkUtilExtends.getSanTongHua = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            // var card20 = KQCard.contain20(cards);
-            // if(card20.length > 0) {
-            // 	return false;
-            // }
+            var gAry = game.PorkUtil.filtGuiPai(cards);
             var colorS = []; //黑桃
             var colorH = []; //红心
             var colorC = []; //梅花
@@ -463,20 +489,41 @@ var game;
                     teShuCard.push(sanCard[i]);
                 }
             }
+            var result = [];
             //三种花色
             if (colorSum.length == 3) {
                 for (var i = 0; i < colorSum.length; i++) {
                     if (colorSum[i] != 5 && colorSum[i] != 3) {
-                        return false;
+                        if ((colorSum[i] == 2 && gAry.length > 0)) {
+                            teShuCard[i].push(gAry.pop());
+                        }
+                        else if ((colorSum[i] == 4 && gAry.length > 0)) {
+                            teShuCard[i].push(gAry.pop());
+                        }
+                        else if ((colorSum[i] == 1 && gAry.length > 1)) {
+                            teShuCard[i].push(gAry.pop());
+                            teShuCard[i].push(gAry.pop());
+                        }
+                        else if ((colorSum[i] == 3 && gAry.length > 1)) {
+                            teShuCard[i].push(gAry.pop());
+                            teShuCard[i].push(gAry.pop());
+                        }
+                        else {
+                            return null;
+                        }
                     }
                 }
                 teShuCard.sort(function (a, b) {
                     return a.length - b.length;
                 });
-                // cc.teShuPaiCards = teShuCard;
-                return true;
+                for (var a = 0; a < teShuCard.length; a++) {
+                    for (var b = 0; b < teShuCard[a].length; b++) {
+                        result.push(teShuCard[a][b]);
+                    }
+                }
+                return result;
             }
-            return false;
+            return null;
         };
         // 是否是三同花顺
         PorkUtilExtends._isSanTongHuaShun = function (touCards, zhongCards, weiCards) {
@@ -513,29 +560,55 @@ var game;
             return false;
         };
         ;
+        PorkUtilExtends.sanShunZi1 = function (cards, length) {
+            if (length === void 0) { length = 3; }
+            var shunzi = game.PorkUtil.findShunZi(cards, length);
+            var cardsT = [];
+            var cardsIndex = [];
+            for (var i = 0; i < shunzi.length; i++) {
+                var a = shunzi[i];
+                var cardsShunzi = [];
+                for (var j = 0; j < a.length; j++) {
+                    var index = a[j];
+                    if (typeof (cards[index]) == 'undefined') {
+                        continue;
+                    }
+                    cardsShunzi.push(cards[index]);
+                }
+                cardsIndex.push(a);
+                cardsT.push(cardsShunzi);
+            }
+            return [cardsT, cardsIndex];
+        };
         //三顺子
-        PorkUtilExtends.isSanShunZi = function (cards) {
+        PorkUtilExtends.getSanShunZi = function (cards) {
             var length = 13;
             if (cards.length != length) {
-                return false;
+                return null;
             }
-            var pointAry = cards.map(function (card) { return card.point; });
-            pointAry.sort(function (n1, n2) { return n1 - n2; });
-            if (this.fenzu(pointAry, 5, 5) == false) {
-                pointAry = cards.map(function (card) { return card.point; });
-                pointAry.sort(function (n1, n2) { return n1 - n2; });
-                if (this.fenzu(pointAry, 5, 3) == false) {
-                    pointAry = cards.map(function (card) { return card.point; });
-                    pointAry.sort(function (n1, n2) { return n1 - n2; });
-                    if (this.fenzu(pointAry, 3, 5) == false) {
-                        return false;
+            var pointAry = cards; //cards.map(card=>{return card.point;});
+            pointAry.sort(function (n1, n2) { return n1.point - n2.point; });
+            var result = [];
+            result = this.fenzu(pointAry.concat([]), 5, 5);
+            if (result != null) {
+                return result;
+            }
+            else {
+                result = this.fenzu(pointAry.concat([]), 5, 3);
+                if (result != null) {
+                    return result;
+                }
+                else {
+                    result = this.fenzu(pointAry.concat([]), 3, 5);
+                    if (result != null) {
+                        return result;
                     }
                 }
             }
-            return true;
+            return null;
         };
         //三尖刀
-        PorkUtilExtends.isSanJianDao = function (cards) {
+        PorkUtilExtends.getSanJianDao = function (cards) {
             var helper = new CardPointsHelper(cards);
             var num = 0;
             for (var w in helper.pointNumbers) {
@@ -543,14 +616,29 @@ var game;
             }
             if (helper.maxNumber >= 3) {
                 var santiaoAry = game.PorkUtil.findSanTiao(cards);
-                for (var i = 0; i < santiaoAry.length; i++) {
-                    var rest = this.getRestCard(santiaoAry[i], cards.concat());
-                    if (this.checkHasMidAndDown(rest)) {
-                        return true;
+                var santiao = void 0;
+                var minPoint = 100;
+                if (santiaoAry.length > 1) {
+                    for (var i = 0; i < santiaoAry.length; i++) {
+                        if (santiaoAry[i][0].point < minPoint) {
+                            santiao = santiaoAry[i];
+                            minPoint = santiaoAry[i][0].point;
+                        }
                     }
                 }
+                else if (santiaoAry.length == 1) {
+                    santiao = santiaoAry[0];
+                }
+                else {
+                    return null;
+                }
+                var rest = this.getRestCard(santiao, cards.concat());
+                var restResult = this.checkHasMidAndDown(rest, true);
+                if (restResult != null) {
+                    return santiao.concat(restResult);
+                }
             }
-            return false;
+            return null;
         };
         // 是否包含有同花顺
         PorkUtilExtends.containTongHuaShun = function (cards, minLength) {
@@ -566,6 +654,7 @@ var game;
         ;
         //分组553||535||355
         PorkUtilExtends.fenzu = function (pointAry, num1, num2) {
+            var result = [];
             var arr1 = [];
             var arr2 = [];
             var arr3 = [];
@@ -573,13 +662,13 @@ var game;
                 if (i == 0) {
                     arr1.push(pointAry[0]);
                 }
-                if (pointAry[i + 1] - pointAry[i] == 0) {
+                if (pointAry[i + 1].point - pointAry[i].point == 0) {
                     continue;
                 }
                 arr1.push(pointAry[i + 1]);
                 if (arr1.length == num1) {
                     //取第一组是顺子
-                    if (this.isShunZi1(arr1)) {
+                    if (game.PorkUtil.isShunZi(arr1, num1)) {
                         //这5个是顺子,从数组中移除
                         for (var i_1 = 0; i_1 < arr1.length; i_1++) {
                             for (var j = 0; j < pointAry.length; j++) {
@@ -599,13 +688,13 @@ var game;
                             if (i_2 == 0) {
                                 arr2.push(pointAry[0]);
                             }
-                            if (pointAry[i_2 + 1] - pointAry[i_2] == 0) {
+                            if (pointAry[i_2 + 1].point - pointAry[i_2].point == 0) {
                                 continue;
                             }
                             arr2.push(pointAry[i_2 + 1]);
                             if (arr2.length == num2) {
                                 //取第二组是顺子
-                                if (this.isShunZi1(arr2)) {
+                                if (game.PorkUtil.isShunZi(arr2, num2)) {
                                     for (var i_3 = 0; i_3 < arr2.length; i_3++) {
                                         for (var j = 0; j < pointAry.length; j++) {
                                             if (pointAry[j] == arr2[i_3]) {
@@ -621,31 +710,37 @@ var game;
                                     console.log(pointAry);
                                     arr3 = pointAry;
                                     //接下来就是剩下的了
-                                    if (this.isShunZi1(arr3)) {
+                                    if (game.PorkUtil.isShunZi(arr3, 13 - num1 - num2)) {
                                         //第三组也是顺子
-                                        var asdf = [arr1, arr2, arr3];
-                                        asdf.sort(function (n1, n2) { return n1.length - n2.length; });
-                                        // if(!cc.teShuPaiCards) cc.teShuPaiCards = asdf;
-                                        return true;
+                                        var ar = [arr1, arr2, arr3];
+                                        ar.sort(function (a, b) {
+                                            return a.length - b.length;
+                                        });
+                                        for (var a = 0; a < ar.length; a++) {
+                                            for (var b = 0; b < ar[a].length; b++) {
+                                                result.push(ar[a][b]);
+                                            }
+                                        }
+                                        return result;
                                     }
                                     //第三组不是顺子
-                                    return false;
+                                    return null;
                                 }
                                 //第二组不是顺子
-                                return false;
+                                return null;
                             }
                         }
                     }
                     //第一组不是顺子
-                    return false;
+                    return null;
                 }
             }
             //如果取不到num1个数
             if (arr1.length < num1) {
-                return false;
+                return null;
             }
             if (arr2.length < num2) {
-                return false;
+                return null;
             }
         };
         // 判断是否包含铁支
@@ -730,35 +825,121 @@ var game;
          */
         PorkUtilExtends.checkHasMidAndDown = function (cards, isforWangzhe) {
             if (isforWangzhe === void 0) { isforWangzhe = false; }
-            if (isforWangzhe) {
-                return false;
-            }
+            var result = [];
             var arr = game.PorkUtil.findTongHuaShun(cards);
             for (var i = 0; i < arr.length; i++) {
-                return this.checkHasMidAndDown1(this.getRestCard(arr[i], cards.concat()), isforWangzhe);
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
+            }
+            if (result.length != 0) {
+                return result;
             }
             arr = game.PorkUtil.findTieZhi(cards);
             for (var i = 0; i < arr.length; i++) {
-                return this.checkHasMidAndDown1(this.getRestCard(arr[i], cards.concat()), isforWangzhe);
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
+            }
+            if (result.length != 0) {
+                return result;
             }
             arr = game.PorkUtil.findHuLu(cards);
             for (var i = 0; i < arr.length; i++) {
-                return this.checkHasMidAndDown1(this.getRestCard(arr[i], cards.concat()), isforWangzhe);
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
+            }
+            if (result.length != 0) {
+                return result;
             }
             arr = game.PorkUtil.findTongHua(cards);
             for (var i = 0; i < arr.length; i++) {
-                return this.checkHasMidAndDown1(this.getRestCard(arr[i], cards.concat()), isforWangzhe);
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
+            }
+            if (result.length != 0) {
+                return result;
             }
             arr = game.PorkUtil.findShunZi(cards);
             for (var i = 0; i < arr.length; i++) {
-                return this.checkHasMidAndDown1(this.getRestCard(arr[i], cards.concat()), isforWangzhe);
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
             }
-            return false;
+            if (result.length != 0) {
+                return result;
+            }
+            arr = game.PorkUtil.findSanTiao(cards);
+            for (var i = 0; i < arr.length; i++) {
+                var p = arr[i];
+                var restp = this.getRestCard(arr[i], cards.concat());
+                if (this.checkHasMidAndDown1(restp, isforWangzhe) == true) {
+                    if (game.PorkUtil.checkCanPutDown(p, restp) == true) {
+                        result = restp.concat(p);
+                    }
+                    else {
+                        result = p.concat(restp);
+                    }
+                }
+            }
+            if (result.length == 0) {
+                return null;
+            }
+            else {
+                return result;
+            }
         };
         PorkUtilExtends.checkHasMidAndDown1 = function (cards, isforWangzhe) {
             if (isforWangzhe === void 0) { isforWangzhe = false; }
             if (isforWangzhe == true) {
-                if (game.PorkUtil.containSanTiao(cards)) {
+                var santiao = game.PorkUtil.findSanTiao(cards);
+                if (santiao.length > 0) {
+                    var san = santiao[0];
+                    cards.sort(function (a, b) {
+                        return a.point - b.point;
+                    });
+                    if (cards[0].point == san[0].point && cards[1].point == san[1].point) {
+                        cards.sort(function (a, b) {
+                            return b.point - a.point;
+                        });
+                    }
                     return true;
                 }
             }
@@ -778,6 +959,95 @@ var game;
                 return true;
             }
             return false;
+        };
+        // 三顺子
+        /*public static getSanShunZi(_cards:Array<PorkVO>):Array<PorkVO>
+        {
+            var length = 13;
+            if(_cards.length != length) {
+                return null;
+            }
+            
+            let cards:Array<PorkVO> = _cards.concat([]);
+            cards.sort(PorkUtil.sortByPoint);
+            var wei = [];
+            var zhong = [];
+            var tou = [];
+            // var sanShunZi = this.sanShunZi1(cards)[0];//获取所有组合的头道
+            var sanShunZi = PorkUtil.findShunZi(cards,3);
+            if(sanShunZi.length == 0){ //你连头道都没有 怎么混
+                return null;
+            }
+
+            var newCard = cards.filter(function(i){//重新赋值cards
+                return i;
+            });
+            var newCards1 = [];
+            var newPoint = [];//判断point是否相同
+            var duiZi = [];//取出有对子当中的一张牌
+            for(var s in cards){
+                if(newPoint.indexOf(cards[s].point)<0){
+                    newCards1.push(cards[s]);
+                    newPoint.push(cards[s].point);
+                }else{//取出有对子当中的一张牌
+                    duiZi.push(cards[s]);
+                }
+            }
+
+            for (var j = 0; j < sanShunZi.length; ++j) {//循环所有头道
+                var number3 = sanShunZi[j];
+                for (var i = 0; (i) < cards.length; ++i) {
+                    var newCards = newCards1.filter(function(i){//重新赋值cards
+                        return i;
+                    });
+                    newCards = this.getRestCard(number3,newCards);//删除牌里的头道
+                    if (wei.length != 5) {
+                        let subCards = newCards.slice(i, i + 5);
+                        if (subCards.length == 5 || PorkUtil.isShunZi(subCards)) {//得到尾道 删除牌里的尾道
+                            wei = subCards;
+                            newCards = this.getRestCard(subCards,newCards);
+
+                        }
+                    }
+
+                    if(wei.length == 5){//把剩余的牌和对子的单张合并
+                        let tasks = duiZi.filter(function(i){//重新赋值对子
+                            return i;
+                        });
+                        tasks =  this.getRestCard(number3,tasks);//判断头道和对子的单张是否有相同 有的话就删除
+                        newCards = newCards.concat(tasks);//把剩余的牌和对子的单张合并
+                    }
+
+                    if (zhong.length != 5 && newCards.length == 5) {
+                        if (PorkUtil.isShunZi(newCards)) {//是三顺子
+                            zhong = newCards;
+                        }
+                    }
+                    if(wei.length == 5 && zhong.length == 5 ){//是三顺子终止循环
+                        break;
+                    }
+                    else{//来吧 继续吧
+                        zhong = [];wei = [];tou = [];
+                    }
+                }
+                if(wei.length == 5 && zhong.length == 5 ){//是三顺子终止循环
+                    tou = number3;
+                    break;
+                }
+                else{//来吧 继续吧
+                    zhong = [];wei = [];tou = [];
+                }
+            }
+
+            cards = newCard;
+            if (this._isSanShunZi(tou,zhong,wei)) {//是三顺
+                return tou.concat(zhong).concat(wei);
+            }
+            return null
+        }*/
+        PorkUtilExtends._isSanShunZi = function (touCards, zhongCards, weiCards) {
+            return game.PorkUtil.isShunZi(touCards) && game.PorkUtil.isShunZi(zhongCards)
+                && game.PorkUtil.isShunZi(weiCards);
         };
         //判断5张或者3张是否顺子
         PorkUtilExtends.isShunZi1 = function (arr) {

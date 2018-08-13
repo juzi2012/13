@@ -59,19 +59,23 @@ module game {
 			this.mContent.m_btn_help.addClickListener(this.onHelp,this);
 
 			App.MessageCenter.addListener(MsgEnum.GAME_BAIPAI,this.BaiPaiCallBack,this);
-			let teshuId:number = PorkUtilExtends.isTeShuPai(GameModel.ins.roundModel.myCard);
-			if(teshuId>0){
-				AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]"+PorkUtilExtends.getTeShuPai(teshuId)+"[/COLOR]\n是否选择免摆？",new core.Handler(this,this.mianBai))
+			let teshuVO:TeShuVO = PorkUtilExtends.isTeShuPai(GameModel.ins.roundModel.myCard);
+			if(teshuVO!=null&&teshuVO.type>0){
+				AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]"+PorkUtilExtends.getTeShuPai(teshuVO.type)+"[/COLOR]\n是否选择免摆？",new core.Handler(this,this.mianBai,[teshuVO]))
 			}
 			this.topSelectAry = [];
 			this.midSelectAry = [];
 			this.downSelectAry = [];
 			this.preShowCpl();
 		}
-		private mianBai():void
+		private mianBai(teshuVO:TeShuVO):void
 		{
 			let msg:C2T_Message_BaiPai=new C2T_Message_BaiPai();
-			msg.cards = GameModel.ins.roundModel.serverCard;
+			let arr:Array<number> =[];
+			for(let i:number=0;i<teshuVO.arr.length;i++){
+				arr.push(PorkUtil.ChangeClientToServer(teshuVO.arr[i].data));
+			}
+			msg.cards = arr;
 			msg.mb=1;
 			ServerEngine.sendBaiPai(msg);
 		}

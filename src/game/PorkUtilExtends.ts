@@ -1,4 +1,12 @@
 module game {
+	export class TeShuVO{
+		public constructor(_type:number,_arr:Array<PorkVO>){
+			this.type = _type;
+			this.arr = _arr;
+		}
+		public type:number;
+		public arr:Array<PorkVO>;
+	}
 	export class PorkUtilExtends {
 		public constructor() {
 		}
@@ -40,57 +48,88 @@ module game {
 			}
 		}
 		// 是否是特殊牌
-		public static isTeShuPai(cards:Array<PorkVO>):number {
+		public static isTeShuPai(cards:Array<PorkVO>):TeShuVO {
 			if (cards.length < 13) {
-				return -1;
+				return null;
 			}
-			if(this.isQingLong(cards)){
-				return 16;
+			let result:Array<PorkVO> = [];
+			result = this.getQingLong(cards);
+			if(result!=null){
+				return new TeShuVO(16,result);
 			}
-			if(this.isYiTiaoLong(cards)){
-				return 15;
+
+			result = this.getYiTiaoLong(cards);
+			if(result!=null){
+				return new TeShuVO(15,result);;
 			}
-			if(this.isSanFenTianXia(cards)){
-				return 14;
+
+			result = this.getSanFenTianXia(cards);
+			if(result!=null){
+				return new TeShuVO(14,result);
 			}
-			if(this.isSiTaoSanTiao(cards)){
-				return 13;
+
+			result = this.getSiTaoSanTiao(cards)
+			if(result!=null){
+				return new TeShuVO(13,result);
 			}
-			if(this.QuanDa(cards)){
-				return 12;
+
+			result = this.QuanDa(cards);
+			if(result!=null){
+				return new TeShuVO(12,result);
 			}
-			if(this.QuanXiao(cards)){
-				return 11;
+
+			result = this.QuanXiao(cards);
+			if(result!=null){
+				return new TeShuVO(11,result);
 			}
-			if(this.isCouYiSe(cards)){
-				return 10;
+
+			result = this.getCouYiSe(cards);
+			if(result!=null){
+				return new TeShuVO(10,result);
 			}
-			if(this.isWuDuiSanTiao(cards)){
-				return 9;
+
+			result = this.getWuDuiSanTiao(cards);
+			if(result!=null){
+				return new TeShuVO(9,result);
 			}
-			if(this.isTieZhiLiuDuiBan(cards)){
-				return 8;
+
+			result = this.getTieZhiLiuDuiBan(cards)
+			if(result!=null){
+				return new TeShuVO(8,result);
 			}
-			if(this.isSanShunAndHasTongHua(cards)){
-				return 7;
+
+			result = this.getSanShunAndHasTongHua(cards);
+			if(result!=null){
+				return new TeShuVO(7,result);
 			}
-			if(this.isSanTongHuaTongHuaShun(cards)){
-				return 6;
+
+			result = this.getSanTongHuaTongHuaShun(cards)
+			if(result!=null){
+				return new TeShuVO(6,result);
 			}
-			if(this.isWangZhe(cards)){
-				return 5;
+
+			result = this.getWangZhe(cards)
+			if(result!=null){
+				return new TeShuVO(5,result);
 			}
-			if(this.isLiuDuiBan(cards)){
-				return 4;
+
+			result = this.isLiuDuiBan(cards)
+			if(result!=null){
+				return new TeShuVO(4,result);
 			}
-			if(this.isSanTongHua(cards)){
-				return 3;
+
+			result = this.getSanTongHua(cards);
+			if(result!=null){
+				return new TeShuVO(3,result);
 			}
-			if(this.isSanShunZi(cards)){
-				return 2;
+			result = this.getSanShunZi(cards);
+			if(result!=null){
+				return new TeShuVO(2,result);
 			}
-			if(this.isSanJianDao(cards)){
-				return 1;
+
+			result = this.getSanJianDao(cards);
+			if(result!=null){
+				return new TeShuVO(1,result);
 			}
 
 			// return this.isQingLong(cards)
@@ -111,18 +150,13 @@ module game {
 			// 	|| this.isSanJianDao(cards);
 		};
 		// 是否是清龙
-		public static isQingLong(cards:Array<PorkVO>):boolean {
+		public static getQingLong(cards:Array<PorkVO>):Array<PorkVO> {
 			let length = 13;
 			if (cards.length != length) {
-				return false;
+				return null;
 			}
-			// var card20 = KQCard.contain20(cards);
-			// if(card20.length > 0) {
-			// 	return false;
-			// }
-			/**
-			 *
-			 */
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
+
 			var colorS = []; //黑桃
 			var colorH = []; //红心
 			var colorC = []; //梅花
@@ -150,104 +184,88 @@ module game {
 				}
 			}
 			if(colorSum.length == 1){
-				if(colorSum[0] == 13){
+				if(colorSum[0]==(13-gAry.length)){
 
-					if(this.isYiTiaoLong(cards)){
-
-						// var teShuCard = cards.filter(function(i){return i});
-
-						// teShuCard = this.cardsFromArray(teShuCard);
-
-
-						// teShuCard.sort(function(a,b){
-						// 	return b.point - a.point;
-						// });
-
-						// teShuCard = KQCard.convertToServerCards(teShuCard);
-
-						// var a1 = teShuCard.splice(0,5);
-
-						// var a2 = teShuCard.splice(0,5);
-
-						// cc.teShuPaiCards = [teShuCard, a2, a1];
-
-						return true;
+					if(this.getYiTiaoLong(cards)!=null){
+						return cards;
 					}
 
 				}
 			}
-			return false;
+			return null;
 		};
 		/*是否一条龙*/
-		public static isYiTiaoLong(cards:Array<PorkVO>):boolean {
+		public static getYiTiaoLong(cards:Array<PorkVO>):Array<PorkVO> {
 			var length = 13;
 			if(cards.length != length) {
-				return false;
+				return null;
 			}
-			// var card20 = KQCard.contain20(cards);
-			// if(card20.length > 0) {
-			// 	return false;
-			// }
-			
-			var number = cards.map(function (card) {
-				return card.point;
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
+
+			var number = cards.filter(function (card) {
+				if(card.point<65){
+					return card;
+				}
+			}).map(function (card) {
+					return card.point;
 			}).sort(function (n1, n2) {
 				return n1 - n2;
 			});
-			for(var i=0;i<cards.length-1;i++) {
+			for(var i=0;i<number.length-1;i++) {
 				if(number[i] != number[i+1] - 1){
-					return false;
+					if(gAry.length>0){
+						gAry.pop();
+					}else{
+						return null;
+					}
 				}
 			}
-
-			// var teShuCard = cards.filter(function(i){return i});
-
-			// teShuCard = KQCard.cardsFromArray(teShuCard);
-
-			// teShuCard.forEach(function(a){
-			// 	if(a.scores == 1) a.scores = 14;
-			// });
-
-			// teShuCard.sort(function(a,b){
-			// 	return b.scores - a.scores;
-			// });
-
-			// teShuCard = KQCard.convertToServerCards(teShuCard);
-
-			// var a1 = teShuCard.splice(0,5);
-
-			// var a2 = teShuCard.splice(0,5);
-
-			// cc.teShuPaiCards = [teShuCard, a2, a1];
-			//cc.log(cc.teShuPaiCards )
-			//cc.log('--------728')
-			return true;
+			return cards;
 		};
 
 		// 是否是 “三分天下”
-		public static isSanFenTianXia(cards:Array<PorkVO>):boolean {
+		public static getSanFenTianXia(cards:Array<PorkVO>):Array<PorkVO> {
 			let length:number = 13;
 			if (cards.length < length) {
-				return false;
+				return null;
 			}
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 
 			let tieZhiLength = 4;
 			let pointHelper:CardPointsHelper = new CardPointsHelper(cards);
 			let numberOfTieZhi = 0;
 			for (let prop in pointHelper.pointNumbers) {
-				let value = pointHelper.pointNumbers[prop];
-				if (value == tieZhiLength) {
-					numberOfTieZhi = numberOfTieZhi + 1;
+				if(Number(prop)<65){
+					let value = pointHelper.pointNumbers[prop];
+					if (value == tieZhiLength) {
+						numberOfTieZhi = numberOfTieZhi + 1;
+					}else{
+						if(value==(tieZhiLength-1)&&gAry.length>0){
+							gAry.pop();
+							numberOfTieZhi = numberOfTieZhi + 1;
+						}else if(value==(tieZhiLength-2)&&gAry.length>1){
+							gAry.pop();
+							gAry.pop();
+							numberOfTieZhi = numberOfTieZhi + 1;
+						}
+					}
 				}
 			}
-			return numberOfTieZhi === 3;
+			if(numberOfTieZhi === 3){
+				return cards;
+			}else{
+				return null;
+			}
 		};
 		// 是否是 “四套三条”
-		public static isSiTaoSanTiao(cards:Array<PorkVO>):boolean {
+		public static getSiTaoSanTiao(cards:Array<PorkVO>):Array<PorkVO> {
 			let length:number = 13;
 			if (cards.length < length) {
-				return false;
+				return null;
 			}
+
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
+
 			let sanTiaoLength = 3;
 			let pointHelper = new CardPointsHelper(cards);
 			let numberOfSanTiao = 0;
@@ -255,43 +273,52 @@ module game {
 				let value = pointHelper.pointNumbers[prop];
 				if (value == sanTiaoLength) {
 					numberOfSanTiao = numberOfSanTiao + 1;
+				}else if (value == sanTiaoLength-1 && gAry.length>0) {
+					gAry.pop();
+					numberOfSanTiao = numberOfSanTiao + 1;
+				}else if (value == sanTiaoLength-2 && gAry.length>1) {
+					gAry.pop();
+					gAry.pop();
+					numberOfSanTiao = numberOfSanTiao + 1;
 				}
 			}
-			return numberOfSanTiao == 4;
+			if(numberOfSanTiao == 4){
+				return cards;
+			}else{
+				return null;
+			}
 		};
-		public static QuanDa(cards:Array<PorkVO>):boolean
+		public static QuanDa(cards:Array<PorkVO>):Array<PorkVO>
 		{
-			let result:boolean=true;
+			let result:Array<PorkVO>=cards;
+			// let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			for(let i:number=0;i<cards.length;i++){
 				if(cards[i].point<8){
-					result=false;
-					break;
+					return null;
 				}
 			}
 			return result;
 		}
-		public static QuanXiao(cards:Array<PorkVO>):boolean
+		public static QuanXiao(cards:Array<PorkVO>):Array<PorkVO>
 		{
-			let result:boolean=true;
+			let result:Array<PorkVO>=cards;
+			// let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			for(let i:number=0;i<cards.length;i++){
-				if(cards[i].point>8){
-					result=false;
-					break;
+				if(cards[i].point>8 && (cards[i].point!=501&&cards[i].point!=502)){
+					return null;
 				}
 			}
 			return result;
 		}
-		/*是否凑一色*/
-		public static isCouYiSe(cards:Array<PorkVO>):boolean {
+		/*是否凑一色
+		* 全部是方块+红心的牌或全部是黑桃+梅花的牌
+		*/ 
+		public static getCouYiSe(cards:Array<PorkVO>):Array<PorkVO> {
 			var length = 13;
 			if(cards.length != length) {
-				return false;
+				return null;
 			}
-			// var card20 = KQCard.contain20(cards);
-			// if(card20.length > 0) {
-			// 	return false;
-			// }
-			
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			var colorS = []; //黑桃
 			var colorH = []; //红心
 			for(var i=0;i<cards.length;i++){
@@ -301,18 +328,20 @@ module game {
 					colorH.push(cards[i]);//全红
 				}
 			}
-			if(colorS.length == 13 || colorH.length == 13){
-				return true;
+			if(((colorS.length+gAry.length) == 13) || ((colorH.length+gAry.length) == 13)){
+				return cards;
 			}
-			return false;
+			return null;
 		};
 		//五队三条
-		public static isWuDuiSanTiao(cards:Array<PorkVO>):boolean
+		public static getWuDuiSanTiao(cards:Array<PorkVO>):Array<PorkVO>
 		{
-			 let length:number = 13;
+
+			let length:number = 13;
 			if (cards.length < length) {
-				return false;
+				return null;
 			}
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 
 			let duiZiLength = 2;
 			let sanTiaoLength = 3;
@@ -321,141 +350,120 @@ module game {
 			let numberOfDuiZi = 0;
 			let numberOfSanTiao = 0;
 			for (let prop in cardNumbers) {
-				let value = cardNumbers[prop];
-				if (value == duiZiLength) {
-					numberOfDuiZi = numberOfDuiZi + 1;
-				}
-				else if (value == sanTiaoLength) {
-					numberOfSanTiao = numberOfSanTiao + 1;
-				}
-				else if (value >= 4) {
-					numberOfDuiZi = numberOfDuiZi + 2;
+				if(Number(prop)<65){
+					let value = cardNumbers[prop];
+					if(value==1&&gAry.length>0){
+						value=2;
+						gAry.pop();
+					}
+					if (value == duiZiLength) {
+						numberOfDuiZi = numberOfDuiZi + 1;
+					}
+					else if (value == sanTiaoLength) {
+						numberOfSanTiao = numberOfSanTiao + 1;
+					}
+					else if (value >= 4) {
+						numberOfDuiZi = numberOfDuiZi + 2;
+					}
 				}
 			}
-			return numberOfDuiZi == 5 && numberOfSanTiao == 1;
+			if(numberOfDuiZi==6&&gAry.length>0){
+				numberOfDuiZi=5;
+				numberOfSanTiao+=1;
+			}
+			if(numberOfDuiZi == 5 && numberOfSanTiao == 1){
+				return cards;
+			}else{
+				return null;
+			}
 		}
 		//铁支六对半
-		public static isTieZhiLiuDuiBan(cards:Array<PorkVO>):boolean
+		public static getTieZhiLiuDuiBan(cards:Array<PorkVO>):Array<PorkVO>
 		{
-			if(this.isLiuDuiBan(cards)==true&&this.containTieZhi(cards)){
-				return true;
+			if(this.isLiuDuiBan(cards)!=null&&this.containTieZhi(cards)){
+				return cards;
 			}
-			return false;
+			return null;
 		}
 		// 是否是 含同花顺的三顺子
-		public static isSanShunAndHasTongHua(cards:Array<PorkVO>) {
+		public static getSanShunAndHasTongHua(cards:Array<PorkVO>):Array<PorkVO> {
 			var length = 13;
 			if(cards.length != length) {
-				return false;
+				return null;
 			}
-			// var card20 = KQCard.contain20(cards);
-			// if(card20.length > 0) {
-			// 	return false;
-			// }
-			if(this.isSanShunZi(cards)&&this.containTongHuaShun(cards)){
-				return true;
+			let shunzi:Array<PorkVO> = this.getSanShunZi(cards);
+			if(shunzi!=null&&(PorkUtil.isTongHua(shunzi.slice(0,3),3)||PorkUtil.isTongHua(shunzi.slice(3,8))||PorkUtil.isTongHua(shunzi.slice(8,13)))){
+				return shunzi;
 			}
-			return false;
-			// let colorCardsObject = this._colorClassCards(cards);
-
-			// var subCards = [];
-			// for (let prop in colorCardsObject) {
-			// 	let cards = colorCardsObject[prop];
-			// 	subCards.push(cards);
-			// }
-
-			// if (subCards.length != 3) {
-			// 	return false;
-			// }
-
-			// subCards = subCards.sort((s1, s2)=> {
-			// 	return s1.length - s2.length;
-			// });
-
-			// let touCards = subCards[0];
-			// let zhongCards = subCards[1];
-			// let weiCards = subCards[2];
-
-			// if ((touCards.length != 3) || (zhongCards.length != 5) || (weiCards.length != 5)) {
-			// 	return false;
-			// }
-
-			// return this._isSanTongHuaShun(touCards, zhongCards, weiCards);
+			return null;
 		};
 		//三个同花并且含有同花顺
-		public static isSanTongHuaTongHuaShun(cards:Array<PorkVO>):boolean
+		public static getSanTongHuaTongHuaShun(cards:Array<PorkVO>):Array<PorkVO>
 		{
-			if(this.isSanTongHua(cards)&&this.containTongHuaShun(cards)){
-				return true;
+			let result:Array<PorkVO> = this.getSanTongHua(cards);
+			if(result!=null&&(PorkUtil.isShunZi(result.slice(0,3),3)||PorkUtil.isShunZi(result.slice(3,8))||PorkUtil.isShunZi(result.slice(8,13)))){
+				return result;
 			}
-			return false;
+			return null;
 		}
 		//是否是王者
-		public static isWangZhe(cardAry:Array<PorkVO>):boolean
+		public static getWangZhe(cardAry:Array<PorkVO>):Array<PorkVO>
 		{
 			let cards:Array<PorkVO> = cardAry.concat([]);
 			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			if(gAry.length<2){
-				return false;
+				return null;
 			}
 			if(this.checkHasMidAndDown(cards,true)){
-				return true;
+				return null;
 			}
-			return false;
+			return null;
 		}
 		// 是否是六对半
-		public static isLiuDuiBan(cards:Array<PorkVO>):boolean {
-			let length:number = 12;
+		public static isLiuDuiBan(cards:Array<PorkVO>):Array<PorkVO> {
+			let length:number = 13;
 			if (cards.length < length) {
-				return false;
+				return null;
 			}
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			let duiZiLength:number = 2;
 			//计算一个牌数组内的相同点数的牌的张数
 			let cardNumbers = this.GetCardPointsSameCount(cards);
 			let numberOfDuiZi = 0;
 			let numberOfYi = 0;
 			for (let prop in cardNumbers) {
-				let value = cardNumbers[prop];
-				if (value == duiZiLength || value == 3) {
-					numberOfDuiZi = numberOfDuiZi + 1;
-				}
-				else if (value == 4) {
-					numberOfDuiZi = numberOfDuiZi + 2;
-				}
-				else if (value == 1) {
-					numberOfYi += 1;
+				if(Number(prop)<65){
+					let value = cardNumbers[prop];
+					if (value == duiZiLength || value == 3) {
+						numberOfDuiZi = numberOfDuiZi + 1;
+					}
+					else if (value == 4) {
+						numberOfDuiZi = numberOfDuiZi + 2;
+					}
+					else if (value == 1) {
+						if(numberOfYi==1&&gAry.length>0){
+							numberOfDuiZi = numberOfDuiZi+1;
+							gAry.pop();
+						}else{
+							numberOfYi += 1;
+						}
+					}
 				}
 			}
 
 			if(numberOfDuiZi == 6){
-				// var teShuCard = cards.filter(function(i){return i});
-				// teShuCard = KQCard.cardsFromArray(teShuCard);
-				// teShuCard.forEach(function(a){
-				// 	if(a.scores == 1) a.scores = 14;
-				// });
-				// teShuCard.sort(function(a,b){
-				// 	return b.scores - a.scores;
-				// });
-				// teShuCard = KQCard.convertToServerCards(teShuCard);
-				// var a1 = teShuCard.splice(0,5);
-				// var a2 = teShuCard.splice(0,5);
-				// cc.teShuPaiCards = [teShuCard, a2, a1];
-				return true;
+				return cards;
 			}
-			return false;
+			return null;
 		};
 		//三同花
-		public static isSanTongHua(cards:Array<PorkVO>):boolean
+		public static getSanTongHua(cards:Array<PorkVO>):Array<PorkVO>
 		{
 			var length = 13;
 			if(cards.length != length) {
-				return false;
+				return null;
 			}
-			// var card20 = KQCard.contain20(cards);
-			// if(card20.length > 0) {
-			// 	return false;
-			// }
-
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(cards);
 			var colorS = []; //黑桃
 			var colorH = []; //红心
 			var colorC = []; //梅花
@@ -485,21 +493,37 @@ module game {
 					teShuCard.push(sanCard[i]);
 				}
 			}
-
+			let result:Array<PorkVO>=[];
 			//三种花色
 			if(colorSum.length == 3){
 				for(var i=0;i<colorSum.length;i++) {
 					if (colorSum[i] != 5 && colorSum[i] != 3){
-						return false;
+						if((colorSum[i]==2&&gAry.length>0)){
+							teShuCard[i].push(gAry.pop())
+						}else if((colorSum[i]==4&&gAry.length>0)){
+							teShuCard[i].push(gAry.pop())
+						}else if((colorSum[i]==1&&gAry.length>1)){
+							teShuCard[i].push(gAry.pop())
+							teShuCard[i].push(gAry.pop())
+						}else if((colorSum[i]==3&&gAry.length>1)){
+							teShuCard[i].push(gAry.pop())
+							teShuCard[i].push(gAry.pop())
+						}else{
+							return null;
+						}
 					}
 				}
 				teShuCard.sort(function(a,b){
 					return a.length - b.length;
 				});
-				// cc.teShuPaiCards = teShuCard;
-				return true;
+				for(let a:number=0;a<teShuCard.length;a++){
+					for(let b:number=0;b<teShuCard[a].length;b++){
+						result.push(teShuCard[a][b]);
+					}
+				}
+				return result;
 			}
-			return false;
+			return null;
 		}
 		
 		// 是否是三同花顺
@@ -539,31 +563,144 @@ module game {
 
 			return false;
 		};
+		// 三顺子
+		/*public static getSanShunZi(_cards:Array<PorkVO>):Array<PorkVO>
+		{
+			var length = 13;
+			if(_cards.length != length) {
+				return null;
+			}
+			
+			let cards:Array<PorkVO> = _cards.concat([]);
+			cards.sort(PorkUtil.sortByPoint);
+			var wei = [];
+			var zhong = [];
+			var tou = [];
+			// var sanShunZi = this.sanShunZi1(cards)[0];//获取所有组合的头道
+			var sanShunZi = PorkUtil.findShunZi(cards,3);
+			if(sanShunZi.length == 0){ //你连头道都没有 怎么混
+				return null;
+			}
+
+			var newCard = cards.filter(function(i){//重新赋值cards
+				return i;
+			});
+			var newCards1 = [];
+			var newPoint = [];//判断point是否相同
+			var duiZi = [];//取出有对子当中的一张牌
+			for(var s in cards){
+				if(newPoint.indexOf(cards[s].point)<0){
+					newCards1.push(cards[s]);
+					newPoint.push(cards[s].point);
+				}else{//取出有对子当中的一张牌
+					duiZi.push(cards[s]);
+				}
+			}
+
+			for (var j = 0; j < sanShunZi.length; ++j) {//循环所有头道
+				var number3 = sanShunZi[j];
+				for (var i = 0; (i) < cards.length; ++i) {
+					var newCards = newCards1.filter(function(i){//重新赋值cards
+						return i;
+					});
+					newCards = this.getRestCard(number3,newCards);//删除牌里的头道
+					if (wei.length != 5) {
+						let subCards = newCards.slice(i, i + 5);
+						if (subCards.length == 5 || PorkUtil.isShunZi(subCards)) {//得到尾道 删除牌里的尾道
+							wei = subCards;
+							newCards = this.getRestCard(subCards,newCards);
+
+						}
+					}
+
+					if(wei.length == 5){//把剩余的牌和对子的单张合并
+						let tasks = duiZi.filter(function(i){//重新赋值对子
+							return i;
+						});
+						tasks =  this.getRestCard(number3,tasks);//判断头道和对子的单张是否有相同 有的话就删除
+						newCards = newCards.concat(tasks);//把剩余的牌和对子的单张合并
+					}
+
+					if (zhong.length != 5 && newCards.length == 5) {
+						if (PorkUtil.isShunZi(newCards)) {//是三顺子
+							zhong = newCards;
+						}
+					}
+					if(wei.length == 5 && zhong.length == 5 ){//是三顺子终止循环
+						break;
+					}
+					else{//来吧 继续吧
+						zhong = [];wei = [];tou = [];
+					}
+				}
+				if(wei.length == 5 && zhong.length == 5 ){//是三顺子终止循环
+					tou = number3;
+					break;
+				}
+				else{//来吧 继续吧
+					zhong = [];wei = [];tou = [];
+				}
+			}
+
+			cards = newCard;
+			if (this._isSanShunZi(tou,zhong,wei)) {//是三顺
+				return tou.concat(zhong).concat(wei);
+			}
+			return null
+		}*/
+		public static _isSanShunZi = function (touCards, zhongCards, weiCards) {
+			return PorkUtil.isShunZi(touCards) && PorkUtil.isShunZi(zhongCards)
+				&& PorkUtil.isShunZi(weiCards);
+		};
+		public static sanShunZi1(cards,length = 3):any{
+			var shunzi = PorkUtil.findShunZi(cards,length);
+			var cardsT = [];
+			var cardsIndex = [];
+			for(var i = 0; i < shunzi.length;i++){
+				var a = shunzi[i];
+				var cardsShunzi = [];
+				for(var j = 0; j < a.length;j++){
+					var index = a[j];
+					if(typeof(cards[index]) == 'undefined'){
+						continue;
+					}
+					cardsShunzi.push(cards[index]);
+
+				}
+				cardsIndex.push(a);
+				cardsT.push(cardsShunzi);
+			}
+			return [cardsT,cardsIndex];
+		}
 		//三顺子
-		public static isSanShunZi(cards:Array<PorkVO>):boolean
+		public static getSanShunZi(cards:Array<PorkVO>):Array<PorkVO>
 		{
 			let length:number = 13;
 			if(cards.length!=length){
-				return false;
+				return null;
 			}
-			let pointAry:Array<number> = cards.map(card=>{return card.point;});
-			pointAry.sort((n1,n2)=>{return n1-n2});
+			let pointAry:Array<PorkVO> = cards;//cards.map(card=>{return card.point;});
+			pointAry.sort((n1,n2)=>{return n1.point-n2.point});
 
-			if(this.fenzu(pointAry,5,5)==false){
-				pointAry = cards.map(card=>{return card.point;});
-				pointAry.sort((n1,n2)=>{return n1-n2});
-				if(this.fenzu(pointAry,5,3)==false){
-					pointAry = cards.map(card=>{return card.point;});
-					pointAry.sort((n1,n2)=>{return n1-n2});
-					if(this.fenzu(pointAry,3,5)==false){
-						return false;
+			let result:Array<PorkVO> = [];
+			result = this.fenzu(pointAry.concat([]),5,5)
+			if(result!=null){
+				return result;
+			}else{
+				result = this.fenzu(pointAry.concat([]),5,3);
+				if(result!=null){
+					return result;
+				}else{
+					result = this.fenzu(pointAry.concat([]),3,5);
+					if(result!=null){
+						return result;
 					}
 				}
 			}
-			return true;
+			return null;
 		}
 		//三尖刀
-		public static isSanJianDao(cards:Array<PorkVO>):boolean
+		public static getSanJianDao(cards:Array<PorkVO>):Array<PorkVO>
 		{
 			let helper = new CardPointsHelper(cards);
 			let num:number = 0;
@@ -572,14 +709,27 @@ module game {
 			}
 			if(helper.maxNumber>=3){
 				let santiaoAry:Array<any> = PorkUtil.findSanTiao(cards);
-				for(let i:number=0;i<santiaoAry.length;i++){
-					let rest:Array<PorkVO> = this.getRestCard(santiaoAry[i],cards.concat())
-					if(this.checkHasMidAndDown(rest)){
-						return true;
+				let santiao:Array<PorkVO>;
+				let minPoint:number=100;
+				if(santiaoAry.length>1){
+					for(let i:number=0;i<santiaoAry.length;i++){
+						if(santiaoAry[i][0].point<minPoint){
+							santiao = santiaoAry[i];
+							minPoint = santiaoAry[i][0].point;
+						}
 					}
+				}else if(santiaoAry.length==1){
+					santiao = santiaoAry[0];
+				}else{
+					return null;
+				}
+				let rest:Array<PorkVO> = this.getRestCard(santiao,cards.concat());
+				let restResult:Array<PorkVO> = this.checkHasMidAndDown(rest,true);
+				if(restResult!=null){
+					return santiao.concat(restResult);
 				}
 			}
-			return false;
+			return null;
 		}
 		// 是否包含有同花顺
 		public static containTongHuaShun(cards:Array<PorkVO>, minLength = 5) {
@@ -592,22 +742,23 @@ module game {
 			return false;
 		};
 		//分组553||535||355
-		public static fenzu(pointAry:Array<number>,num1:number,num2:number):boolean
+		public static fenzu(pointAry:Array<PorkVO>,num1:number,num2:number):Array<PorkVO>
 		{
-			let arr1:Array<number> = [];
-			let arr2:Array<number> = [];
-			let arr3:Array<number> = [];
+			let result:Array<PorkVO> = [];
+			let arr1:Array<PorkVO> = [];
+			let arr2:Array<PorkVO> = [];
+			let arr3:Array<PorkVO> = [];
 			for(let i:number=0;i<pointAry.length-1;i++){
 				if(i == 0){
 					arr1.push(pointAry[0]);
 				}
-				if(pointAry[i+1] - pointAry[i] == 0){
+				if(pointAry[i+1].point - pointAry[i].point == 0){
 					continue;
 				}
 				arr1.push(pointAry[i+1]);
 				if(arr1.length == num1){
 					//取第一组是顺子
-					if(this.isShunZi1(arr1)){
+					if(PorkUtil.isShunZi(arr1,num1)){
 						//这5个是顺子,从数组中移除
 						for(let i:number=0;i<arr1.length;i++){
 							for(let j:number=0;j<pointAry.length;j++){
@@ -627,13 +778,13 @@ module game {
 							if(i == 0){
 								arr2.push(pointAry[0]);
 							}
-							if(pointAry[i+1] - pointAry[i] == 0){
+							if(pointAry[i+1].point - pointAry[i].point == 0){
 								continue;
 							}
 							arr2.push(pointAry[i+1]);
 							if(arr2.length == num2) {
 								//取第二组是顺子
-								if (this.isShunZi1(arr2)) {
+								if (PorkUtil.isShunZi(arr2,num2)) {
 									for(let i:number=0;i<arr2.length;i++){
 										for(let j:number=0;j<pointAry.length;j++){
 											if(pointAry[j] == arr2[i]){
@@ -649,34 +800,37 @@ module game {
 									console.log(pointAry);
 									arr3 = pointAry;
 									//接下来就是剩下的了
-									if(this.isShunZi1(arr3)){
+									if(PorkUtil.isShunZi(arr3,13-num1-num2)){
 										//第三组也是顺子
-										let asdf = [arr1,arr2,arr3];
-
-										asdf.sort(function (n1, n2) {return n1.length - n2.length;});
-
-										// if(!cc.teShuPaiCards) cc.teShuPaiCards = asdf;
-
-										return true;
+										let ar:Array<any>= [arr1,arr2,arr3];
+										ar.sort((a,b)=>{
+											return a.length-b.length;
+										});
+										for(let a:number=0;a<ar.length;a++){
+											for(let b:number=0;b<ar[a].length;b++){
+												result.push(ar[a][b]);
+											}
+										}
+										return result;
 									}
 									//第三组不是顺子
-									return false;
+									return null;
 								}
 								//第二组不是顺子
-								return false;
+								return null;
 							}
 						}
 					}
 					//第一组不是顺子
-					return false;
+					return null;
 				}
 			}
 			//如果取不到num1个数
 			if(arr1.length < num1){
-				return false;
+				return null;
 			}
 			if(arr2.length < num2){
-				return false;
+				return null;
 			}
 		}
 		//判断5张或者3张是否顺子
@@ -771,36 +925,115 @@ module game {
 		/**
 		 * 检查中墩和下墩是否一定有牌型，为了方便判断头墩是否有特殊牌型
 		 */
-		public static checkHasMidAndDown(cards:Array<PorkVO>,isforWangzhe:boolean=false):boolean
+		public static checkHasMidAndDown(cards:Array<PorkVO>,isforWangzhe:boolean=false):Array<PorkVO>
 		{
-			if(isforWangzhe){
-				return false;
-			}
+			let result:Array<PorkVO>=[];
 			let arr:Array<any>=PorkUtil.findTongHuaShun(cards);
 			for(let i:number=0;i<arr.length;i++){
-				return this.checkHasMidAndDown1(this.getRestCard(arr[i],cards.concat()),isforWangzhe);
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
+			}
+			if(result.length!=0){
+				return result;
 			}
 			arr = PorkUtil.findTieZhi(cards);
 			for(let i:number=0;i<arr.length;i++){
-				return this.checkHasMidAndDown1(this.getRestCard(arr[i],cards.concat()),isforWangzhe);
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
+			}
+			if(result.length!=0){
+				return result;
 			}
 			arr = PorkUtil.findHuLu(cards);
 			for(let i:number=0;i<arr.length;i++){
-				return this.checkHasMidAndDown1(this.getRestCard(arr[i],cards.concat()),isforWangzhe);
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
+			}
+			if(result.length!=0){
+				return result;
 			}
 			arr = PorkUtil.findTongHua(cards);
 			for(let i:number=0;i<arr.length;i++){
-				return this.checkHasMidAndDown1(this.getRestCard(arr[i],cards.concat()),isforWangzhe);
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
+			}
+			if(result.length!=0){
+				return result;
 			}
 			arr = PorkUtil.findShunZi(cards);
 			for(let i:number=0;i<arr.length;i++){
-				return this.checkHasMidAndDown1(this.getRestCard(arr[i],cards.concat()),isforWangzhe);
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
 			}
-			return false;
+			if(result.length!=0){
+				return result;
+			}
+			arr = PorkUtil.findSanTiao(cards);
+			for(let i:number=0;i<arr.length;i++){
+				let p:Array<PorkVO> = arr[i];
+				let restp:Array<PorkVO> = this.getRestCard(arr[i],cards.concat());
+				if(this.checkHasMidAndDown1(restp,isforWangzhe)==true){
+					if(PorkUtil.checkCanPutDown(p,restp)==true){
+						result = restp.concat(p); 
+					}else{
+						result = p.concat(restp); 
+					}
+				}
+			}
+			if(result.length==0){
+				return null;
+			}else{
+				return result;
+			}
 		}
 		public static checkHasMidAndDown1(cards:Array<PorkVO>,isforWangzhe:boolean=false):boolean{
 			if(isforWangzhe==true){
-				if(PorkUtil.containSanTiao(cards)){
+				let santiao:Array<any> = PorkUtil.findSanTiao(cards);
+				if(santiao.length>0){
+					let san:Array<PorkVO> = santiao[0];
+					cards.sort((a,b)=>{
+						return a.point-b.point;
+					})
+					if(cards[0].point == san[0].point&&cards[1].point == san[1].point){
+						cards.sort((a,b)=>{
+							return b.point-a.point;
+						})
+					}
 					return true;
 				}
 			}

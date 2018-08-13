@@ -118,13 +118,19 @@ module game {
 			fairygui.UIPackage.addPackage("GameHelper");
 			fairygui.UIPackage.addPackage("Rank");
 			fairygui.UIPackage.addPackage("Result");
+			fairygui.UIPackage.addPackage("TestPork");
 			ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
 			ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
+
+			
+			// ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
+
 			if(GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.isReConnectInRoom){
 				ModuleMgr.ins.showModule(ModuleEnum.GAME);
 			}else{
 				ModuleMgr.ins.showModule(ModuleEnum.GAME_MAIN,[]);
 			}
+			
 			// GameModel.ins.createRoundTest();
 			// ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK,[]);
 		}

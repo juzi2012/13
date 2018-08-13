@@ -59,5 +59,14 @@ module game {
 			this.roundModel.myCard = PorkUtil.SortCard(this.roundModel.myCard);
 			console.log(this.roundModel.cardStr);
 		}
+		public createRoundTest1(arr:Array<PorkVO>):void
+		{
+			this.roundModel = new RoundModel();
+			this.roundModel.myCard = arr;
+
+			this.roundModel.setAllType();
+			this.roundModel.myCard = PorkUtil.SortCard(this.roundModel.myCard);
+			console.log(this.roundModel.cardStr);
+		}
 	}
 }

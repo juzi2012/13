@@ -204,7 +204,7 @@ var game;
         CreateRoomModule.prototype.onCreateHandle = function () {
             var arr = this.getRoomInfo();
             // ServerEngine.createRoom(ty,pn,jn,zz,jm,fc,core.Handler.create(this,this.createRoomCallBack));
-            game.ServerEngine.createRoom(arr[0], arr[1], 2, arr[3], arr[4], arr[5], arr[6], core.Handler.create(this, this.createRoomCallBack));
+            game.ServerEngine.createRoom(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], core.Handler.create(this, this.createRoomCallBack));
         };
         CreateRoomModule.prototype.getRoomInfo = function () {
             // ty:2(玩法id),
