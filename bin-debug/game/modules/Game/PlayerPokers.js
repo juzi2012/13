@@ -63,7 +63,22 @@ var game;
                     this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
                 }
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
-                    this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+                    if (result.uid == game.GameModel.ins.uid) {
+                        this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+                    }
+                    else {
+                        if (bipai.wins[0].w1 == result.uid) {
+                            this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_scoretop.text = "赢" + bipai.scoretopstr;
+                        }
+                        else if (bipai.wins[0].w1 == "") {
+                            this.m_txt_scoretop.text = "" + bipai.scoretopstr;
+                        }
+                        else {
+                            this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_scoretop.text = "输" + bipai.scoretopstr;
+                        }
+                    }
                 }
                 else {
                     if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
@@ -104,7 +119,22 @@ var game;
                     this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
                 }
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
-                    this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+                    if (result.uid == game.GameModel.ins.uid) {
+                        this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+                    }
+                    else {
+                        if (bipai.wins[0].w2 == result.uid) {
+                            this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_mid.text = "赢" + bipai.scoremidstr;
+                        }
+                        else if (bipai.wins[0].w2 == '') {
+                            this.m_txt_score_mid.text = "" + bipai.scoremidstr;
+                        }
+                        else {
+                            this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_mid.text = "输" + bipai.scoremidstr;
+                        }
+                    }
                 }
                 else {
                     if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
@@ -145,8 +175,23 @@ var game;
                     this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
                 }
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
-                    this.m_txt_score_down.text = bipai.scoredownstr.toString();
-                    if (game.GameModel.ins.roomModel.fuid != result.uid) {
+                    if (result.uid == game.GameModel.ins.uid) {
+                        this.m_txt_score_down.text = bipai.scoredownstr.toString();
+                    }
+                    else {
+                        if (bipai.wins[0].w3 == result.uid) {
+                            this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_down.text = "赢" + bipai.scoredownstr;
+                        }
+                        else if (bipai.wins[0].w3 == "") {
+                            this.m_txt_score_down.text = "" + bipai.scoredownstr;
+                        }
+                        else {
+                            this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_down.text = "输" + bipai.scoredownstr;
+                        }
+                    }
+                    if (game.GameModel.ins.uid != result.uid) {
                         if (bipai.px > 0) {
                             this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
                             this.m_txt_score_result.text = "翻倍";

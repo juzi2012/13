@@ -30,7 +30,7 @@ var game;
          */
         AllResultModule.prototype.preShow = function (data) {
             this.mContent.m_btn_back.addClickListener(this.onBack, this);
-            this.mContent.m_btn_check.addClickListener(this.onCheck, this);
+            this.mContent.m_btn_share.addClickListener(this.onShare, this);
             this.mContent.m_txt_roomid.text = "房间:" + game.GameModel.ins.roomModel.rid;
             this.mContent.m_txt_info.text = game.GameModel.ins.roomModel.rinfo.fc == 1 ? "房主付费" : "房费AA " + game.GameModel.ins.roomModel.rinfo.pn + "人 " + game.GameModel.ins.roomModel.rinfo.snum + "局 ";
             this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
@@ -51,7 +51,7 @@ var game;
             game.GameModel.ins.disMissRoom();
             ModuleMgr.ins.changeScene(ModuleEnum.GAME_SINGLE_RESULT, ModuleEnum.GAME_MAIN);
         };
-        AllResultModule.prototype.onCheck = function () {
+        AllResultModule.prototype.onShare = function () {
         };
         return AllResultModule;
     }(Module));

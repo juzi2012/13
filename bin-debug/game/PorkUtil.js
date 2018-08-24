@@ -965,14 +965,11 @@ var game;
                 return true;
             }
             else if (nowArr[0].point == otherArr[0].point) {
-                if (nowArr[0].type >= otherArr[0].type) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return false;
             }
-            return false;
+            else {
+                return false;
+            }
         };
         PorkUtil.checkTiezhi = function (nowArr, otherArr) {
             var now = this.findPointByLength(nowArr, 4)[0];
@@ -988,7 +985,7 @@ var game;
         PorkUtil.checkHulu = function (nowArr, otherArr) {
             var nowSantiao = this.findSanTiao(nowArr);
             var nowduizi = game.PorkUtilExtends.getRestCard1(nowSantiao, nowArr);
-            var otherSantiao = this.findSanTiao(nowArr);
+            var otherSantiao = this.findSanTiao(otherArr);
             var otherduizi = game.PorkUtilExtends.getRestCard1(otherSantiao, otherArr);
             if (nowSantiao[0].point > otherSantiao[0].point) {
                 return true;
@@ -1018,7 +1015,7 @@ var game;
                     return false;
                 }
                 else {
-                    break;
+                    continue;
                 }
             }
             return false;
@@ -1068,8 +1065,37 @@ var game;
                 if (nowPtAry[1] > otherPtAry[1]) {
                     return true;
                 }
-                else if (nowPtAry[1] == otherPtAry[1]) {
-                    return true;
+                else if (nowPtAry[1] < otherPtAry[1]) {
+                    return false;
+                }
+                else {
+                    var helper1 = new game.CardPointsHelper(nowArr);
+                    var helper2 = new game.CardPointsHelper(otherArr);
+                    var w1 = 0;
+                    var w2 = 0;
+                    for (var w in helper1.pointNumbers) {
+                        var n = helper1.pointNumbers[w];
+                        if (n == 1) {
+                            w1 = Number(w);
+                            break;
+                        }
+                    }
+                    for (var w in helper2.pointNumbers) {
+                        var n = helper2.pointNumbers[w];
+                        if (n == 1) {
+                            w2 = Number(w);
+                            break;
+                        }
+                    }
+                    if (w1 > w2) {
+                        return true;
+                    }
+                    else if (w1 < w2) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -1099,20 +1125,18 @@ var game;
                     return false;
                 }
                 else {
-                    break;
+                    continue;
                 }
             }
-            for (var i = 0; i < nowArr.length; i++) {
-                if (nowArr[i].type > otherArr[i].type) {
-                    return true;
-                }
-                else if (nowArr[i].type < otherArr[i].type) {
-                    return false;
-                }
-                else {
-                    break;
-                }
-            }
+            // for(let i:number=0;i<nowArr.length;i++){
+            // 	if(nowArr[i].type>otherArr[i].type){
+            // 		return true;
+            // 	}else if(nowArr[i].type<otherArr[i].type){
+            // 		return false;
+            // 	}else{
+            // 		break;
+            // 	}
+            // }
             return true;
         };
         //获取单

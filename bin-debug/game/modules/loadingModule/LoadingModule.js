@@ -39,6 +39,7 @@ var game;
             // this.mContent.addChild(this.loadingBar);
             this.mContent.m_bar.value = 0;
             this.mContent.m_bar.visible = false;
+            this.mContent.m_txt_name.requestFocus();
             App.Socket.connect(core.Handler.create(this, this.onServerConnected));
             // this.onServerConnected();
             _super.prototype.show.call(this, data);

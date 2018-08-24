@@ -6,6 +6,7 @@ module UI.ZhanJi {
 
 		public m_panelBg:fairygui.GComponent;
 		public m_list:fairygui.GList;
+		public m_checkother:fairygui.GButton;
 
 		public static URL:string = "ui://lxifvkdup0d61";
 
@@ -22,6 +23,7 @@ module UI.ZhanJi {
 
 			this.m_panelBg = <fairygui.GComponent><any>(this.getChildAt(0));
 			this.m_list = <fairygui.GList><any>(this.getChildAt(1));
+			this.m_checkother = <fairygui.GButton><any>(this.getChildAt(3));
 		}
 	}
 }

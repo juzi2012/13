@@ -62,16 +62,21 @@ module game {
 						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['tc'][a]));
 						player.topCards.push(pk);
 					}
+					player.topCards = PorkUtil.SortCard(player.topCards);
 					player.midCards = [];
 					for(let a:number=0;a<judata[i]['Us'][id]['wc'].length;a++){
 						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
 						player.midCards.push(pk);
 					}
+					player.midCards = PorkUtil.SortCard(player.midCards);
+
 					player.downCards = [];
 					for(let a:number=0;a<judata[i]['Us'][id]['zc'].length;a++){
 						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
 						player.downCards.push(pk);
 					}
+					player.downCards = PorkUtil.SortCard(player.downCards);
+
 					player.topType = judata[i]['Us'][id]['tt'];
 					player.midType = judata[i]['Us'][id]['wt'];
 					player.downType = judata[i]['Us'][id]['zt'];

@@ -32,4 +32,5 @@ enum ModuleEnum {
     USERINFO,
     REPLAY,
     TESTPORK,
+    BOFANGMA,
 }

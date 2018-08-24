@@ -17,10 +17,9 @@ module game {
 		public preShow(data?: any): void {
 			this.round = data as Round;
 			this.mContent.m_btn_back.addClickListener(this.onBack,this);
-			this.mContent.m_btn_check.addClickListener(this.onCheck,this);
 			this.mContent.m_txt_roomid.text="房间:"+this.round.Rd;
 			this.mContent.m_txt_info.text = this.round.Fc+"人 ";
-
+			this.mContent.m_c1.selectedIndex=1;
 			// this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
 
 			super.preShow(data);
@@ -41,9 +40,6 @@ module game {
 		{
 			ModuleMgr.ins.changeScene(ModuleEnum.GAME_SINGLE_RESULT,ModuleEnum.GAME_MAIN);
 		}
-		private onCheck():void
-		{
-
-		}
+		
 	}
 }

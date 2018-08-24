@@ -963,13 +963,10 @@ module game {
 			if(nowArr[0].point>otherArr[0].point){
 				return true;
 			}else if(nowArr[0].point==otherArr[0].point){
-				if(nowArr[0].type>=otherArr[0].type){
-					return true
-				}else{
-					return false;
-				}
+				return false;
+			}else{
+				return false;
 			}
-			return false;
 		}
 		public static checkTiezhi(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
 		{
@@ -987,7 +984,7 @@ module game {
 			let nowSantiao:Array<PorkVO> = this.findSanTiao(nowArr);
 			let nowduizi:Array<PorkVO> = PorkUtilExtends.getRestCard1(nowSantiao,nowArr);
 
-			let otherSantiao:Array<PorkVO> = this.findSanTiao(nowArr);
+			let otherSantiao:Array<PorkVO> = this.findSanTiao(otherArr);
 			let otherduizi:Array<PorkVO> = PorkUtilExtends.getRestCard1(otherSantiao,otherArr);
 
 			if(nowSantiao[0].point>otherSantiao[0].point){
@@ -1013,7 +1010,7 @@ module game {
 				}else if(nowArr[i].point<otherArr[i].point){
 					return false;
 				}else{
-					break;
+					continue;
 				}
 			}
 			return false;
@@ -1061,10 +1058,37 @@ module game {
 			}else if(nowPtAry[0]==otherPtAry[0]){
 				if(nowPtAry[1]>otherPtAry[1]){
 					return true;
-				}else if(nowPtAry[1]==otherPtAry[1]){
-					return true;
+				}else if(nowPtAry[1]<otherPtAry[1]){
+					return false;
+				}else{
+					let helper1 = new CardPointsHelper(nowArr);
+					let helper2 = new CardPointsHelper(otherArr);
+					let w1:number = 0
+					let w2:number = 0
+					for(var w in helper1.pointNumbers) {
+						var n = helper1.pointNumbers[w];
+						if(n == 1){
+							w1 = Number(w)
+							break;
+						}
+					}
+					for(var w in helper2.pointNumbers) {
+						var n = helper2.pointNumbers[w];
+						if(n == 1){
+							w2 = Number(w)
+							break;
+						}
+					}
+					if(w1>w2){
+						return true;
+					}else if(w1<w2){
+						return false;
+					}else{
+						return true;
+					}
 				}
 			}
+			
 			return false;
 		}
 		public static checkDuizi(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
@@ -1090,18 +1114,18 @@ module game {
 				}else if(nowArr[i].point<otherArr[i].point){
 					return false;
 				}else{
-					break;
+					continue;
 				}
 			}
-			for(let i:number=0;i<nowArr.length;i++){
-				if(nowArr[i].type>otherArr[i].type){
-					return true;
-				}else if(nowArr[i].type<otherArr[i].type){
-					return false;
-				}else{
-					break;
-				}
-			}
+			// for(let i:number=0;i<nowArr.length;i++){
+			// 	if(nowArr[i].type>otherArr[i].type){
+			// 		return true;
+			// 	}else if(nowArr[i].type<otherArr[i].type){
+			// 		return false;
+			// 	}else{
+			// 		break;
+			// 	}
+			// }
 			return true;
 		}
 		//获取单

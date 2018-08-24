@@ -10,7 +10,7 @@ module game {
 		public get mContent():UI.Game.UI_Game{
 			return this.content as UI.Game.UI_Game;
 		}
-		
+		private bgAry:Array<string>=["ui://9s4fd8dyrezh0","ui://9txxlsx2hmwn1","ui://98nj6h4xhmwn1"]
 		private head1:PlayerHead;
 		private head2:PlayerHead;
 		private head3:PlayerHead;
@@ -50,6 +50,7 @@ module game {
 			this.mContent.m_btn_invite.visible=false;
 			this.mContent.m_btn_check.visible=false;
 			this.mContent.m_img_start.visible=false;
+			this.mContent.m_bg.url = this.bgAry[SettingModel.ins.bg];
 			this.preShowCpl();
 			//根据当前牌局的人数显示头像的个数
 			this.mContent.m_playerNumCtrl.selectedPage = GameModel.ins.roomModel.rinfo.pn.toString()
@@ -204,7 +205,7 @@ module game {
 		}
 		private UserReady(msg:T2C_Ready):void
 		{
-			if(GameModel.ins.roomModel.isSingleOpen){
+			if(GameModel.ins.roomModel.isSingleOpen||this.mContent.m_btn_continue.visible==true){
 				this.readyArr.push(msg);
 			}else{
 				this.doReady(msg);
@@ -376,7 +377,7 @@ module game {
 		
 		private onHelp():void
 		{
-			ModuleMgr.ins.showModule(ModuleEnum.GAME_HELP);
+			ModuleMgr.ins.showModule(ModuleEnum.SHUOMING);
 		}
 		private onSetting():void
 		{

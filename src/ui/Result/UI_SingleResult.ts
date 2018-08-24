@@ -4,6 +4,7 @@ module UI.Result {
 
 	export class UI_SingleResult extends fairygui.GComponent {
 
+		public m_c1:fairygui.Controller;
 		public m_list:fairygui.GList;
 		public m_btn_check:fairygui.GButton;
 		public m_btn_continue:fairygui.GButton;
@@ -23,6 +24,7 @@ module UI.Result {
 		protected constructFromXML(xml: any): void {
 			super.constructFromXML(xml);
 
+			this.m_c1 = this.getControllerAt(0);
 			this.m_list = <fairygui.GList><any>(this.getChildAt(3));
 			this.m_btn_check = <fairygui.GButton><any>(this.getChildAt(4));
 			this.m_btn_continue = <fairygui.GButton><any>(this.getChildAt(5));

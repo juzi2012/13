@@ -31,6 +31,10 @@
     {
       "name": "rawinflate",
       "path": "./libs/rawinflate"
+    },
+    {
+      "name": "greensock",
+      "path": "./libs/greensock"
     }
   ]
 }

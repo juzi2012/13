@@ -15,7 +15,7 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			this.mContent.m_btn_back.addClickListener(this.onBack,this);
-			this.mContent.m_btn_check.addClickListener(this.onCheck,this);
+			this.mContent.m_btn_share.addClickListener(this.onShare,this);
 			this.mContent.m_txt_roomid.text="房间:"+GameModel.ins.roomModel.rid;
 			this.mContent.m_txt_info.text = GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"房费AA "+GameModel.ins.roomModel.rinfo.pn+"人 "+GameModel.ins.roomModel.rinfo.snum+"局 ";
 
@@ -41,7 +41,7 @@ module game {
 			GameModel.ins.disMissRoom();
 			ModuleMgr.ins.changeScene(ModuleEnum.GAME_SINGLE_RESULT,ModuleEnum.GAME_MAIN);
 		}
-		private onCheck():void
+		private onShare():void
 		{
 
 		}

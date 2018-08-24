@@ -25,6 +25,7 @@ var UI;
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_UserInfo.URL, Game.UI_UserInfo);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatModule.URL, Game.UI_ChatModule);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatItem.URL, Game.UI_ChatItem);
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ReplayBotton.URL, Game.UI_ReplayBotton);
             };
             return GameBinder;
         }());

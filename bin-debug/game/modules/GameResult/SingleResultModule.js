@@ -31,6 +31,7 @@ var game;
         SingleResultModule.prototype.preShow = function (data) {
             this.mContent.m_btn_continue.addClickListener(this.onContinue, this);
             this.mContent.m_btn_check.addClickListener(this.onCheck, this);
+            this.mContent.m_c1.selectedIndex = 0;
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
             this.mContent.m_list.numItems = game.GameModel.ins.roundModel.result.cards.length;

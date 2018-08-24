@@ -25,6 +25,8 @@ module game {
 			// this.mContent.addChild(this.loadingBar);
 			this.mContent.m_bar.value=0;
 			this.mContent.m_bar.visible=false;
+
+			this.mContent.m_txt_name.requestFocus();
 			App.Socket.connect(core.Handler.create(this,this.onServerConnected));
 			// this.onServerConnected();
 			super.show(data);
@@ -59,7 +61,6 @@ module game {
 			if(this.mContent.m_txt_name.text!=""){
 				this.mContent.m_bar.visible=true;
 				this.uid = this.mContent.m_txt_name.text;
-
 				App.Socket.addCmdListener(MsgType.Login,core.Handler.create(this,this.loginCallBack));
 				let loginMsg:C2T_Login = new C2T_Login();
 				loginMsg.Msg.name = "Jack"+this.uid;//App.MathUtils.random(1,1000);

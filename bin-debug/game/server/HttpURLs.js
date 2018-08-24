@@ -6,6 +6,7 @@ var HttpURLs = (function () {
     }
     HttpURLs.rank = "http://211.149.213.58:8883/rank";
     HttpURLs.zhanji = "http://211.149.213.58:8883/zhanji";
+    HttpURLs.huifang = "http://211.149.213.58:8883/huifang";
     return HttpURLs;
 }());
 __reflect(HttpURLs.prototype, "HttpURLs");

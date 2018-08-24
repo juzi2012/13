@@ -49,6 +49,7 @@ var game;
         __extends(Game, _super);
         function Game() {
             var _this = _super.call(this) || this;
+            _this.bgAry = ["ui://9s4fd8dyrezh0", "ui://9txxlsx2hmwn1", "ui://98nj6h4xhmwn1"];
             _this.wantToBreakHere = false;
             return _this;
         }
@@ -90,6 +91,7 @@ var game;
             this.mContent.m_btn_invite.visible = false;
             this.mContent.m_btn_check.visible = false;
             this.mContent.m_img_start.visible = false;
+            this.mContent.m_bg.url = this.bgAry[game.SettingModel.ins.bg];
             this.preShowCpl();
             //根据当前牌局的人数显示头像的个数
             this.mContent.m_playerNumCtrl.selectedPage = game.GameModel.ins.roomModel.rinfo.pn.toString();
@@ -234,7 +236,7 @@ var game;
             }
         };
         Game.prototype.UserReady = function (msg) {
-            if (game.GameModel.ins.roomModel.isSingleOpen) {
+            if (game.GameModel.ins.roomModel.isSingleOpen || this.mContent.m_btn_continue.visible == true) {
                 this.readyArr.push(msg);
             }
             else {
@@ -433,7 +435,7 @@ var game;
             // this.restartState=true;
         };
         Game.prototype.onHelp = function () {
-            ModuleMgr.ins.showModule(ModuleEnum.GAME_HELP);
+            ModuleMgr.ins.showModule(ModuleEnum.SHUOMING);
         };
         Game.prototype.onSetting = function () {
             ModuleMgr.ins.showModule(ModuleEnum.SETTING);

@@ -5,6 +5,7 @@ module UI.Game {
 	export class UI_Game extends fairygui.GComponent {
 
 		public m_playerNumCtrl:fairygui.Controller;
+		public m_bg:fairygui.GLoader;
 		public m_btn_quit:fairygui.GButton;
 		public m_btn_setting:fairygui.GButton;
 		public m_btn_help:fairygui.GButton;
@@ -42,6 +43,7 @@ module UI.Game {
 			super.constructFromXML(xml);
 
 			this.m_playerNumCtrl = this.getControllerAt(0);
+			this.m_bg = <fairygui.GLoader><any>(this.getChildAt(0));
 			this.m_btn_quit = <fairygui.GButton><any>(this.getChildAt(1));
 			this.m_btn_setting = <fairygui.GButton><any>(this.getChildAt(2));
 			this.m_btn_help = <fairygui.GButton><any>(this.getChildAt(3));

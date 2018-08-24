@@ -150,10 +150,25 @@ var game;
                 var item = _a[_i];
                 var resultCard = new ResultCard();
                 resultCard.cards = new Array();
+                var c1 = [];
+                var c2 = [];
+                var c3 = [];
                 for (var i = 0; i < item['cds'].length; i++) {
                     var vo = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(item['cds'][i]));
-                    resultCard.cards.push(vo);
+                    if (i >= 0 && i < 3) {
+                        c1.push(vo);
+                    }
+                    if (i >= 3 && i < 8) {
+                        c2.push(vo);
+                    }
+                    if (i >= 8 && i < 13) {
+                        c3.push(vo);
+                    }
                 }
+                c1 = game.PorkUtil.SortCard(c1);
+                c2 = game.PorkUtil.SortCard(c2);
+                c3 = game.PorkUtil.SortCard(c3);
+                resultCard.cards = c1.concat(c2).concat(c3);
                 resultCard.uid = item["uid"];
                 resultCard.sc = item["sc"];
                 resultCard.ty = item["ty"];
@@ -207,6 +222,8 @@ var game;
                     }
                     else {
                         ary = this.duizi[this.typeClickCount1 % this.duizi.length].concat();
+                        var res = this.getResetSingleThree(ary);
+                        ary = ary.concat(res);
                         this.typeClickCount1 += 1;
                     }
                     break;
@@ -310,6 +327,28 @@ var game;
                 }
             }
             return restAry[restAry.length - 1];
+        };
+        //拿到只有一对的剩下三张牌
+        RoundModel.prototype.getResetSingleThree = function (ary) {
+            var restAry = [];
+            var resultAry = [];
+            for (var i = 0; i < this._listCard.length; i++) {
+                var p = this._listCard[i];
+                if (ary.indexOf(p) < 0) {
+                    restAry.push(p);
+                }
+            }
+            for (var i = restAry.length - 1; i > 0; i--) {
+                if (this.checkHasSameNum(restAry[i].point, restAry, 1) == false && this.checkHasSameNum(restAry[i].point, ary, 0) == false) {
+                    resultAry.push(restAry[i]);
+                }
+            }
+            if (resultAry.length > 2) {
+                return resultAry.slice(0, 3);
+            }
+            else {
+                return resultAry;
+            }
         };
         RoundModel.prototype.getResultBPByUid = function (uid) {
             for (var i = 0; i < this.result.bipai.length; i++) {

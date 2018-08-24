@@ -24,6 +24,7 @@ var UI;
             UI_Game.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
                 this.m_playerNumCtrl = this.getControllerAt(0);
+                this.m_bg = (this.getChildAt(0));
                 this.m_btn_quit = (this.getChildAt(1));
                 this.m_btn_setting = (this.getChildAt(2));
                 this.m_btn_help = (this.getChildAt(3));

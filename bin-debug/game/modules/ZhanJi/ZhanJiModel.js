@@ -50,16 +50,19 @@ var game;
                         var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['tc'][a]));
                         player.topCards.push(pk);
                     }
+                    player.topCards = game.PorkUtil.SortCard(player.topCards);
                     player.midCards = [];
                     for (var a = 0; a < judata[i]['Us'][id]['wc'].length; a++) {
                         var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
                         player.midCards.push(pk);
                     }
+                    player.midCards = game.PorkUtil.SortCard(player.midCards);
                     player.downCards = [];
                     for (var a = 0; a < judata[i]['Us'][id]['zc'].length; a++) {
                         var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
                         player.downCards.push(pk);
                     }
+                    player.downCards = game.PorkUtil.SortCard(player.downCards);
                     player.topType = judata[i]['Us'][id]['tt'];
                     player.midType = judata[i]['Us'][id]['wt'];
                     player.downType = judata[i]['Us'][id]['zt'];

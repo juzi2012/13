@@ -23,7 +23,8 @@ var UI;
             };
             UI_AllResult.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
-                this.m_btn_check = (this.getChildAt(3));
+                this.m_c1 = this.getControllerAt(0);
+                this.m_btn_share = (this.getChildAt(3));
                 this.m_btn_back = (this.getChildAt(4));
                 this.m_txt_time = (this.getChildAt(5));
                 this.m_txt_info = (this.getChildAt(6));

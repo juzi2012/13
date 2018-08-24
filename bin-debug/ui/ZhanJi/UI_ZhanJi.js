@@ -25,6 +25,7 @@ var UI;
                 _super.prototype.constructFromXML.call(this, xml);
                 this.m_panelBg = (this.getChildAt(0));
                 this.m_list = (this.getChildAt(1));
+                this.m_checkother = (this.getChildAt(3));
             };
             UI_ZhanJi.URL = "ui://lxifvkdup0d61";
             return UI_ZhanJi;

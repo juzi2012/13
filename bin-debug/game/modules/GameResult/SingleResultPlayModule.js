@@ -32,6 +32,7 @@ var game;
             this.round = data;
             this.mContent.m_btn_continue.addClickListener(this.onContinue, this);
             this.mContent.m_btn_check.addClickListener(this.onCheck, this);
+            this.mContent.m_c1.selectedIndex = 1;
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
             this.mContent.m_list.numItems = this.round.jus[this.round.cur].players.length;

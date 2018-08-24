@@ -23,6 +23,7 @@ var UI;
             };
             UI_SingleResult.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
+                this.m_c1 = this.getControllerAt(0);
                 this.m_list = (this.getChildAt(3));
                 this.m_btn_check = (this.getChildAt(4));
                 this.m_btn_continue = (this.getChildAt(5));

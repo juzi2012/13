@@ -29,7 +29,11 @@ var game;
                 if (value.scoreArr[i] != null) {
                     var score = value.scoreArr[i].toString();
                     if (value.scoreArr[i] > 0) {
-                        score = "+" + score;
+                        // score = "+"+score;
+                        this.m_bg.url = 'ui://25mni52ohmwn1h';
+                    }
+                    else {
+                        this.m_bg.url = 'ui://25mni52ohmwn1g';
                     }
                     this['m_txt_ju' + i].text = "第" + (i + 1) + "局:" + score;
                 }

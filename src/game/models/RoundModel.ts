@@ -174,10 +174,28 @@ module game {
 			for(let item of msg.sc){
 				let resultCard:ResultCard = new ResultCard();
 				resultCard.cards = new Array<PorkVO>();
+				let c1:Array<PorkVO> = [];
+				let c2:Array<PorkVO> = [];
+				let c3:Array<PorkVO> = [];
 				for(let i:number=0;i<item['cds'].length;i++){
 					let vo:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(item['cds'][i]))
-					resultCard.cards.push(vo);
+					if(i>=0 && i<3){
+						c1.push(vo);
+					}
+					if(i>=3 && i<8){
+						c2.push(vo);
+					}
+					if(i>=8 && i<13){
+						c3.push(vo);
+					}
 				}
+				
+				c1 = PorkUtil.SortCard(c1);
+				c2 = PorkUtil.SortCard(c2);
+				c3 = PorkUtil.SortCard(c3);
+				
+
+				resultCard.cards = c1.concat(c2).concat(c3);
 
 				resultCard.uid = item["uid"];
 				resultCard.sc = item["sc"];
@@ -234,6 +252,8 @@ module game {
 						this.typeClickCount1=0;
 					}else{
 						ary = this.duizi[this.typeClickCount1%this.duizi.length].concat();
+						let res:Array<PorkVO> = this.getResetSingleThree(ary);
+						ary = ary.concat(res);
 						this.typeClickCount1+=1;
 					}
 				break;
@@ -337,6 +357,27 @@ module game {
 				}
 			}
 			return restAry[restAry.length-1];
+		}
+		//拿到只有一对的剩下三张牌
+		private getResetSingleThree(ary:Array<PorkVO>):Array<PorkVO>{
+			let restAry:Array<PorkVO>=[];
+			let resultAry:Array<PorkVO>=[];
+			for(let i:number=0;i<this._listCard.length;i++){
+				let p:PorkVO = this._listCard[i];
+				if(ary.indexOf(p)<0){
+					restAry.push(p);
+				}
+			}
+			for(let i:number=restAry.length-1;i>0;i--){
+				if(this.checkHasSameNum(restAry[i].point,restAry,1)==false&&this.checkHasSameNum(restAry[i].point,ary,0)==false){
+					resultAry.push(restAry[i]);
+				}
+			}
+			if(resultAry.length>2){
+				return resultAry.slice(0,3);
+			}else{
+				return resultAry;
+			}
 		}
 		public getResultBPByUid(uid:string):ResultBP
 		{

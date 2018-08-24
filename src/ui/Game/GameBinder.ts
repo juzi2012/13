@@ -19,6 +19,7 @@ module UI.Game {
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_UserInfo.URL, UI_UserInfo);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatModule.URL, UI_ChatModule);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatItem.URL, UI_ChatItem);
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_ReplayBotton.URL, UI_ReplayBotton);
 		}
 	}
 }

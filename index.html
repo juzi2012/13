@@ -68,6 +68,7 @@
     xhr.addEventListener("load", function () {
         var manifest = JSON.parse(xhr.response);
         var list = manifest.initial.concat(manifest.game);
+        list = list.concat(["libs/greensock/TweenMax.js"])
         loadScript(list, function () {
             /**
              * {

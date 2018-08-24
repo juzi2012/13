@@ -11,6 +11,7 @@ var UI;
             }
             ZhanJiBinder.bindAll = function () {
                 fairygui.UIObjectFactory.setPackageItemExtension(ZhanJi.UI_ZhanJiItemUserItem.URL, ZhanJi.UI_ZhanJiItemUserItem);
+                fairygui.UIObjectFactory.setPackageItemExtension(ZhanJi.UI_BoFangMa.URL, ZhanJi.UI_BoFangMa);
                 fairygui.UIObjectFactory.setPackageItemExtension(ZhanJi.UI_ZhanJi.URL, ZhanJi.UI_ZhanJi);
                 fairygui.UIObjectFactory.setPackageItemExtension(ZhanJi.UI_ZhanJiItem.URL, ZhanJi.UI_ZhanJiItem);
                 fairygui.UIObjectFactory.setPackageItemExtension(ZhanJi.UI_ZhanJiDetail.URL, ZhanJi.UI_ZhanJiDetail);
