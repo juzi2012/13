@@ -10,6 +10,7 @@ var RegModuleTask = (function () {
         if (true) {
             this.checkHasSameId();
         }
+        this.regModule(ModuleEnum.PRELOADING, LayerEnum.SCENE, game.PreLoadingModule, []);
         this.regModule(ModuleEnum.LOADING, LayerEnum.SCENE, game.LoadingModule, []);
         this.regModule(ModuleEnum.TEST, LayerEnum.SCENE, game.TESTModule, []);
         this.regModule(ModuleEnum.GAME_MAIN, LayerEnum.SCENE, game.GameMainModule, []);
@@ -41,6 +42,7 @@ var RegModuleTask = (function () {
         this.regModule(ModuleEnum.REPLAY, LayerEnum.SCENE, game.GameReplay, []);
         this.regModule(ModuleEnum.TESTPORK, LayerEnum.POPUP, game.TestPorkModule, []);
         this.regModule(ModuleEnum.BOFANGMA, LayerEnum.POPUP, game.ChaKanMaPanel, []);
+        this.regModule(ModuleEnum.JIESANSORT, LayerEnum.POPUP, game.JieSanSort, []);
     };
     RegModuleTask.prototype.regModule = function (moduleId, layerKind, moduleCls, groups) {
         if (groups === void 0) { groups = null; }

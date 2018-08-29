@@ -34,7 +34,7 @@ module game {
 			this.mContent.m_btn_quit.addClickListener(this.onQuit,this);
 			this.preShowCpl();
 			//根据当前牌局的人数显示头像的个数
-			this.mContent.m_playerNumCtrl.selectedPage = this.round.Fc.toString()
+			this.mContent.m_playerNumCtrl.selectedPage = this.round.playerFinalData.length.toString()
 			this.setHead();
 			this.mContent.m_txt_fid.text = "房间ID "+this.round.Rd.toString();
 			this.ju = this.round.jus[this.round.cur];
@@ -51,6 +51,7 @@ module game {
 			this.wantToBreakHere=false;
 			this.mContent.m_playcontrol.m_btn_pre.enabled = false;
 			this.mContent.m_txt_ju.text = "第"+(this.round.cur+1)+"/"+this.round.jus.length+"局";
+			this.mContent.m_playcontrol.m_txt_huifangma.text = "回放码:"+this.round.Rd;
 		}
 		private play():void
 		{
@@ -70,7 +71,6 @@ module game {
 				this.FaPai();
 				this.mContent.m_playcontrol.m_c1.selectedIndex=1;
 			}else{
-				egret.ticker.resume();
 				TweenMax.resumeAll();
 				this.mContent.m_playcontrol.m_c1.selectedIndex=1;
 			}
@@ -97,14 +97,13 @@ module game {
 		{
 			TweenMax.pauseAll();
 			this.mContent.m_playcontrol.m_c1.selectedIndex=0;
-			App.TimerManager.doTimer(200,1,()=>{egret.ticker.pause();},this); 
 		}
-		private stop(tar:boolean=true):void
+		private stop(tar):void
 		{
 			this.startState=false;
 			this.mContent.m_playcontrol.m_c1.selectedIndex=0;
 
-			if(tar){
+			if(tar!=null){
 				this.round.cur = 0;
 				if(this.round.cur == this.round.jus.length-1){
 					this.mContent.m_playcontrol.m_btn_next.enabled=false;
@@ -124,7 +123,7 @@ module game {
 		}
 		private playNext():void
 		{
-			this.stop(false);
+			this.stop(null);
 			this.play();
 		}
 		private reset():void
@@ -187,7 +186,9 @@ module game {
 		}
 		private showSingleResult():void
 		{
-			this.doShowSingleResult();
+			if(this.startState==true){
+				this.doShowSingleResult();
+			}
 			/*this.doShowSingleResult().then(() => {
 				ModuleMgr.ins.showModule(ModuleEnum.GAME_SINGLE_RESULT_PLAY,this.round);
 				this.startState=false;
@@ -279,6 +280,7 @@ module game {
 		}
 		public preClose(data?: any):void {
 			this.wantToBreakHere=true;
+			TweenMax.killAll();
 			this.preCloseCpl();
 			this.mContent.m_btn_quit.removeClickListener(this.onQuit,this);
 		}

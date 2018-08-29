@@ -73,21 +73,30 @@ class Main extends egret.DisplayObjectContainer {
     }
     private async runGame() {
         //预加载部分资源，主要是用来显示loading的部分素材
-        await this.loadPreLoadResource()
+        await this.loadPreLoadResource1()
+        fairygui.UIPackage.addPackage("PreLoading");
         this.startEngine();
+        await this.loadPreLoadResource()
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();
         console.log(userInfo);
         this.loadLoadingResource();
     }
+    
+    private async loadPreLoadResource1() {
+        try {
+            await RES.loadConfig("resource/default.res.json", "resource/");
+            await RES.loadGroup("preload", 0);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
     private async loadPreLoadResource() {
         try {
-            const loadingView = new LoadingUI();
-            this.stage.addChild(loadingView);
-            await RES.loadConfig("resource/default.res.json", "resource/");
-            await RES.loadGroup("preload", 0, loadingView); 
-            this.stage.removeChild(loadingView);
+            ModuleMgr.ins.showModule(ModuleEnum.PRELOADING);
+            await RES.loadGroup("loading", 0);
         }
         catch (e) {
             console.error(e);
@@ -99,6 +108,7 @@ class Main extends egret.DisplayObjectContainer {
     private loadLoadingResource()
     {
         fairygui.UIPackage.addPackage("Loading");
+        ModuleMgr.ins.closeModule(ModuleEnum.PRELOADING);
         ModuleMgr.ins.showModule(ModuleEnum.LOADING,[]);
     }
     /**

@@ -1,7 +1,8 @@
 module game {
 	export class ZhanJiItem extends UI.ZhanJi.UI_ZhanJiItem{
 		public constructor() {
-			super()
+			super();
+			this.addClickListener(this.onClick,this);
 		}
 		public data:Round;
 		public users:Array<ZhanJiUser>;
@@ -40,14 +41,19 @@ module game {
 			this.m_list.numItems=this.users.length;
 			this.m_btn_check.addClickListener(this.replay,this);
 		}
-		private replay():void
+		private replay(evt:any):void
 		{
+			evt.stopImmediatePropagation();
 			ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY,this.data);
 		}
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{
 			let item:ZhanJiItemUserItem = _item as ZhanJiItemUserItem;
 			item.setData(this.users[index],this.maxScore);
+		}
+		private onClick(evt:any):void
+		{
+			ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL,this.data);
 		}
 	}
 	export class ZhanJiUser{

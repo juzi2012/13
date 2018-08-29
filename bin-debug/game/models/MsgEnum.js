@@ -28,6 +28,7 @@ var game;
         MsgEnum.GAME_CHAT = "GAME_CHAT"; //聊天
         MsgEnum.STOP_PLAY_MUSIC = "STOP_PLAY_MUSIC"; //
         MsgEnum.STOP_PLAY_SOUND = "STOP_PLAY_SOUND"; //
+        MsgEnum.CHANGE_BG = "CHANGE_BG"; //
         MsgEnum.PLAY_NEXT = "PLAY_NEXT"; //回放下一个
         return MsgEnum;
     }());

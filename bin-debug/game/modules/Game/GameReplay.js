@@ -36,7 +36,7 @@ var game;
             this.mContent.m_btn_quit.addClickListener(this.onQuit, this);
             this.preShowCpl();
             //根据当前牌局的人数显示头像的个数
-            this.mContent.m_playerNumCtrl.selectedPage = this.round.Fc.toString();
+            this.mContent.m_playerNumCtrl.selectedPage = this.round.playerFinalData.length.toString();
             this.setHead();
             this.mContent.m_txt_fid.text = "房间ID " + this.round.Rd.toString();
             this.ju = this.round.jus[this.round.cur];
@@ -53,6 +53,7 @@ var game;
             this.wantToBreakHere = false;
             this.mContent.m_playcontrol.m_btn_pre.enabled = false;
             this.mContent.m_txt_ju.text = "第" + (this.round.cur + 1) + "/" + this.round.jus.length + "局";
+            this.mContent.m_playcontrol.m_txt_huifangma.text = "回放码:" + this.round.Rd;
         };
         GameReplay.prototype.play = function () {
             this.mContent.m_txt_ju.text = "第" + (this.round.cur + 1) + "/" + this.round.jus.length + "局";
@@ -74,7 +75,6 @@ var game;
                 this.mContent.m_playcontrol.m_c1.selectedIndex = 1;
             }
             else {
-                egret.ticker.resume();
                 TweenMax.resumeAll();
                 this.mContent.m_playcontrol.m_c1.selectedIndex = 1;
             }
@@ -98,13 +98,11 @@ var game;
         GameReplay.prototype.pause = function () {
             TweenMax.pauseAll();
             this.mContent.m_playcontrol.m_c1.selectedIndex = 0;
-            App.TimerManager.doTimer(200, 1, function () { egret.ticker.pause(); }, this);
         };
         GameReplay.prototype.stop = function (tar) {
-            if (tar === void 0) { tar = true; }
             this.startState = false;
             this.mContent.m_playcontrol.m_c1.selectedIndex = 0;
-            if (tar) {
+            if (tar != null) {
                 this.round.cur = 0;
                 if (this.round.cur == this.round.jus.length - 1) {
                     this.mContent.m_playcontrol.m_btn_next.enabled = false;
@@ -124,7 +122,7 @@ var game;
             this.wantToBreakHere = true;
         };
         GameReplay.prototype.playNext = function () {
-            this.stop(false);
+            this.stop(null);
             this.play();
         };
         GameReplay.prototype.reset = function () {
@@ -176,7 +174,9 @@ var game;
             App.TimerManager.doTimer(2000, 1, this.showSingleResult, this);
         };
         GameReplay.prototype.showSingleResult = function () {
-            this.doShowSingleResult();
+            if (this.startState == true) {
+                this.doShowSingleResult();
+            }
             /*this.doShowSingleResult().then(() => {
                 ModuleMgr.ins.showModule(ModuleEnum.GAME_SINGLE_RESULT_PLAY,this.round);
                 this.startState=false;
@@ -271,6 +271,7 @@ var game;
         };
         GameReplay.prototype.preClose = function (data) {
             this.wantToBreakHere = true;
+            TweenMax.killAll();
             this.preCloseCpl();
             this.mContent.m_btn_quit.removeClickListener(this.onQuit, this);
         };

@@ -73,9 +73,23 @@ module game {
 			this.wins = [];
 			for(let i:number=0;i<this.rs.length;i++){
 				let bp:any = this.rs[i];
-				this.scoretop+=bp['sc1'];
-				this.scoremid+=bp['sc2'];
-				this.scoredown+=bp['sc3'];
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					if(this.uid==GameModel.ins.uid){
+						this.scoretop+=bp['sc1'];
+						this.scoremid+=bp['sc2'];
+						this.scoredown+=bp['sc3'];
+					}else{
+						if(bp['uid']==GameModel.ins.uid){
+							this.scoretop=bp['sc1'];
+							this.scoremid=bp['sc2'];
+							this.scoredown=bp['sc3'];
+						}
+					}
+				}else{
+					this.scoretop+=bp['sc1'];
+					this.scoremid+=bp['sc2'];
+					this.scoredown+=bp['sc3'];
+				}
 				if(bp['dq']==1){
 					if(this.dq.tarIds.indexOf(bp['uid'])==-1){
 						this.dq.tarIds.push(bp['uid'])
@@ -275,6 +289,8 @@ module game {
 						this.typeClickCount3=0;
 					}else{
 						ary = this.santiao[this.typeClickCount3%this.santiao.length].concat();
+						let res:Array<PorkVO> = this.getResetSingleTwo(ary);
+						ary = ary.concat(res);
 						this.typeClickCount3++;
 					}
 				break;
@@ -375,6 +391,27 @@ module game {
 			}
 			if(resultAry.length>2){
 				return resultAry.slice(0,3);
+			}else{
+				return resultAry;
+			}
+		}
+		//拿到只有一对的剩下两张牌
+		private getResetSingleTwo(ary:Array<PorkVO>):Array<PorkVO>{
+			let restAry:Array<PorkVO>=[];
+			let resultAry:Array<PorkVO>=[];
+			for(let i:number=0;i<this._listCard.length;i++){
+				let p:PorkVO = this._listCard[i];
+				if(ary.indexOf(p)<0){
+					restAry.push(p);
+				}
+			}
+			for(let i:number=restAry.length-1;i>0;i--){
+				if(this.checkHasSameNum(restAry[i].point,restAry,1)==false&&this.checkHasSameNum(restAry[i].point,ary,0)==false){
+					resultAry.push(restAry[i]);
+				}
+			}
+			if(resultAry.length>1){
+				return resultAry.slice(0,2);
 			}else{
 				return resultAry;
 			}

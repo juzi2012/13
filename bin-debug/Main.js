@@ -113,19 +113,23 @@ var Main = (function (_super) {
                 switch (_a.label) {
                     case 0: 
                     //预加载部分资源，主要是用来显示loading的部分素材
-                    return [4 /*yield*/, this.loadPreLoadResource()];
+                    return [4 /*yield*/, this.loadPreLoadResource1()];
                     case 1:
                         //预加载部分资源，主要是用来显示loading的部分素材
                         _a.sent();
+                        fairygui.UIPackage.addPackage("PreLoading");
                         this.startEngine();
-                        return [4 /*yield*/, RES.getResAsync("description_json")];
+                        return [4 /*yield*/, this.loadPreLoadResource()];
                     case 2:
+                        _a.sent();
+                        return [4 /*yield*/, RES.getResAsync("description_json")];
+                    case 3:
                         result = _a.sent();
                         return [4 /*yield*/, platform.login()];
-                    case 3:
+                    case 4:
                         _a.sent();
                         return [4 /*yield*/, platform.getUserInfo()];
-                    case 4:
+                    case 5:
                         userInfo = _a.sent();
                         console.log(userInfo);
                         this.loadLoadingResource();
@@ -134,22 +138,19 @@ var Main = (function (_super) {
             });
         });
     };
-    Main.prototype.loadPreLoadResource = function () {
+    Main.prototype.loadPreLoadResource1 = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loadingView, e_1;
+            var e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        loadingView = new LoadingUI();
-                        this.stage.addChild(loadingView);
                         return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
+                        return [4 /*yield*/, RES.loadGroup("preload", 0)];
                     case 2:
                         _a.sent();
-                        this.stage.removeChild(loadingView);
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
@@ -160,11 +161,33 @@ var Main = (function (_super) {
             });
         });
     };
+    Main.prototype.loadPreLoadResource = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        ModuleMgr.ins.showModule(ModuleEnum.PRELOADING);
+                        return [4 /*yield*/, RES.loadGroup("loading", 0)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _a.sent();
+                        console.error(e_2);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     /**
      * 加载 loading条需要的资源 ,方便做后面大资源的加载进度
      */
     Main.prototype.loadLoadingResource = function () {
         fairygui.UIPackage.addPackage("Loading");
+        ModuleMgr.ins.closeModule(ModuleEnum.PRELOADING);
         ModuleMgr.ins.showModule(ModuleEnum.LOADING, []);
     };
     /**

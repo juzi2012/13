@@ -23,7 +23,7 @@ var UI;
             };
             UI_FloatMsg.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
-                this.m_txt = (this.getChildAt(0));
+                this.m_txt = (this.getChildAt(1));
                 this.m_t0 = this.getTransitionAt(0);
             };
             UI_FloatMsg.URL = "ui://i36kne809i991c";

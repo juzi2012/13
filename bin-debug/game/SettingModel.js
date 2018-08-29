@@ -77,6 +77,7 @@ var game;
         SettingModel.prototype.setBg = function (id) {
             egret.localStorage.setItem("Thirting_Bg", id.toString());
             this.bg = id;
+            App.MessageCenter.dispatch(game.MsgEnum.CHANGE_BG);
         };
         return SettingModel;
     }(core.BaseClass));

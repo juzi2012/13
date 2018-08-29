@@ -19,6 +19,12 @@ module game {
 		public midType:number;
 		public downType:number;
 	}
+	export class JieSanPlayer{
+		public constructor() {
+		}
+		public name:string;
+		public order:number;
+	}
 	export class Round{
 		public constructor() {
 		}
@@ -32,6 +38,9 @@ module game {
 		public jus:Array<JuModel>;
 
 		public playerFinalData:Array<any>;
+
+		public jiesanId:string;//发起解散者的id
+		public jesanArr:Array<any>;
 		public init(data:any):void
 		{
 			this.Tm = data['Tm'];
@@ -42,6 +51,24 @@ module game {
 			this.playerFinalData = [];
 			for(let item in data['Us']){
 				this.playerFinalData.push(data['Us'][item]);
+			}
+			this.jiesanId = data["Js"]
+			if(this.jiesanId!=""){
+				this.jesanArr = [];
+				let tou:JieSanPlayer = new JieSanPlayer();
+				tou.name = this.jiesanId;
+				tou.order=0;
+				this.jesanArr.push(tou);
+				let noworder:number=1;
+				for(let item in data["Jc"]){
+					if(item!=this.jiesanId){
+						let tou:JieSanPlayer = new JieSanPlayer();
+						tou.name = item;
+						tou.order=noworder;
+						this.jesanArr.push(tou);
+						noworder++;
+					}
+				}
 			}
 			this.playerFinalData.sort((a,b)=>{
 				return b['sc']-a['sc'];
@@ -64,22 +91,22 @@ module game {
 					}
 					player.topCards = PorkUtil.SortCard(player.topCards);
 					player.midCards = [];
-					for(let a:number=0;a<judata[i]['Us'][id]['wc'].length;a++){
-						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
+					for(let a:number=0;a<judata[i]['Us'][id]['zc'].length;a++){
+						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
 						player.midCards.push(pk);
 					}
 					player.midCards = PorkUtil.SortCard(player.midCards);
 
 					player.downCards = [];
-					for(let a:number=0;a<judata[i]['Us'][id]['zc'].length;a++){
-						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
+					for(let a:number=0;a<judata[i]['Us'][id]['wc'].length;a++){
+						let pk:PorkVO = new PorkVO(PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
 						player.downCards.push(pk);
 					}
 					player.downCards = PorkUtil.SortCard(player.downCards);
 
 					player.topType = judata[i]['Us'][id]['tt'];
-					player.midType = judata[i]['Us'][id]['wt'];
-					player.downType = judata[i]['Us'][id]['zt'];
+					player.midType = judata[i]['Us'][id]['zt'];
+					player.downType = judata[i]['Us'][id]['wt'];
 					ju.players.push(player);
 				}
 				this.jus.push(ju);

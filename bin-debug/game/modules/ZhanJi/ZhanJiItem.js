@@ -15,6 +15,7 @@ var game;
         function ZhanJiItem() {
             var _this = _super.call(this) || this;
             _this.maxScore = 0;
+            _this.addClickListener(_this.onClick, _this);
             return _this;
         }
         ZhanJiItem.prototype.setData = function (value) {
@@ -52,12 +53,16 @@ var game;
             this.m_list.numItems = this.users.length;
             this.m_btn_check.addClickListener(this.replay, this);
         };
-        ZhanJiItem.prototype.replay = function () {
+        ZhanJiItem.prototype.replay = function (evt) {
+            evt.stopImmediatePropagation();
             ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY, this.data);
         };
         ZhanJiItem.prototype.RenderListItem = function (index, _item) {
             var item = _item;
             item.setData(this.users[index], this.maxScore);
+        };
+        ZhanJiItem.prototype.onClick = function (evt) {
+            ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL, this.data);
         };
         return ZhanJiItem;
     }(UI.ZhanJi.UI_ZhanJiItem));

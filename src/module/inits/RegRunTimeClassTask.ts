@@ -17,5 +17,7 @@ class RegRunTimeClassTask{
         fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_ZhanJiItemUserItem.URL, game.ZhanJiItemUserItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_DissolveHead.URL, game.DissolveHead);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_ChatItem.URL, game.ChatItem);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_ZhanJiDetailItem.URL, game.ZhanJiDetailItem);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_JieSanItem.URL, game.JieSanItem);
     }
 }

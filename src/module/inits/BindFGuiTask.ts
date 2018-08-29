@@ -6,6 +6,7 @@ class BindFGuiTask{
 
     private exec():void{
         //------ auto start ------//
+        UI.PreLoading.PreLoadingBinder.bindAll();
         UI.Loading.LoadingBinder.bindAll();
         UI.MainUI.MainUIBinder.bindAll();
         UI.Activity.ActivityBinder.bindAll();

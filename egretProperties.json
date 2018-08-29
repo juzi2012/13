@@ -25,16 +25,16 @@
       "name": "promise"
     },
     {
+      "name": "greensock",
+      "path": "./libs/greensock"
+    },
+    {
       "name": "fairygui",
       "path": "./libs/fairygui"
     },
     {
       "name": "rawinflate",
       "path": "./libs/rawinflate"
-    },
-    {
-      "name": "greensock",
-      "path": "./libs/greensock"
     }
   ]
 }

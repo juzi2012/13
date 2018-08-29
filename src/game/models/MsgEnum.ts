@@ -27,6 +27,7 @@ module game {
 
 		static STOP_PLAY_MUSIC:string="STOP_PLAY_MUSIC";//
 		static STOP_PLAY_SOUND:string="STOP_PLAY_SOUND";//
+		static CHANGE_BG:string="CHANGE_BG";//
 
 		static PLAY_NEXT:string="PLAY_NEXT";//回放下一个
 	}

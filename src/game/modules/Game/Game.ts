@@ -50,6 +50,7 @@ module game {
 			this.mContent.m_btn_invite.visible=false;
 			this.mContent.m_btn_check.visible=false;
 			this.mContent.m_img_start.visible=false;
+			this.mContent.m_qld.visible=false;
 			this.mContent.m_bg.url = this.bgAry[SettingModel.ins.bg];
 			this.preShowCpl();
 			//根据当前牌局的人数显示头像的个数
@@ -75,6 +76,8 @@ module game {
 			App.MessageCenter.addListener(MsgEnum.GAME_ANSWER_FAILED,this.RoomDismissFailed,this);
 
 			App.MessageCenter.addListener(MsgEnum.STOP_PLAY_MUSIC,this.playMusic,this);
+
+			App.MessageCenter.addListener(MsgEnum.CHANGE_BG,this.changeBg,this);
 
 			this.mContent.m_txt_room.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
 			switch(GameModel.ins.roomModel.rinfo.rp){
@@ -314,6 +317,7 @@ module game {
 			}
 			await this.sleep(1000);
 			
+			//打枪
 			for(let i:number=0;i<bipai.length;i++){
 				for(let j:number =0;j<bipai[i].dq.tarIds.length;j++){
 					let from:PlayerHead = this.getPlayerById(bipai[i].uid);
@@ -323,7 +327,20 @@ module game {
 				}
 			}
 			this.upDateScore();
-			await this.sleep(1000);
+
+			//全垒打
+
+			for(let i:number=0;i<bipai.length;i++){
+				if(bipai[i].ql>0){
+					this.mContent.m_qld.visible=true;
+					this.mContent.m_t3.play(this.qldComplete,this);
+					await this.sleep(3000);
+				}
+			}
+		}
+		private qldComplete():void
+		{
+			this.mContent.m_qld.visible=false;
 		}
 		private daQiang(from:PlayerHead,to:PlayerHead):void
 		{
@@ -470,6 +487,10 @@ module game {
 		{
 			this.mContent.m_sharetips.visible=false;
 		}
+		private changeBg():void
+		{
+			this.mContent.m_bg.url = this.bgAry[SettingModel.ins.bg];
+		}
 		public preClose(data?: any): void {
 			this.wantToBreakHere=true;
 			App.SoundUtils.stopSoundByID("music_bg_game_mp3");
@@ -489,6 +510,7 @@ module game {
 			App.MessageCenter.removeListener(MsgEnum.GAME_ANSWER_FAILED,this.RoomDismissFailed,this);
 			App.MessageCenter.removeListener(MsgEnum.STOP_PLAY_MUSIC,this.playMusic,this);
 			App.MessageCenter.removeListener(MsgEnum.GAME_BEGIN_RESTART,this.doRestart,this);
+			App.MessageCenter.removeListener(MsgEnum.CHANGE_BG,this.changeBg,this);
 			this.preCloseCpl();
 		}
 	}

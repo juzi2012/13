@@ -17,6 +17,13 @@ var game;
     }());
     game.JuPlayer = JuPlayer;
     __reflect(JuPlayer.prototype, "game.JuPlayer");
+    var JieSanPlayer = (function () {
+        function JieSanPlayer() {
+        }
+        return JieSanPlayer;
+    }());
+    game.JieSanPlayer = JieSanPlayer;
+    __reflect(JieSanPlayer.prototype, "game.JieSanPlayer");
     var Round = (function () {
         function Round() {
             this.cur = 0; // 当前播放到第几局
@@ -30,6 +37,24 @@ var game;
             this.playerFinalData = [];
             for (var item in data['Us']) {
                 this.playerFinalData.push(data['Us'][item]);
+            }
+            this.jiesanId = data["Js"];
+            if (this.jiesanId != "") {
+                this.jesanArr = [];
+                var tou = new JieSanPlayer();
+                tou.name = this.jiesanId;
+                tou.order = 0;
+                this.jesanArr.push(tou);
+                var noworder = 1;
+                for (var item in data["Jc"]) {
+                    if (item != this.jiesanId) {
+                        var tou_1 = new JieSanPlayer();
+                        tou_1.name = item;
+                        tou_1.order = noworder;
+                        this.jesanArr.push(tou_1);
+                        noworder++;
+                    }
+                }
             }
             this.playerFinalData.sort(function (a, b) {
                 return b['sc'] - a['sc'];
@@ -52,20 +77,20 @@ var game;
                     }
                     player.topCards = game.PorkUtil.SortCard(player.topCards);
                     player.midCards = [];
-                    for (var a = 0; a < judata[i]['Us'][id]['wc'].length; a++) {
-                        var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
+                    for (var a = 0; a < judata[i]['Us'][id]['zc'].length; a++) {
+                        var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
                         player.midCards.push(pk);
                     }
                     player.midCards = game.PorkUtil.SortCard(player.midCards);
                     player.downCards = [];
-                    for (var a = 0; a < judata[i]['Us'][id]['zc'].length; a++) {
-                        var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['zc'][a]));
+                    for (var a = 0; a < judata[i]['Us'][id]['wc'].length; a++) {
+                        var pk = new game.PorkVO(game.PorkUtil.ChangeServerCardToClient(judata[i]['Us'][id]['wc'][a]));
                         player.downCards.push(pk);
                     }
                     player.downCards = game.PorkUtil.SortCard(player.downCards);
                     player.topType = judata[i]['Us'][id]['tt'];
-                    player.midType = judata[i]['Us'][id]['wt'];
-                    player.downType = judata[i]['Us'][id]['zt'];
+                    player.midType = judata[i]['Us'][id]['zt'];
+                    player.downType = judata[i]['Us'][id]['wt'];
                     ju.players.push(player);
                 }
                 this.jus.push(ju);

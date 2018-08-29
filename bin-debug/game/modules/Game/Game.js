@@ -91,6 +91,7 @@ var game;
             this.mContent.m_btn_invite.visible = false;
             this.mContent.m_btn_check.visible = false;
             this.mContent.m_img_start.visible = false;
+            this.mContent.m_qld.visible = false;
             this.mContent.m_bg.url = this.bgAry[game.SettingModel.ins.bg];
             this.preShowCpl();
             //根据当前牌局的人数显示头像的个数
@@ -115,6 +116,7 @@ var game;
             App.MessageCenter.addListener(game.MsgEnum.GAME_ASKFOR_DISMISS, this.UserAskForDismiss, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_ANSWER_FAILED, this.RoomDismissFailed, this);
             App.MessageCenter.addListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
+            App.MessageCenter.addListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
             this.mContent.m_txt_room.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
             switch (game.GameModel.ins.roomModel.rinfo.rp) {
                 case 2:
@@ -307,7 +309,7 @@ var game;
         };
         Game.prototype.doShowSingleResult = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, i, j, from, to;
+                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, i, j, from, to, i;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -381,13 +383,27 @@ var game;
                             return [3 /*break*/, 9];
                         case 14:
                             this.upDateScore();
-                            return [4 /*yield*/, this.sleep(1000)];
+                            i = 0;
+                            _a.label = 15;
                         case 15:
+                            if (!(i < bipai.length)) return [3 /*break*/, 18];
+                            if (!(bipai[i].ql > 0)) return [3 /*break*/, 17];
+                            this.mContent.m_qld.visible = true;
+                            this.mContent.m_t3.play(this.qldComplete, this);
+                            return [4 /*yield*/, this.sleep(3000)];
+                        case 16:
                             _a.sent();
-                            return [2 /*return*/];
+                            _a.label = 17;
+                        case 17:
+                            i++;
+                            return [3 /*break*/, 15];
+                        case 18: return [2 /*return*/];
                     }
                 });
             });
+        };
+        Game.prototype.qldComplete = function () {
+            this.mContent.m_qld.visible = false;
         };
         Game.prototype.daQiang = function (from, to) {
             this.qiang = UI.Game.UI_DaQiang.createInstance();
@@ -517,6 +533,9 @@ var game;
         Game.prototype.hideInvite = function () {
             this.mContent.m_sharetips.visible = false;
         };
+        Game.prototype.changeBg = function () {
+            this.mContent.m_bg.url = this.bgAry[game.SettingModel.ins.bg];
+        };
         Game.prototype.preClose = function (data) {
             this.wantToBreakHere = true;
             App.SoundUtils.stopSoundByID("music_bg_game_mp3");
@@ -536,6 +555,7 @@ var game;
             App.MessageCenter.removeListener(game.MsgEnum.GAME_ANSWER_FAILED, this.RoomDismissFailed, this);
             App.MessageCenter.removeListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
             App.MessageCenter.removeListener(game.MsgEnum.GAME_BEGIN_RESTART, this.doRestart, this);
+            App.MessageCenter.removeListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
             this.preCloseCpl();
         };
         return Game;

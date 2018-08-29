@@ -3,6 +3,7 @@ enum ModuleEnum {
     NONE,
     /**加载 */
     TEST,
+    PRELOADING,
     LOADING,
     GAME_MAIN,
     MAIL,
@@ -33,4 +34,5 @@ enum ModuleEnum {
     REPLAY,
     TESTPORK,
     BOFANGMA,
+    JIESANSORT,
 }

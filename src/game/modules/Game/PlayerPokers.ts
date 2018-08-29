@@ -56,10 +56,11 @@ module game {
 					if(result.uid==GameModel.ins.uid){//自己的时候，显示比分
 						this.m_txt_scoretop.text = bipai.scoretopstr.toString();
 					}else{
-						if(bipai.wins[0].w1==result.uid){
+						let win:Win = bipai.getWinById(GameModel.ins.uid);
+						if(win.w1==result.uid){
 							this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
 							this.m_txt_scoretop.text = "赢"+bipai.scoretopstr;
-						}else if(bipai.wins[0].w1==""){
+						}else if(win.w1==""){
 							this.m_txt_scoretop.text = ""+bipai.scoretopstr;
 						}else{
 							this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
@@ -104,10 +105,11 @@ module game {
 					if(result.uid==GameModel.ins.uid){
 						this.m_txt_score_mid.text = bipai.scoremidstr.toString();
 					}else{
-						if(bipai.wins[0].w2==result.uid){
+						let win:Win = bipai.getWinById(GameModel.ins.uid);
+						if( win.w2==result.uid){
 							this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
 							this.m_txt_score_mid.text = "赢"+bipai.scoremidstr;
-						}else if(bipai.wins[0].w2==''){
+						}else if(win.w2==''){
 							this.m_txt_score_mid.text = ""+bipai.scoremidstr;
 						}else{
 							this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
@@ -153,10 +155,11 @@ module game {
 					if(result.uid==GameModel.ins.uid){
 						this.m_txt_score_down.text = bipai.scoredownstr.toString();
 					}else{
-						if(bipai.wins[0].w3==result.uid){
+						let win:Win = bipai.getWinById(GameModel.ins.uid);
+						if(win.w3==result.uid){
 							this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
 							this.m_txt_score_down.text = "赢"+bipai.scoredownstr;
-						}else if(bipai.wins[0].w3==""){
+						}else if(win.w3==""){
 							this.m_txt_score_down.text = ""+bipai.scoredownstr;
 						}else{
 							this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
@@ -274,6 +277,17 @@ module game {
 				this.findPaiXing(result.downType);
 				this.m_txt_score_down.visible=true;
 				this.m_txt_score_down.text = "";
+
+				if(result.sc>=0){
+					this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+				}else{
+					this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+				}
+				let f:string="";
+				if(result.sc>0){
+					f = "+";
+				}
+				this.m_txt_score_result.text="总得分："+f+result.sc;
 			}
 			this.m_t1.play(this.effectEnd,this);
 

@@ -39,6 +39,7 @@ var game;
             // this.mContent.addChild(this.loadingBar);
             this.mContent.m_bar.value = 0;
             this.mContent.m_bar.visible = false;
+            this.mContent.m_img.visible = false;
             this.mContent.m_txt_name.requestFocus();
             App.Socket.connect(core.Handler.create(this, this.onServerConnected));
             // this.onServerConnected();
@@ -67,7 +68,10 @@ var game;
         };
         LoadingModule.prototype.doStart = function () {
             if (this.mContent.m_txt_name.text != "") {
+                this.mContent.m_btn_start.visible = false;
+                this.mContent.m_txt.visible = false;
                 this.mContent.m_bar.visible = true;
+                this.mContent.m_img.visible = true;
                 this.uid = this.mContent.m_txt_name.text;
                 App.Socket.addCmdListener(MsgType.Login, core.Handler.create(this, this.loginCallBack));
                 var loginMsg = new C2T_Login();
@@ -91,6 +95,7 @@ var game;
             game.GameModel.ins.setReConnectInfo(msg);
         };
         LoadingModule.prototype.onProgress = function (current, total) {
+            this.mContent.m_img.x = this.mContent.m_bar.x - 5 + (current / total) * (this.mContent.m_bar.width - 80);
             this.mContent.m_bar.max = total;
             this.mContent.m_bar.value = current;
             if (current == total) {

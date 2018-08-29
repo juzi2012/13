@@ -61,6 +61,7 @@ module game {
 		{
 			egret.localStorage.setItem("Thirting_Bg",id.toString());
 			this.bg = id;
+			App.MessageCenter.dispatch(MsgEnum.CHANGE_BG);
 		}
 	}
 }

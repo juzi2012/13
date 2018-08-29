@@ -27,7 +27,9 @@ module UI.Game {
 		public m_txt_roomtype:fairygui.GTextField;
 		public m_sharetips:fairygui.GGroup;
 		public m_btn_continue:fairygui.GButton;
+		public m_qld:fairygui.GImage;
 		public m_t1:fairygui.Transition;
+		public m_t3:fairygui.Transition;
 
 		public static URL:string = "ui://jow5n9bqmwp40";
 
@@ -65,7 +67,9 @@ module UI.Game {
 			this.m_txt_roomtype = <fairygui.GTextField><any>(this.getChildAt(23));
 			this.m_sharetips = <fairygui.GGroup><any>(this.getChildAt(27));
 			this.m_btn_continue = <fairygui.GButton><any>(this.getChildAt(28));
+			this.m_qld = <fairygui.GImage><any>(this.getChildAt(29));
 			this.m_t1 = this.getTransitionAt(0);
+			this.m_t3 = this.getTransitionAt(1);
 		}
 	}
 }

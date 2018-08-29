@@ -59,9 +59,25 @@ var game;
             this.wins = [];
             for (var i = 0; i < this.rs.length; i++) {
                 var bp = this.rs[i];
-                this.scoretop += bp['sc1'];
-                this.scoremid += bp['sc2'];
-                this.scoredown += bp['sc3'];
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    if (this.uid == game.GameModel.ins.uid) {
+                        this.scoretop += bp['sc1'];
+                        this.scoremid += bp['sc2'];
+                        this.scoredown += bp['sc3'];
+                    }
+                    else {
+                        if (bp['uid'] == game.GameModel.ins.uid) {
+                            this.scoretop = bp['sc1'];
+                            this.scoremid = bp['sc2'];
+                            this.scoredown = bp['sc3'];
+                        }
+                    }
+                }
+                else {
+                    this.scoretop += bp['sc1'];
+                    this.scoremid += bp['sc2'];
+                    this.scoredown += bp['sc3'];
+                }
                 if (bp['dq'] == 1) {
                     if (this.dq.tarIds.indexOf(bp['uid']) == -1) {
                         this.dq.tarIds.push(bp['uid']);
@@ -245,6 +261,8 @@ var game;
                     }
                     else {
                         ary = this.santiao[this.typeClickCount3 % this.santiao.length].concat();
+                        var res = this.getResetSingleTwo(ary);
+                        ary = ary.concat(res);
                         this.typeClickCount3++;
                     }
                     break;
@@ -345,6 +363,28 @@ var game;
             }
             if (resultAry.length > 2) {
                 return resultAry.slice(0, 3);
+            }
+            else {
+                return resultAry;
+            }
+        };
+        //拿到只有一对的剩下两张牌
+        RoundModel.prototype.getResetSingleTwo = function (ary) {
+            var restAry = [];
+            var resultAry = [];
+            for (var i = 0; i < this._listCard.length; i++) {
+                var p = this._listCard[i];
+                if (ary.indexOf(p) < 0) {
+                    restAry.push(p);
+                }
+            }
+            for (var i = restAry.length - 1; i > 0; i--) {
+                if (this.checkHasSameNum(restAry[i].point, restAry, 1) == false && this.checkHasSameNum(restAry[i].point, ary, 0) == false) {
+                    resultAry.push(restAry[i]);
+                }
+            }
+            if (resultAry.length > 1) {
+                return resultAry.slice(0, 2);
             }
             else {
                 return resultAry;

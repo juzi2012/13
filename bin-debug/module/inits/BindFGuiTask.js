@@ -8,6 +8,7 @@ var BindFGuiTask = (function () {
     }
     BindFGuiTask.prototype.exec = function () {
         //------ auto start ------//
+        UI.PreLoading.PreLoadingBinder.bindAll();
         UI.Loading.LoadingBinder.bindAll();
         UI.MainUI.MainUIBinder.bindAll();
         UI.Activity.ActivityBinder.bindAll();

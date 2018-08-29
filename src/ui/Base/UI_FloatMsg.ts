@@ -20,7 +20,7 @@ module UI.Base {
 		protected constructFromXML(xml: any): void {
 			super.constructFromXML(xml);
 
-			this.m_txt = <fairygui.GTextField><any>(this.getChildAt(0));
+			this.m_txt = <fairygui.GTextField><any>(this.getChildAt(1));
 			this.m_t0 = this.getTransitionAt(0);
 		}
 	}

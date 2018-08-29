@@ -29,6 +29,7 @@ var UI;
                 this.m_btn_next = (this.getChildAt(4));
                 this.m_btn_stop = (this.getChildAt(5));
                 this.m_btn_pause = (this.getChildAt(6));
+                this.m_txt_huifangma = (this.getChildAt(7));
             };
             UI_ReplayBotton.URL = "ui://jow5n9bqy9mu5t";
             return UI_ReplayBotton;

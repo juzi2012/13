@@ -10,6 +10,7 @@ module UI.Game {
 		public m_btn_next:fairygui.GButton;
 		public m_btn_stop:fairygui.GButton;
 		public m_btn_pause:fairygui.GButton;
+		public m_txt_huifangma:fairygui.GTextField;
 
 		public static URL:string = "ui://jow5n9bqy9mu5t";
 
@@ -30,6 +31,7 @@ module UI.Game {
 			this.m_btn_next = <fairygui.GButton><any>(this.getChildAt(4));
 			this.m_btn_stop = <fairygui.GButton><any>(this.getChildAt(5));
 			this.m_btn_pause = <fairygui.GButton><any>(this.getChildAt(6));
+			this.m_txt_huifangma = <fairygui.GTextField><any>(this.getChildAt(7));
 		}
 	}
 }

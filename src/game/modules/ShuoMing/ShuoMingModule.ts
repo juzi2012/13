@@ -21,7 +21,7 @@ module game {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fan";
 			this.mContent.m_list.itemRenderer = this.RenderListItem;
 			this.mContent.m_list.callbackThisObj=this;
-			this.mContent.m_list.numItems=4;
+			this.mContent.m_list.numItems=5;
 			this.mContent.m_list.addClickListener(this.chooseTab,this);
 			this.mContent.m_list.selectedIndex=0;
 			this.chooseTab();

@@ -28,13 +28,6 @@ var game;
             for (var i = 0; i < 6; i++) {
                 if (value.scoreArr[i] != null) {
                     var score = value.scoreArr[i].toString();
-                    if (value.scoreArr[i] > 0) {
-                        // score = "+"+score;
-                        this.m_bg.url = 'ui://25mni52ohmwn1h';
-                    }
-                    else {
-                        this.m_bg.url = 'ui://25mni52ohmwn1g';
-                    }
                     this['m_txt_ju' + i].text = "第" + (i + 1) + "局:" + score;
                 }
                 else {
@@ -42,9 +35,11 @@ var game;
                 }
             }
             if (value.resultScore > 0) {
+                this.m_bg.url = 'ui://25mni52ohmwn1h';
                 this.m_txt_score.text = "+" + value.resultScore;
             }
             else {
+                this.m_bg.url = 'ui://25mni52ohmwn1g';
                 this.m_txt_score.text = value.resultScore.toString();
             }
         };
@@ -71,9 +66,11 @@ var game;
                 }
             }
             if (value.playerFinalData[index]['sc'] > 0) {
+                this.m_bg.url = 'ui://25mni52ohmwn1h';
                 this.m_txt_score.text = "+" + value.playerFinalData[index]['sc'];
             }
             else {
+                this.m_bg.url = 'ui://25mni52ohmwn1g';
                 this.m_txt_score.text = value.playerFinalData[index]['sc'].toString();
             }
         };
