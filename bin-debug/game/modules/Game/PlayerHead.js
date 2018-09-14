@@ -33,13 +33,18 @@ var game;
             this.m_lixian.visible = false;
             this.m_img_special.visible = false;
             this.m_img_fz.visible = false;
+            this.m_chat.visible = false;
+            this.m_chat.alpha = 0;
+            this.m_flower.visible = false;
+            this.m_boom1.visible = false;
+            this.m_boom2.visible = false;
         };
         PlayerHead.prototype.setData = function ($user) {
             this.visible = true;
             this.m_ctrlState.selectedIndex = 0;
             this.user = $user;
             this.isInit = true;
-            // this.m_head.url = "http://www.touxiang.cn/uploads/20131110/10-010858_115.jpg";
+            this.m_head.setURL($user.avatar);
             this.m_name.text = this.user.name;
             if (game.GameModel.ins.roomModel.rinfo.zz) {
                 this.m_img_fz.url = "ui://jow5n9bqh9yl51";
@@ -73,15 +78,19 @@ var game;
             this.m_name.text = user.name;
             this.onReady();
             this.m_score.text = user.sc.toString();
+            this.m_head.setURL(user.avatar);
         };
         PlayerHead.prototype.setDiaoXian = function (value) {
             this.m_lixian.visible = value;
         };
         PlayerHead.prototype.restart = function () {
             this.m_img_finish.visible = false;
+            this.m_img_special.visible = false;
             this.pokers.m_txt_score_result.text = "";
             this.m_ctrlState.selectedIndex = 0;
             this.m_score.text = "0";
+            this.m_chat.visible = false;
+            this.m_chat.alpha = 0;
         };
         PlayerHead.prototype.onReady = function () {
             this.m_img_finish.visible = false;
@@ -96,6 +105,37 @@ var game;
             this.m_ctrlState.selectedIndex = 2;
             this.pokers.init();
         };
+        PlayerHead.prototype.speek = function (str) {
+            if (str.slice(0, 3) == "%%-" && str.slice(str.length - 3, str.length) == "-%%") {
+                this.m_chat_txt.font = "ui://jow5n9bqd8n86l";
+                // this.m_chat_txt.fontSize = 30;
+                this.m_chat_txt.text = str.slice(3, str.length - 3);
+            }
+            else {
+                this.m_chat_txt.font = "";
+                // this.m_chat_txt.fontSize = 16;
+                this.m_chat_txt.text = str;
+            }
+            this.m_chat.visible = true;
+            TweenMax.to(this.m_chat, 0.5, { alpha: 1, onComplete: this.onHide, onCompleteParams: [this.m_chat] });
+        };
+        PlayerHead.prototype.flower = function (str) {
+            if (str == "flower") {
+                this.m_flower.visible = true;
+                this.m_t0.play();
+            }
+            else if (str == "boom") {
+                this.m_boom1.visible = true;
+                this.m_boom2.visible = true;
+                this.m_t1.play();
+            }
+        };
+        PlayerHead.prototype.onHide = function (chat) {
+            TweenMax.delayedCall(2, function () {
+                chat.alpha = 0;
+                chat.visible = false;
+            });
+        };
         PlayerHead.prototype.onBaiPaiEnd = function () {
             App.SoundUtils.playSound("showCard_mp3", 0, 1);
             this.m_ctrlState.selectedIndex = 3;
@@ -108,6 +148,10 @@ var game;
         PlayerHead.prototype.showResult = function (pos, result) {
             this.m_img_finish.visible = false;
             this.pokers.showResult(pos, result);
+        };
+        PlayerHead.prototype.showSpecialResult = function (result) {
+            this.m_img_finish.visible = false;
+            this.pokers.showSpecialResult(result);
         };
         //pos 为上敦 中墩 下墩
         PlayerHead.prototype.showResultPlay = function (pos, result) {
@@ -131,6 +175,9 @@ var game;
         };
         PlayerHead.prototype.updateScorePlay = function (result) {
             this.m_score.text = result.sc.toString();
+        };
+        PlayerHead.prototype.doDispose = function () {
+            TweenMax.killAll();
         };
         return PlayerHead;
     }(UI.Game.UI_PlayerHead));

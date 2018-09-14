@@ -37,6 +37,8 @@ var game;
             // this.loadingBar.x = App.StageUtils.getWidth()/2-this.loadingBar.width/2;
             // this.loadingBar.y = App.StageUtils.getHeight()-200;
             // this.mContent.addChild(this.loadingBar);
+            // 121.40.23.6
+            // 118.24.105.180
             this.mContent.m_bar.value = 0;
             this.mContent.m_bar.visible = false;
             this.mContent.m_img.visible = false;
@@ -51,7 +53,21 @@ var game;
             // 	var bmp = new egret.Bitmap(data);
             // 	this.mContent.displayListContainer.addChild(bmp);
             // }, this, RES.ResourceItem.TYPE_IMAGE);
-            this.mContent.m_btn_start.addClickListener(this.doStart, this);
+            if (App.GlobalData.IsDebug == false) {
+                this.mContent.m_btn_start.visible = false;
+                this.mContent.m_txt.visible = false;
+                App.Socket.addCmdListener(MsgType.Login, core.Handler.create(this, this.loginCallBack));
+                var loginMsg = new C2T_Login();
+                loginMsg.Msg.name = game.OptModel.ins.name; //App.MathUtils.random(1,1000);
+                loginMsg.Msg.wid = game.OptModel.ins.token; //"12345"+App.MathUtils.random(1,1000);
+                loginMsg.Msg.mid = App.MathUtils.random(1, 1000000).toString();
+                loginMsg.Msg.head = game.OptModel.ins.head;
+                loginMsg.Msg.chid = game.OptModel.ins.channelId;
+                App.Socket.send(loginMsg);
+            }
+            else {
+                this.mContent.m_btn_start.addClickListener(this.doStart, this);
+            }
             // this.mContent.m_txt_name.text="t1";
             // this.doStart()
             //  let imageLoader: egret.ImageLoader = new egret.ImageLoader();
@@ -75,15 +91,17 @@ var game;
                 this.uid = this.mContent.m_txt_name.text;
                 App.Socket.addCmdListener(MsgType.Login, core.Handler.create(this, this.loginCallBack));
                 var loginMsg = new C2T_Login();
-                loginMsg.Msg.name = "Jack" + this.uid; //App.MathUtils.random(1,1000);
+                loginMsg.Msg.name = this.uid; //App.MathUtils.random(1,1000);
                 loginMsg.Msg.wid = this.uid; //"12345"+App.MathUtils.random(1,1000);
-                loginMsg.Msg.mid = "123456" + App.MathUtils.random(1, 1000);
+                loginMsg.Msg.mid = App.MathUtils.random(1, 1000).toString();
                 loginMsg.Msg.head = "http://www.touxiang.cn/uploads/20131110/10-010858_115.jpg";
                 loginMsg.Msg.chid = "";
                 App.Socket.send(loginMsg);
             }
         };
         LoadingModule.prototype.loginCallBack = function (msg) {
+            this.mContent.m_bar.visible = true;
+            this.mContent.m_img.visible = true;
             App.Socket.removeCmdListener(MsgType.Login, this.loginCallBack);
             game.ServerEngine.addSocketListener();
             RES.loadGroup("game", 0, this);

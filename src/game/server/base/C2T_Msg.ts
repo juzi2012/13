@@ -66,6 +66,8 @@ class C2T_Chat{
 	public uid:string;
 	public uname:string;
 	public time:string;
+	public times:string="1536840416000";
+	public type:number=0;//0 普通聊天 1 鲜花砸蛋
 }
 class C2T_Msg extends C2T_Base {
 	public Msg: any;

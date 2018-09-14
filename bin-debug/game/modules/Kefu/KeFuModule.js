@@ -35,7 +35,7 @@ var game;
             _super.prototype.preShow.call(this, data);
         };
         KeFuModule.prototype.onCopy = function () {
-            var cb = new game.Clipboard().setText("123232312");
+            var cb = new game.Clipboard().setText("1234567890");
             if (cb) {
                 game.AlertUtil.floatMsg("复制成功");
             }

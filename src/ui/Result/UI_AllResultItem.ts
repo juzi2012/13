@@ -12,6 +12,7 @@ module UI.Result {
 		public m_txt_ju2:fairygui.GTextField;
 		public m_txt_ju3:fairygui.GTextField;
 		public m_txt_ju4:fairygui.GTextField;
+		public m_head:fairygui.GComponent;
 		public m_txt_ju5:fairygui.GTextField;
 		public m_winner:fairygui.GGroup;
 		public m_txt_score:fairygui.GTextField;
@@ -37,6 +38,7 @@ module UI.Result {
 			this.m_txt_ju2 = <fairygui.GTextField><any>(this.getChildAt(7));
 			this.m_txt_ju3 = <fairygui.GTextField><any>(this.getChildAt(8));
 			this.m_txt_ju4 = <fairygui.GTextField><any>(this.getChildAt(9));
+			this.m_head = <fairygui.GComponent><any>(this.getChildAt(10));
 			this.m_txt_ju5 = <fairygui.GTextField><any>(this.getChildAt(11));
 			this.m_winner = <fairygui.GGroup><any>(this.getChildAt(14));
 			this.m_txt_score = <fairygui.GTextField><any>(this.getChildAt(15));

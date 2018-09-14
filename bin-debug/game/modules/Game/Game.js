@@ -115,8 +115,10 @@ var game;
             App.MessageCenter.addListener(game.MsgEnum.GAME_USER_DIAOXIAN_BACK, this.UserDiaoXianBack, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_ASKFOR_DISMISS, this.UserAskForDismiss, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_ANSWER_FAILED, this.RoomDismissFailed, this);
+            App.MessageCenter.addListener(game.MsgEnum.GAME_CHAT, this.onReceiveChat, this);
             App.MessageCenter.addListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
             App.MessageCenter.addListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
+            App.MessageCenter.addListener(game.MsgEnum.GAME_FLOWER, this.flower, this);
             this.mContent.m_txt_room.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
             switch (game.GameModel.ins.roomModel.rinfo.rp) {
                 case 2:
@@ -309,7 +311,7 @@ var game;
         };
         Game.prototype.doShowSingleResult = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, i, j, from, to, i;
+                var round, bipai, cards, special_uid, a, uid, playerHead, c, playerHead, j, i, uid, playerHead, i, j, from, to, i;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -335,6 +337,10 @@ var game;
                             // 	await this.sleep(500);
                             // }
                             _a.sent();
+                            for (c = 0; c < special_uid.length; c++) {
+                                playerHead = this.getPlayerById(special_uid[c]);
+                                playerHead.showSpecialResult(cards[c]);
+                            }
                             j = 0;
                             _a.label = 2;
                         case 2:
@@ -530,6 +536,17 @@ var game;
             this.mContent.m_sharetips.visible = true;
             App.TimerManager.doTimer(3000, 1, this.hideInvite, this);
         };
+        Game.prototype.onReceiveChat = function (msg) {
+            this.getPlayerById(msg.uid).speek(msg.str);
+        };
+        Game.prototype.flower = function (msg) {
+            var arr = msg.str.split("|");
+            if (arr.length > 1) {
+                var uid = arr[0];
+                var str = arr[1];
+                this.getPlayerById(uid).flower(str);
+            }
+        };
         Game.prototype.hideInvite = function () {
             this.mContent.m_sharetips.visible = false;
         };
@@ -540,6 +557,9 @@ var game;
             this.wantToBreakHere = true;
             App.SoundUtils.stopSoundByID("music_bg_game_mp3");
             App.TimerManager.remove(this.hideInvite, this);
+            for (var i = 0; i < this.curHeadAry.length; i++) {
+                this.curHeadAry[i].doDispose();
+            }
             game.ChatModel.ins.dispose();
             App.MessageCenter.removeListener(game.MsgEnum.NEW_UESR_IN, this.UserIn, this);
             App.MessageCenter.removeListener(game.MsgEnum.NEW_UESR_OUT, this.UserOut, this);
@@ -556,6 +576,8 @@ var game;
             App.MessageCenter.removeListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
             App.MessageCenter.removeListener(game.MsgEnum.GAME_BEGIN_RESTART, this.doRestart, this);
             App.MessageCenter.removeListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
+            App.MessageCenter.removeListener(game.MsgEnum.GAME_CHAT, this.onReceiveChat, this);
+            App.MessageCenter.removeListener(game.MsgEnum.GAME_FLOWER, this.flower, this);
             this.preCloseCpl();
         };
         return Game;

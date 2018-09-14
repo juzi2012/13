@@ -51,7 +51,9 @@ module game {
 			ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
 		}
 		public preClose(data?: any): void {
-			GameModel.ins.roomModel.isSingleOpen=false;
+			if(GameModel.ins.roomModel!=null){
+				GameModel.ins.roomModel.isSingleOpen=false;
+			}
 			this.preCloseCpl();
 		}
 	}

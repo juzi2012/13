@@ -11,6 +11,8 @@ var UI;
             }
             MainUIBinder.bindAll = function () {
                 fairygui.UIObjectFactory.setPackageItemExtension(MainUI.UI_ButtonCreateRoom.URL, MainUI.UI_ButtonCreateRoom);
+                fairygui.UIObjectFactory.setPackageItemExtension(MainUI.UI_HeadImage.URL, MainUI.UI_HeadImage);
+                fairygui.UIObjectFactory.setPackageItemExtension(MainUI.UI_HeadImage1.URL, MainUI.UI_HeadImage1);
                 fairygui.UIObjectFactory.setPackageItemExtension(MainUI.UI_MainModule.URL, MainUI.UI_MainModule);
             };
             return MainUIBinder;

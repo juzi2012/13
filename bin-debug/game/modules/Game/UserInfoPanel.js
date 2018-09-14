@@ -34,7 +34,7 @@ var game;
             this.mContent.m_btn_zadan.addClickListener(this.onZaDan, this);
             this.mContent.m_btn_flower.addClickListener(this.onFlower, this);
             this.mContent.m_txt_name.text = '昵称:' + this.user.name;
-            this.mContent.m_txt_id.text = 'ID' + this.user.uid;
+            this.mContent.m_txt_id.text = 'ID:' + this.user.uid;
             this.mContent.m_txt_score.text = '积分:' + this.user.sc.toString();
             this.mContent.m_txt_pos.text = '上海市徐汇区888号';
             _super.prototype.preShow.call(this, data);
@@ -43,8 +43,12 @@ var game;
             _super.prototype.show.call(this, data);
         };
         UserInfoPanel.prototype.onZaDan = function () {
+            game.ServerEngine.sendFlower(this.user.uid + "|boom");
+            this.onClose();
         };
         UserInfoPanel.prototype.onFlower = function () {
+            game.ServerEngine.sendFlower(this.user.uid + "|flower");
+            this.onClose();
         };
         UserInfoPanel.prototype.onClose = function () {
             ModuleMgr.ins.closeModule(ModuleEnum.USERINFO);

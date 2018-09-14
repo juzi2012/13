@@ -53,6 +53,8 @@ class Main extends egret.DisplayObjectContainer {
         // }
         // this.doTest();
 
+        // 118.24.105.180
+        
         this.runGame().catch(e => {
             console.log(e);
         })
@@ -78,12 +80,13 @@ class Main extends egret.DisplayObjectContainer {
         this.startEngine();
         await this.loadPreLoadResource()
         const result = await RES.getResAsync("description_json")
-        await platform.login();
-        const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
+        if(App.GlobalData.IsDebug==false){
+            await platform.login();
+            const userInfo = await platform.getUserInfo();
+            console.log(userInfo);
+        }
         this.loadLoadingResource();
     }
-    
     private async loadPreLoadResource1() {
         try {
             await RES.loadConfig("resource/default.res.json", "resource/");

@@ -314,6 +314,9 @@ module game {
 		* 全部是方块+红心的牌或全部是黑桃+梅花的牌
 		*/ 
 		public static getCouYiSe(cards:Array<PorkVO>):Array<PorkVO> {
+			if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水	
+				return null;
+			}
 			var length = 13;
 			if(cards.length != length) {
 				return null;
@@ -459,6 +462,9 @@ module game {
 		//三同花
 		public static getSanTongHua(cards:Array<PorkVO>):Array<PorkVO>
 		{
+			if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水	
+				return null;
+			}
 			var length = 13;
 			if(cards.length != length) {
 				return null;

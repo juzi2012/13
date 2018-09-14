@@ -21,6 +21,11 @@ module game {
 			this.m_lixian.visible=false;
 			this.m_img_special.visible=false;
 			this.m_img_fz.visible=false;
+			this.m_chat.visible=false;
+			this.m_chat.alpha = 0;
+			this.m_flower.visible=false;
+			this.m_boom1.visible=false;
+			this.m_boom2.visible=false;
 		}
 		public setData($user:User):void
 		{
@@ -28,7 +33,7 @@ module game {
 			this.m_ctrlState.selectedIndex=0;
 			this.user = $user;
 			this.isInit=true;
-			// this.m_head.url = "http://www.touxiang.cn/uploads/20131110/10-010858_115.jpg";
+			(this.m_head as PlayerHeadImg1).setURL($user.avatar); 
 			this.m_name.text = this.user.name;
 			if(GameModel.ins.roomModel.rinfo.zz){
 				this.m_img_fz.url = "ui://jow5n9bqh9yl51";
@@ -60,6 +65,7 @@ module game {
 			this.m_name.text = user.name;
 			this.onReady();
 			this.m_score.text = user.sc.toString();
+			(this.m_head as PlayerHeadImg1).setURL(user.avatar); 
 		}
 		public setDiaoXian(value:boolean):void
 		{
@@ -68,9 +74,12 @@ module game {
 		public restart():void
 		{
 			this.m_img_finish.visible=false;
+			this.m_img_special.visible=false;
 			this.pokers.m_txt_score_result.text="";
 			this.m_ctrlState.selectedIndex=0;
 			this.m_score.text="0";
+			this.m_chat.visible=false;
+			this.m_chat.alpha=0;
 		}
 		public onReady():void
 		{
@@ -87,6 +96,37 @@ module game {
 			this.m_ctrlState.selectedIndex=2;
 			this.pokers.init();
 		}
+		public speek(str:string):void{
+			if(str.slice(0,3)=="%%-"&&str.slice(str.length-3,str.length)=="-%%"){
+				this.m_chat_txt.font = "ui://jow5n9bqd8n86l";
+				// this.m_chat_txt.fontSize = 30;
+				this.m_chat_txt.text = str.slice(3,str.length-3);
+			}else{
+				this.m_chat_txt.font = "";
+				// this.m_chat_txt.fontSize = 16;
+				this.m_chat_txt.text = str;
+			}
+			this.m_chat.visible=true;
+			TweenMax.to(this.m_chat,0.5,{alpha:1,onComplete:this.onHide,onCompleteParams:[this.m_chat]});
+		}
+		public flower(str:string):void
+		{
+			if(str == "flower"){
+				this.m_flower.visible=true;
+				this.m_t0.play();
+			}else if(str == "boom"){
+				this.m_boom1.visible=true;
+				this.m_boom2.visible=true;
+				this.m_t1.play();
+			}
+		}
+		private onHide(chat:fairygui.GGroup):void
+		{
+			TweenMax.delayedCall(2,()=>{
+				chat.alpha=0;
+				chat.visible=false;
+			});
+		}
 		public onBaiPaiEnd():void
 		{
 			App.SoundUtils.playSound("showCard_mp3",0,1);
@@ -101,6 +141,11 @@ module game {
 		{
 			this.m_img_finish.visible=false;
 			this.pokers.showResult(pos,result);
+		}
+		public showSpecialResult(result:ResultCard):void
+		{
+			this.m_img_finish.visible=false;
+			this.pokers.showSpecialResult(result);
 		}
 		//pos 为上敦 中墩 下墩
 		public showResultPlay(pos:number,result:JuPlayer):void
@@ -131,6 +176,10 @@ module game {
 		public updateScorePlay(result:JuPlayer):void
 		{
 			this.m_score.text = result.sc.toString();
+		}
+		public doDispose():void
+		{
+			TweenMax.killAll();
 		}
 	}
 }

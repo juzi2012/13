@@ -10,6 +10,7 @@ module game {
 		}
 		public id:string;
 		public name:string;
+		public avatar:string;
 		public px:number;//特殊牌型
 		public sc:number;//分数
 		public topCards:Array<PorkVO>;//头顿牌
@@ -82,6 +83,7 @@ module game {
 					let player:JuPlayer = new JuPlayer();
 					player.id = id;
 					player.name = judata[i]['Us'][id].name;
+					player.avatar = this.getAvatarById(id);
 					player.px = judata[i]['Us'][id]['px'];
 					player.sc = judata[i]['Us'][id]['sc'];
 					player.topCards = [];
@@ -129,6 +131,13 @@ module game {
 				}
 			}
 			return result;
+		}
+		public getAvatarById(id:string):string{
+			for(let item in this.playerFinalData){
+				if(this.playerFinalData[item].uid ==id){
+					return this.playerFinalData[item].avatar;
+				}
+			}
 		}
 	}
 	export class ZhanJiModel {

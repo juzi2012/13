@@ -132,12 +132,16 @@ class T2C_Chat extends T2C_Message_Base{
 	public str:string;
 	public uname:string;
 	public time:string;
+	public times:string;
+	public type:number;
 	public execute(msg:any):void
 	{
 		this.uid = msg["uid"];
 		this.uname = msg["uname"];
 		this.str = msg["str"];
 		this.time = msg["time"];
+		this.times = msg["times"];
+		this.type = msg["type"];
 	}
 }
 

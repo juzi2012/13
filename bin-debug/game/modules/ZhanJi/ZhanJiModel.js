@@ -68,6 +68,7 @@ var game;
                     var player = new JuPlayer();
                     player.id = id;
                     player.name = judata[i]['Us'][id].name;
+                    player.avatar = this.getAvatarById(id);
                     player.px = judata[i]['Us'][id]['px'];
                     player.sc = judata[i]['Us'][id]['sc'];
                     player.topCards = [];
@@ -111,6 +112,13 @@ var game;
                 }
             }
             return result;
+        };
+        Round.prototype.getAvatarById = function (id) {
+            for (var item in this.playerFinalData) {
+                if (this.playerFinalData[item].uid == id) {
+                    return this.playerFinalData[item].avatar;
+                }
+            }
         };
         return Round;
     }());

@@ -19,8 +19,11 @@ var RegRunTimeClassTask = (function () {
         fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_ZhanJiItemUserItem.URL, game.ZhanJiItemUserItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_DissolveHead.URL, game.DissolveHead);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_ChatItem.URL, game.ChatItem);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_EmojiItem.URL, game.ChatEmojiItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_ZhanJiDetailItem.URL, game.ZhanJiDetailItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_JieSanItem.URL, game.JieSanItem);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.MainUI.UI_HeadImage.URL, game.PlayerHeadImg);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.MainUI.UI_HeadImage1.URL, game.PlayerHeadImg1);
     };
     return RegRunTimeClassTask;
 }());

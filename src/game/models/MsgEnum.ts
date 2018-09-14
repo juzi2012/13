@@ -24,6 +24,7 @@ module game {
 		static GAME_ANSWER_FAILED:string="GAME_ANSWER_FAILED";//玩家解散失败
 
 		static GAME_CHAT:string="GAME_CHAT";//聊天
+		static GAME_FLOWER:string="GAME_FLOWER";//鲜花鸡蛋
 
 		static STOP_PLAY_MUSIC:string="STOP_PLAY_MUSIC";//
 		static STOP_PLAY_SOUND:string="STOP_PLAY_SOUND";//

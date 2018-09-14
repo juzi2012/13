@@ -21,7 +21,7 @@ module game {
 			
 			this.mContent.m_list.itemRenderer = this.RenderListItem;
 			this.mContent.m_list.callbackThisObj=this;
-			this.mContent.m_list.numItems=this.round.jus.length;
+			this.mContent.m_list.numItems=this.round.jesanArr.length;
 
 			super.preShow(data);
 

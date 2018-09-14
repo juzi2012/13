@@ -20,7 +20,7 @@ module game {
 			this.mContent.m_btn_zadan.addClickListener(this.onZaDan,this);
 			this.mContent.m_btn_flower.addClickListener(this.onFlower,this);
 			this.mContent.m_txt_name.text = '昵称:'+this.user.name;
-			this.mContent.m_txt_id.text = 'ID'+this.user.uid;
+			this.mContent.m_txt_id.text = 'ID:'+this.user.uid;
 			this.mContent.m_txt_score.text ='积分:'+ this.user.sc.toString();
 			this.mContent.m_txt_pos.text = '上海市徐汇区888号';
 			super.preShow(data);
@@ -31,11 +31,13 @@ module game {
 		}
 		private onZaDan():void
 		{
-
+			ServerEngine.sendFlower(this.user.uid+"|boom");
+			this.onClose();
 		}
 		private onFlower():void
 		{
-
+			ServerEngine.sendFlower(this.user.uid+"|flower");
+			this.onClose();
 		}
 		private onClose():void
 		{

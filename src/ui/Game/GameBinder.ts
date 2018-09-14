@@ -16,6 +16,7 @@ module UI.Game {
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ButtonType.URL, UI_ButtonType);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ButtonTypeEnd.URL, UI_ButtonTypeEnd);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_PlayerHead.URL, UI_PlayerHead);
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_EmojiItem.URL, UI_EmojiItem);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_UserInfo.URL, UI_UserInfo);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatModule.URL, UI_ChatModule);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatItem.URL, UI_ChatItem);

@@ -1,1 +1,1 @@
-{"version":3,"file":"HttpURLs.js","sourceRoot":"","sources":["../../../src/game/server/HttpURLs.ts"],"names":[],"mappings":";;;AAAA;IAAA;IAIA,CAAC;IAHc,aAAI,GAAU,iCAAiC,CAAA;IAC/C,eAAM,GAAU,mCAAmC,CAAA;IACnD,gBAAO,GAAU,oCAAoC,CAAA;IACpE,eAAC;CAAA,AAJD,IAIC;AAJK,UAAA,QAAQ,uBAIb,CAAA"}
+{"version":3,"file":"HttpURLs.js","sourceRoot":"","sources":["../../../src/game/server/HttpURLs.ts"],"names":[],"mappings":";;;AAAA;IAAA;IAIA,CAAC;IAHc,aAAI,GAAU,8BAA8B,CAAA;IAC5C,eAAM,GAAU,gCAAgC,CAAA;IAChD,gBAAO,GAAU,iCAAiC,CAAA;IACjE,eAAC;CAAA,AAJD,IAIC;AAJK,UAAA,QAAQ,uBAIb,CAAA"}

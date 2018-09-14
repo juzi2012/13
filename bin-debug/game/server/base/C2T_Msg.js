@@ -63,6 +63,8 @@ var C2T_Message_AnswerForDismiss = (function () {
 __reflect(C2T_Message_AnswerForDismiss.prototype, "C2T_Message_AnswerForDismiss");
 var C2T_Chat = (function () {
     function C2T_Chat() {
+        this.times = "1536840416000";
+        this.type = 0; //0 普通聊天 1 鲜花砸蛋
     }
     return C2T_Chat;
 }());

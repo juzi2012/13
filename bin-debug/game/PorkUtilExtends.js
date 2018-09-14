@@ -309,6 +309,9 @@ var game;
         * 全部是方块+红心的牌或全部是黑桃+梅花的牌
         */
         PorkUtilExtends.getCouYiSe = function (cards) {
+            if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                return null;
+            }
             var length = 13;
             if (cards.length != length) {
                 return null;
@@ -452,6 +455,9 @@ var game;
         ;
         //三同花
         PorkUtilExtends.getSanTongHua = function (cards) {
+            if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                return null;
+            }
             var length = 13;
             if (cards.length != length) {
                 return null;

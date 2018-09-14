@@ -56,6 +56,7 @@ var game;
             this.mContent.m_txt_name.text = game.GameModel.ins.uname;
             this.mContent.m_txt_id.text = "ID:" + game.GameModel.ins.uid;
             this.mContent.m_txt_card.text = game.GameModel.ins.card.toString();
+            this.mContent.m_head.setURL(game.GameModel.ins.avatar);
         };
         GameMainModule.prototype.onMailClick = function () {
             ModuleMgr.ins.showModule(ModuleEnum.MAIL);

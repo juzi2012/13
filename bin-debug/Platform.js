@@ -38,20 +38,77 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var DebugPlatform = (function () {
     function DebugPlatform() {
+        this.info = "";
     }
     DebugPlatform.prototype.getUserInfo = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, { nickName: "username" }];
+                console.log("拿取结果");
+                return [2 /*return*/, game.OptModel.ins];
             });
         });
     };
+    DebugPlatform.prototype.getJSON = function () {
+        var promise = new Promise(function (resolve, reject) {
+            game.OptModel.ins.appId = egret.getOption("appId");
+            game.OptModel.ins.channelId = egret.getOption("channelId");
+            game.OptModel.ins.time = egret.getOption("time");
+            game.OptModel.ins.token = egret.getOption("token");
+            game.OptModel.ins.sign = new md5().hex_md5("appId=" + game.OptModel.ins.appId + "channelId=" + game.OptModel.ins.channelId + "time=" + game.OptModel.ins.time + "token=" + game.OptModel.ins.token + "dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL"); //egret.getOption("sign");
+            console.log(game.OptModel.ins.appId);
+            console.log(game.OptModel.ins.channelId);
+            console.log(game.OptModel.ins.sign);
+            console.log(game.OptModel.ins.time);
+            console.log(game.OptModel.ins.token);
+            var urls = App.GlobalData.HttpSerever;
+            var urlreq = new egret.URLRequest();
+            var urlvar = new egret.URLVariables();
+            urlvar.variables = { 'appId': game.OptModel.ins.appId, 'channelId': game.OptModel.ins.channelId,
+                'sign': game.OptModel.ins.sign, 'time': game.OptModel.ins.time, 'token': game.OptModel.ins.token };
+            urlreq.data = urlvar;
+            urlreq.url = urls;
+            var loader = new egret.URLLoader();
+            loader.addEventListener(egret.Event.COMPLETE, function reqeustCallBack(evt) {
+                console.log("收到结果");
+                var loader = evt.target;
+                var data;
+                var str = evt.currentTarget.data;
+                data = JSON.parse(str);
+                console.log(data['data']);
+                if (data['data'] != null) {
+                    game.OptModel.ins.name = data['data']['nickname'];
+                    game.OptModel.ins.head = data['data']['avatar'];
+                    resolve(data["data"]);
+                }
+                else {
+                    reject(new Error(data['message']));
+                }
+            }, this);
+            loader.load(urlreq);
+        });
+        return promise;
+    };
+    ;
     DebugPlatform.prototype.login = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getJSON().then(this.onsuccess, this.onerror)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
+    };
+    DebugPlatform.prototype.onsuccess = function (json) {
+        console.log('Contents: ' + json);
+        console.log(json['nickname']);
+        console.log(JSON.stringify(json));
+        this.info = json;
+    };
+    DebugPlatform.prototype.onerror = function (error) {
+        console.error('出错了', error);
     };
     return DebugPlatform;
 }());

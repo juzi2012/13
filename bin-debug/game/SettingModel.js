@@ -48,6 +48,7 @@ var game;
             }
             if (egret.localStorage.getItem("Thirting_Bg")) {
                 this.bg = Number(egret.localStorage.getItem("Thirting_Bg"));
+                console.log(this.bg);
             }
         };
         SettingModel.prototype.setMusic = function () {

@@ -13,12 +13,66 @@ declare interface Platform {
 }
 
 class DebugPlatform implements Platform {
+    private info:any="";
     async getUserInfo() {
-        return { nickName: "username" }
+        console.log("拿取结果")
+        return game.OptModel.ins;
     }
-    async login() {
+    private getJSON() {
+        var promise = new Promise(function(resolve, reject){
+            game.OptModel.ins.appId = egret.getOption("appId");
+            game.OptModel.ins.channelId = egret.getOption("channelId");
+            game.OptModel.ins.time = egret.getOption("time");
+            game.OptModel.ins.token = egret.getOption("token");
+            game.OptModel.ins.sign = new md5().hex_md5("appId="+game.OptModel.ins.appId+"channelId="+game.OptModel.ins.channelId+"time="+game.OptModel.ins.time+"token="+game.OptModel.ins.token+"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");//egret.getOption("sign");
+            console.log(game.OptModel.ins.appId)
+            console.log(game.OptModel.ins.channelId)
+            console.log(game.OptModel.ins.sign)
+            console.log(game.OptModel.ins.time)
+            console.log(game.OptModel.ins.token)
+            var urls:string = App.GlobalData.HttpSerever;
+            var urlreq:egret.URLRequest = new egret.URLRequest();
+            var urlvar:egret.URLVariables = new egret.URLVariables();
+            urlvar.variables ={'appId':game.OptModel.ins.appId,'channelId':game.OptModel.ins.channelId
+                            ,'sign':game.OptModel.ins.sign,'time':game.OptModel.ins.time,'token':game.OptModel.ins.token} 
 
+            urlreq.data = urlvar;
+            urlreq.url = urls;
+            var loader:egret.URLLoader = new egret.URLLoader();
+            loader.addEventListener(egret.Event.COMPLETE,function reqeustCallBack(evt:egret.Event):void
+            {
+                console.log("收到结果")
+                var loader: egret.URLLoader = <egret.URLLoader>evt.target;
+                let data: Object;
+                var str: string = evt.currentTarget.data;
+                data = JSON.parse(str);
+                console.log(data['data']);
+                if(data['data']!=null){
+                    game.OptModel.ins.name = data['data']['nickname'];
+                    game.OptModel.ins.head = data['data']['avatar'];
+                    resolve(data["data"]);
+                }else{
+                    reject(new Error(data['message'])); 
+                }
+            },this);
+            loader.load(urlreq);
+        });
+
+        return promise;
+    };
+    async login() {
+       await this.getJSON().then(this.onsuccess,this.onerror);
     }
+    private onsuccess(json){
+        console.log('Contents: ' + json);
+        console.log(json['nickname']);
+        console.log(JSON.stringify(json));
+        this.info = json;
+    }
+    private onerror(error){
+        console.error('出错了', error);
+    }
+    
 }
 
 

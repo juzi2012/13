@@ -174,7 +174,7 @@ var game;
             App.TimerManager.doTimer(2000, 1, this.showSingleResult, this);
         };
         GameReplay.prototype.showSingleResult = function () {
-            if (this.startState == true) {
+            if (this.startState == true && this.wantToBreakHere == false) {
                 this.doShowSingleResult();
             }
             /*this.doShowSingleResult().then(() => {
@@ -273,6 +273,7 @@ var game;
             this.wantToBreakHere = true;
             TweenMax.killAll();
             this.preCloseCpl();
+            App.MessageCenter.removeListener(game.MsgEnum.PLAY_NEXT, this.playNext, this);
             this.mContent.m_btn_quit.removeClickListener(this.onQuit, this);
         };
         return GameReplay;

@@ -16,7 +16,7 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fap";
-			HttpAPI.HttpGET(HttpURLs.zhanji,{'uid':GameModel.ins.uid,'page':1},this.onCallBack,this.onError,this);
+			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':1},this.onCallBack,this.onError,this);
 			this.mContent.m_checkother.addClickListener(this.playerOther,this);
 		}
 		private playerOther():void

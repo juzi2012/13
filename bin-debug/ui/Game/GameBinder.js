@@ -22,6 +22,7 @@ var UI;
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ButtonType.URL, Game.UI_ButtonType);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ButtonTypeEnd.URL, Game.UI_ButtonTypeEnd);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_PlayerHead.URL, Game.UI_PlayerHead);
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_EmojiItem.URL, Game.UI_EmojiItem);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_UserInfo.URL, Game.UI_UserInfo);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatModule.URL, Game.UI_ChatModule);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatItem.URL, Game.UI_ChatItem);

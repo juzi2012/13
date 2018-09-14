@@ -177,6 +177,8 @@ var T2C_Chat = (function (_super) {
         this.uname = msg["uname"];
         this.str = msg["str"];
         this.time = msg["time"];
+        this.times = msg["times"];
+        this.type = msg["type"];
     };
     return T2C_Chat;
 }(T2C_Message_Base));

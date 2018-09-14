@@ -9,6 +9,7 @@ var game;
             this.uid = "383928393";
             this.card = 0;
             this.gold = 0;
+            this.avatar = "";
         }
         Object.defineProperty(GameModel, "ins", {
             get: function () {
@@ -25,6 +26,7 @@ var game;
             this.card = msg.card;
             this.gold = msg.gold;
             this.uname = msg.name;
+            this.avatar = msg.avatar;
         };
         GameModel.prototype.setRoomInfo = function (msg) {
             if (this.roomModel == null) {

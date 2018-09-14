@@ -52,8 +52,14 @@ var game;
             this.mContent.m_btntype4.m_txt.url = "ui://jow5n9bqrezh1z";
             this.mContent.m_btntype5.m_txt.url = "ui://jow5n9bqrezh20";
             this.mContent.m_btntype6.m_txt.url = "ui://jow5n9bqrezh21";
-            this.mContent.m_btntype7.m_txt.url = "ui://jow5n9bqrezh23";
-            this.mContent.m_btntype8.m_txt.url = "ui://jow5n9bqrezh24";
+            if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                this.mContent.m_btntype7.m_txt.url = "ui://jow5n9bqrezh24";
+                this.mContent.m_btntype8.m_txt.url = "ui://jow5n9bqrezh23";
+            }
+            else {
+                this.mContent.m_btntype7.m_txt.url = "ui://jow5n9bqrezh23";
+                this.mContent.m_btntype8.m_txt.url = "ui://jow5n9bqrezh24";
+            }
             this.mContent.m_btntype9.m_txt.url = "ui://jow5n9bqrezh22";
             this.mContent.m_btn_close1.visible = false;
             this.mContent.m_btn_close2.visible = false;
@@ -166,8 +172,14 @@ var game;
             this.mContent.m_btntype4.enabled = (game.GameModel.ins.roundModel.shunzi.length > 0);
             this.mContent.m_btntype5.enabled = (game.GameModel.ins.roundModel.tonghua.length > 0);
             this.mContent.m_btntype6.enabled = (game.GameModel.ins.roundModel.hulu.length > 0);
-            this.mContent.m_btntype7.enabled = (game.GameModel.ins.roundModel.tiezhi.length > 0);
-            this.mContent.m_btntype8.enabled = (game.GameModel.ins.roundModel.tonghuashun.length > 0);
+            if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                this.mContent.m_btntype7.enabled = (game.GameModel.ins.roundModel.tonghuashun.length > 0);
+                this.mContent.m_btntype8.enabled = (game.GameModel.ins.roundModel.tiezhi.length > 0);
+            }
+            else {
+                this.mContent.m_btntype7.enabled = (game.GameModel.ins.roundModel.tiezhi.length > 0);
+                this.mContent.m_btntype8.enabled = (game.GameModel.ins.roundModel.tonghuashun.length > 0);
+            }
             this.mContent.m_btntype9.enabled = (game.GameModel.ins.roundModel.wutong.length > 0);
         };
         //牌型按钮点击事件

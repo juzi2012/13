@@ -6,17 +6,17 @@ module game {
 		/**
 		 * 发送登录协议
 		 */
-		public static sendLogin(handle:core.Handler):void
-		{
-			App.Socket.addCmdListener(MsgType.Login,handle)
-			let loginMsg:C2T_Login = new C2T_Login();
-			loginMsg.Msg.name = "test";
-			loginMsg.Msg.wid = "12345";
-			loginMsg.Msg.mid = "123456";
-			loginMsg.Msg.head = "test";
-			loginMsg.Msg.chid = "";
-			App.Socket.send(loginMsg);
-		}
+		// public static sendLogin(handle:core.Handler):void
+		// {
+		// 	App.Socket.addCmdListener(MsgType.Login,handle)
+		// 	let loginMsg:C2T_Login = new C2T_Login();
+		// 	loginMsg.Msg.name = "test";
+		// 	loginMsg.Msg.wid = "12345";
+		// 	loginMsg.Msg.mid = "123456";
+		// 	loginMsg.Msg.head = "test";
+		// 	loginMsg.Msg.chid = "";
+		// 	App.Socket.send(loginMsg);
+		// }
 		public static addSocketListener():void
 		{
 			App.Socket.addCmdListener(MsgType.UpdateMyInfo,core.Handler.create(this,this.updateMyInfo,[],false));//new core.Handler(this,this.enterRoomCallBack,[handle])
@@ -159,9 +159,11 @@ module game {
 			if($msg['ok']>0){
 				if(GameModel.ins.roomModel.isAllFinish==false){
 					GameModel.ins.disMissRoom();
+					ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
 					ModuleMgr.ins.changeScene(ModuleEnum.GAME,ModuleEnum.GAME_MAIN);
 				}else{
 					if(GameModel.ins.roomModel.hasPlayedJu<GameModel.ins.roomModel.rinfo.snum){//结算的局数小余房间总局数，说明是解散的
+						ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
 						ModuleMgr.ins.changeScene(ModuleEnum.GAME,ModuleEnum.GAME_ALL_RESULT);
 					}
 				}
@@ -182,11 +184,28 @@ module game {
 			let msg:C2T_Msg=new C2T_Msg();
 			msg.Aid = MsgType.Chat;
 			let subMsg:C2T_Chat = new C2T_Chat();
+			subMsg.type=0;
 			subMsg.str = str;
 			subMsg.uid = GameModel.ins.uid;
 			subMsg.uname = GameModel.ins.uname;
 			let date:Date = new Date();
+			subMsg.times = date.getTime().toString();
+			subMsg.time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
 			
+			msg.Msg = subMsg;
+			App.Socket.send(msg);
+		}
+		public static sendFlower(str:string):void
+		{
+			let msg:C2T_Msg=new C2T_Msg();
+			msg.Aid = MsgType.Chat;
+			let subMsg:C2T_Chat = new C2T_Chat();
+			subMsg.type=1;
+			subMsg.str = str;
+			subMsg.uid = GameModel.ins.uid;
+			subMsg.uname = GameModel.ins.uname;
+			let date:Date = new Date();
+			subMsg.times = date.getTime().toString();
 			subMsg.time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
 			
 			msg.Msg = subMsg;
@@ -194,8 +213,15 @@ module game {
 		}
 		private static chatCallBack(msg:T2C_Chat):void
 		{
-			ChatModel.ins.onReceive(msg);
-			App.MessageCenter.dispatch(MsgEnum.GAME_CHAT,msg);
+			switch(msg.type){
+				case 0:
+					ChatModel.ins.onReceive(msg);
+					App.MessageCenter.dispatch(MsgEnum.GAME_CHAT,msg);
+				break;
+				case 1:
+					App.MessageCenter.dispatch(MsgEnum.GAME_FLOWER,msg);
+				break
+			}
 		}
 		public static sendBeart():void
 		{

@@ -45,6 +45,7 @@ module game {
 			this.mContent.m_txt_name.text = GameModel.ins.uname;
 			this.mContent.m_txt_id.text = "ID:"+GameModel.ins.uid;
 			this.mContent.m_txt_card.text = GameModel.ins.card.toString();
+			(this.mContent.m_head as PlayerHeadImg).setURL(GameModel.ins.avatar); 
 		}
 		private onMailClick():void
 		{

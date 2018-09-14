@@ -21,7 +21,7 @@ module game {
 		}
 		private onCopy():void
 		{
-			let cb:boolean = new Clipboard().setText("123232312");
+			let cb:boolean = new Clipboard().setText("1234567890");
 			if(cb){
 				AlertUtil.floatMsg("复制成功");
 			}else{

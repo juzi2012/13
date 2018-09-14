@@ -325,25 +325,46 @@ module game {
 					}
 				break;
 				case "btntype7":
-					
-					if(this.typeClickCount7==this.tiezhi.length){
-						ary=[];
-						this.typeClickCount7=0;
+					if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水
+						if(this.typeClickCount8==this.tonghuashun.length){
+							ary=[];
+							this.typeClickCount8=0;
+						}else{
+							ary = this.tonghuashun[this.typeClickCount8%this.tonghuashun.length].concat();
+							this.typeClickCount8++;
+						}
 					}else{
-						ary = this.tiezhi[this.typeClickCount7%this.tiezhi.length].concat();
-						this.typeClickCount7++;
-						ary.push(this.getResetSingle(ary));
+						if(this.typeClickCount7==this.tiezhi.length){
+							ary=[];
+							this.typeClickCount7=0;
+						}else{
+							ary = this.tiezhi[this.typeClickCount7%this.tiezhi.length].concat();
+							this.typeClickCount7++;
+							ary.push(this.getResetSingle(ary));
+						}
 					}
+					
 				break;
 				case "btntype8":
-					
-					if(this.typeClickCount8==this.tonghuashun.length){
-						ary=[];
-						this.typeClickCount8=0;
+					if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水
+						if(this.typeClickCount7==this.tiezhi.length){
+							ary=[];
+							this.typeClickCount7=0;
+						}else{
+							ary = this.tiezhi[this.typeClickCount7%this.tiezhi.length].concat();
+							this.typeClickCount7++;
+							ary.push(this.getResetSingle(ary));
+						}
 					}else{
-						ary = this.tonghuashun[this.typeClickCount8%this.tonghuashun.length].concat();
-						this.typeClickCount8++;
+						if(this.typeClickCount8==this.tonghuashun.length){
+							ary=[];
+							this.typeClickCount8=0;
+						}else{
+							ary = this.tonghuashun[this.typeClickCount8%this.tonghuashun.length].concat();
+							this.typeClickCount8++;
+						}
 					}
+					
 				break;
 				case "btntype9":
 					

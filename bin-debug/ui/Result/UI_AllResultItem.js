@@ -31,6 +31,7 @@ var UI;
                 this.m_txt_ju2 = (this.getChildAt(7));
                 this.m_txt_ju3 = (this.getChildAt(8));
                 this.m_txt_ju4 = (this.getChildAt(9));
+                this.m_head = (this.getChildAt(10));
                 this.m_txt_ju5 = (this.getChildAt(11));
                 this.m_winner = (this.getChildAt(14));
                 this.m_txt_score = (this.getChildAt(15));

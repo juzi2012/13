@@ -62,7 +62,9 @@ var game;
             ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
         };
         SingleResultModule.prototype.preClose = function (data) {
-            game.GameModel.ins.roomModel.isSingleOpen = false;
+            if (game.GameModel.ins.roomModel != null) {
+                game.GameModel.ins.roomModel.isSingleOpen = false;
+            }
             this.preCloseCpl();
         };
         return SingleResultModule;

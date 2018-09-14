@@ -35,6 +35,10 @@
     {
       "name": "rawinflate",
       "path": "./libs/rawinflate"
+    },
+    {
+      "name": "md5",
+      "path": "./libs/md5"
     }
   ]
 }

@@ -30,7 +30,7 @@ var game;
          */
         ZhanJiModule.prototype.preShow = function (data) {
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80j5fap";
-            HttpAPI.HttpGET(HttpURLs.zhanji, { 'uid': game.GameModel.ins.uid, 'page': 1 }, this.onCallBack, this.onError, this);
+            HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/zhanji", { 'uid': game.GameModel.ins.uid, 'page': 1 }, this.onCallBack, this.onError, this);
             this.mContent.m_checkother.addClickListener(this.playerOther, this);
         };
         ZhanJiModule.prototype.playerOther = function () {

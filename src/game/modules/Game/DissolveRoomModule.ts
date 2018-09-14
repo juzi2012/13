@@ -56,10 +56,15 @@ module game {
 		private accetpDismiss():void
 		{
 			ServerEngine.sendAcceptOrRefuseDismiss(1);
+			this.mContent.m_btn_accept.visible=false;
+			this.mContent.m_btn_refuse.visible=false;
+			
 		}
 		private refuseDismiss():void
 		{
 			ServerEngine.sendAcceptOrRefuseDismiss(0);
+			this.mContent.m_btn_accept.visible=false;
+			this.mContent.m_btn_refuse.visible=false;
 		}
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{

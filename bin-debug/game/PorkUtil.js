@@ -1147,10 +1147,20 @@ var game;
                 return 10;
             }
             if (this.findTongHuaShun(arr).length > 0) {
-                return 9;
+                if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                    return 8;
+                }
+                else {
+                    return 9;
+                }
             }
             if (this.findTieZhi(arr).length > 0) {
-                return 8;
+                if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                    return 9;
+                }
+                else {
+                    return 8;
+                }
             }
             if (this.findHuLu(arr).length > 0) {
                 return 7;

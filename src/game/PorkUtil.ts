@@ -1137,10 +1137,18 @@ module game {
 				return 10;
 			}
 			if(this.findTongHuaShun(arr).length>0){
-				return 9;
+				if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水
+					return 8;
+				}else{
+					return 9;
+				}
 			}
 			if(this.findTieZhi(arr).length>0){
-				return 8;
+				if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水
+					return 9;
+				}else{
+					return 8;
+				}
 			}
 			if(this.findHuLu(arr).length>0){
 				return 7;

@@ -64,9 +64,13 @@ var game;
         };
         DissolveRoomModule.prototype.accetpDismiss = function () {
             game.ServerEngine.sendAcceptOrRefuseDismiss(1);
+            this.mContent.m_btn_accept.visible = false;
+            this.mContent.m_btn_refuse.visible = false;
         };
         DissolveRoomModule.prototype.refuseDismiss = function () {
             game.ServerEngine.sendAcceptOrRefuseDismiss(0);
+            this.mContent.m_btn_accept.visible = false;
+            this.mContent.m_btn_refuse.visible = false;
         };
         DissolveRoomModule.prototype.RenderListItem = function (index, _item) {
             var item = _item;

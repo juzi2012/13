@@ -1,0 +1,8 @@
+{
+    "IsDebug":false,
+    "HttpSerever":"https://alpha-api.fpwan.com/Game/UserMoney",
+    "SocketServer":"211.149.213.58",
+    "SocketPort":"40013",
+    "ProtoFile":"simple_proto",
+    "ProtoConfig":"simple_config"
+}

@@ -11,6 +11,7 @@ module UI.MainUI {
 		public m_btn_setting:fairygui.GButton;
 		public m_btn_add:fairygui.GButton;
 		public m_txt_card:fairygui.GTextField;
+		public m_head:UI_HeadImage;
 		public m_txt_name:fairygui.GTextField;
 		public m_txt_id:fairygui.GTextField;
 		public m_btn_activity:fairygui.GButton;
@@ -45,6 +46,7 @@ module UI.MainUI {
 			this.m_btn_setting = <fairygui.GButton><any>(this.getChildAt(7));
 			this.m_btn_add = <fairygui.GButton><any>(this.getChildAt(12));
 			this.m_txt_card = <fairygui.GTextField><any>(this.getChildAt(13));
+			this.m_head = <UI_HeadImage><any>(this.getChildAt(15));
 			this.m_txt_name = <fairygui.GTextField><any>(this.getChildAt(16));
 			this.m_txt_id = <fairygui.GTextField><any>(this.getChildAt(17));
 			this.m_btn_activity = <fairygui.GButton><any>(this.getChildAt(19));

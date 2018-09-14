@@ -14,6 +14,7 @@ module game {
 		public uid:string = "383928393";
 		public card:number = 0;
 		public gold:number = 0
+		public avatar:string = "";
 		public roundModel:RoundModel;
 		public roomModel:RoomModel;
 
@@ -23,6 +24,7 @@ module game {
 			this.card = msg.card;
 			this.gold = msg.gold;
 			this.uname = msg.name;
+			this.avatar = msg.avatar;
 		}
 		public setRoomInfo(msg:T2C_Enter_Room):void
 		{

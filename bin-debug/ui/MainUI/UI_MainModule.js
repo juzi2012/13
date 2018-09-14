@@ -30,6 +30,7 @@ var UI;
                 this.m_btn_setting = (this.getChildAt(7));
                 this.m_btn_add = (this.getChildAt(12));
                 this.m_txt_card = (this.getChildAt(13));
+                this.m_head = (this.getChildAt(15));
                 this.m_txt_name = (this.getChildAt(16));
                 this.m_txt_id = (this.getChildAt(17));
                 this.m_btn_activity = (this.getChildAt(19));

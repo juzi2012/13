@@ -8,9 +8,9 @@ module UI.Result {
 		public m_txt_name:fairygui.GTextField;
 		public m_txt_id:fairygui.GTextField;
 		public m_list_top:fairygui.GList;
-		public m_head:fairygui.GLoader;
 		public m_list_mid:fairygui.GList;
 		public m_list_down:fairygui.GList;
+		public m_head:fairygui.GComponent;
 
 		public static URL:string = "ui://25mni52osl2k8";
 
@@ -29,9 +29,9 @@ module UI.Result {
 			this.m_txt_name = <fairygui.GTextField><any>(this.getChildAt(3));
 			this.m_txt_id = <fairygui.GTextField><any>(this.getChildAt(4));
 			this.m_list_top = <fairygui.GList><any>(this.getChildAt(5));
-			this.m_head = <fairygui.GLoader><any>(this.getChildAt(6));
-			this.m_list_mid = <fairygui.GList><any>(this.getChildAt(7));
-			this.m_list_down = <fairygui.GList><any>(this.getChildAt(8));
+			this.m_list_mid = <fairygui.GList><any>(this.getChildAt(6));
+			this.m_list_down = <fairygui.GList><any>(this.getChildAt(7));
+			this.m_head = <fairygui.GComponent><any>(this.getChildAt(8));
 		}
 	}
 }

@@ -10,6 +10,7 @@ module game {
 		public get mContent():UI.Game.UI_ChatModule{
 			return this.content as UI.Game.UI_ChatModule;
 		}
+		private emstr:Array<string> = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u"];
 		/**
 		 * 预显示
 		 */
@@ -18,10 +19,19 @@ module game {
 			super.preShow(data);
 			App.MessageCenter.addListener(MsgEnum.GAME_CHAT,this.onReceive,this)
 			this.mContent.m_ctrl.selectedIndex=1;
+			this.mContent.m_btn_record.addClickListener(this.changeTab,this);
+			this.mContent.m_btn_liaotian.addClickListener(this.changeTab,this);
+			this.mContent.m_btn_biaoq.addClickListener(this.changeTab,this);
+			
 			this.mContent.m_btn_send.addClickListener(this.onSend,this);
 			this.mContent.m_list.itemRenderer = this.RenderListItem;
 			this.mContent.m_list.callbackThisObj=this;
 			this.mContent.m_list.numItems=ChatModel.ins.arr.length;
+
+			this.mContent.m_list_emoji.itemRenderer = this.EmojiRenderListItem;
+			this.mContent.m_list_emoji.callbackThisObj = this;
+			this.mContent.m_list_emoji.numItems = 21;
+			this.mContent.m_list_emoji.addEventListener(fairygui.ItemEvent.CLICK, this.onClickItem, this);
 			if(ChatModel.ins.arr.length>0){
 				this.mContent.m_list.scrollToView(ChatModel.ins.arr.length-1);
 			}
@@ -30,6 +40,24 @@ module game {
 		public show(data?:any):void
 		{
 			super.show(data);
+		}
+		private onClickItem(evt:fairygui.ItemEvent):void
+		{
+			let item:ChatEmojiItem = evt.itemObject as ChatEmojiItem;
+			ServerEngine.sendChat("%%-"+item.vv+"-%%");
+			this.mContent.m_ctrl.selectedIndex=1;
+		}
+		private changeTab():void{
+			switch(this.mContent.m_ctrl.selectedIndex){
+				case 0:
+					this.mContent.m_list.numItems=ChatModel.ins.arr_his.length;
+				break;
+				case 1:
+					this.mContent.m_list.numItems=ChatModel.ins.arr.length;
+				break;
+				case 2:
+				break;
+			}
 		}
 		public onSend():void
 		{
@@ -47,7 +75,21 @@ module game {
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{
 			let mailItem:ChatItem = _item as ChatItem;
-			mailItem.setData(ChatModel.ins.arr[index]);
+			switch(this.mContent.m_ctrl.selectedIndex){
+				case 0:
+					mailItem.setData(ChatModel.ins.arr_his[index]);
+				break;
+				case 1:
+					mailItem.setData(ChatModel.ins.arr[index]);
+				break;
+			}
+			
+		}
+		private EmojiRenderListItem(index:number,_item:fairygui.GObject):void
+		{
+			let str:string = this.emstr[index];
+			let emojiItem:ChatEmojiItem = _item as ChatEmojiItem;
+			emojiItem.setData(str);
 		}
 		public preClose(data?: any):void {
 			App.MessageCenter.removeListener(MsgEnum.GAME_CHAT,this.onReceive,this);

@@ -25,6 +25,7 @@ var game;
             var user = game.GameModel.ins.roomModel.getUserById(value.uid);
             this.m_txt_name.text = user.name;
             this.m_txt_id.text = "ID:" + user.uid;
+            this.m_head.setURL(user.avatar);
             for (var i = 0; i < 6; i++) {
                 if (value.scoreArr[i] != null) {
                     var score = value.scoreArr[i].toString();
@@ -53,6 +54,7 @@ var game;
             var scoreArr = value.getScoreById(value.playerFinalData[index].uid);
             this.m_txt_name.text = value.playerFinalData[index].name;
             this.m_txt_id.text = "ID:" + value.playerFinalData[index].uid;
+            this.m_head.setURL(value.playerFinalData[index].avatar);
             for (var i = 0; i < 6; i++) {
                 if (scoreArr[i] != null) {
                     var score = scoreArr[i].toString();

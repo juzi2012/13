@@ -4,9 +4,9 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var HttpURLs = (function () {
     function HttpURLs() {
     }
-    HttpURLs.rank = "http://211.149.213.58:8883/rank";
-    HttpURLs.zhanji = "http://211.149.213.58:8883/zhanji";
-    HttpURLs.huifang = "http://211.149.213.58:8883/huifang";
+    HttpURLs.rank = "http://121.40.23.6:8883/rank";
+    HttpURLs.zhanji = "http://121.40.23.6:8883/zhanji";
+    HttpURLs.huifang = "http://121.40.23.6:8883/huifang";
     return HttpURLs;
 }());
 __reflect(HttpURLs.prototype, "HttpURLs");

@@ -9,16 +9,17 @@ var game;
         /**
          * 发送登录协议
          */
-        ServerEngine.sendLogin = function (handle) {
-            App.Socket.addCmdListener(MsgType.Login, handle);
-            var loginMsg = new C2T_Login();
-            loginMsg.Msg.name = "test";
-            loginMsg.Msg.wid = "12345";
-            loginMsg.Msg.mid = "123456";
-            loginMsg.Msg.head = "test";
-            loginMsg.Msg.chid = "";
-            App.Socket.send(loginMsg);
-        };
+        // public static sendLogin(handle:core.Handler):void
+        // {
+        // 	App.Socket.addCmdListener(MsgType.Login,handle)
+        // 	let loginMsg:C2T_Login = new C2T_Login();
+        // 	loginMsg.Msg.name = "test";
+        // 	loginMsg.Msg.wid = "12345";
+        // 	loginMsg.Msg.mid = "123456";
+        // 	loginMsg.Msg.head = "test";
+        // 	loginMsg.Msg.chid = "";
+        // 	App.Socket.send(loginMsg);
+        // }
         ServerEngine.addSocketListener = function () {
             App.Socket.addCmdListener(MsgType.UpdateMyInfo, core.Handler.create(this, this.updateMyInfo, [], false)); //new core.Handler(this,this.enterRoomCallBack,[handle])
             App.Socket.addCmdListener(MsgType.EnterRooom, core.Handler.create(this, this.enterRoomCallBack, [], false)); //new core.Handler(this,this.enterRoomCallBack,[handle])
@@ -139,10 +140,12 @@ var game;
             if ($msg['ok'] > 0) {
                 if (game.GameModel.ins.roomModel.isAllFinish == false) {
                     game.GameModel.ins.disMissRoom();
+                    ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
                     ModuleMgr.ins.changeScene(ModuleEnum.GAME, ModuleEnum.GAME_MAIN);
                 }
                 else {
                     if (game.GameModel.ins.roomModel.hasPlayedJu < game.GameModel.ins.roomModel.rinfo.snum) {
+                        ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
                         ModuleMgr.ins.changeScene(ModuleEnum.GAME, ModuleEnum.GAME_ALL_RESULT);
                     }
                 }
@@ -161,17 +164,40 @@ var game;
             var msg = new C2T_Msg();
             msg.Aid = MsgType.Chat;
             var subMsg = new C2T_Chat();
+            subMsg.type = 0;
             subMsg.str = str;
             subMsg.uid = game.GameModel.ins.uid;
             subMsg.uname = game.GameModel.ins.uname;
             var date = new Date();
+            subMsg.times = date.getTime().toString();
+            subMsg.time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+            msg.Msg = subMsg;
+            App.Socket.send(msg);
+        };
+        ServerEngine.sendFlower = function (str) {
+            var msg = new C2T_Msg();
+            msg.Aid = MsgType.Chat;
+            var subMsg = new C2T_Chat();
+            subMsg.type = 1;
+            subMsg.str = str;
+            subMsg.uid = game.GameModel.ins.uid;
+            subMsg.uname = game.GameModel.ins.uname;
+            var date = new Date();
+            subMsg.times = date.getTime().toString();
             subMsg.time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
             msg.Msg = subMsg;
             App.Socket.send(msg);
         };
         ServerEngine.chatCallBack = function (msg) {
-            game.ChatModel.ins.onReceive(msg);
-            App.MessageCenter.dispatch(game.MsgEnum.GAME_CHAT, msg);
+            switch (msg.type) {
+                case 0:
+                    game.ChatModel.ins.onReceive(msg);
+                    App.MessageCenter.dispatch(game.MsgEnum.GAME_CHAT, msg);
+                    break;
+                case 1:
+                    App.MessageCenter.dispatch(game.MsgEnum.GAME_FLOWER, msg);
+                    break;
+            }
         };
         ServerEngine.sendBeart = function () {
             App.TimerManager.doTimer(8000, 0, this.doHeartBeat, this);

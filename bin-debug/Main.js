@@ -90,6 +90,7 @@ var Main = (function (_super) {
         //     egret.ticker.resume();
         // }
         // this.doTest();
+        // 118.24.105.180
         this.runGame().catch(function (e) {
             console.log(e);
         });
@@ -125,6 +126,7 @@ var Main = (function (_super) {
                         return [4 /*yield*/, RES.getResAsync("description_json")];
                     case 3:
                         result = _a.sent();
+                        if (!(App.GlobalData.IsDebug == false)) return [3 /*break*/, 6];
                         return [4 /*yield*/, platform.login()];
                     case 4:
                         _a.sent();
@@ -132,6 +134,8 @@ var Main = (function (_super) {
                     case 5:
                         userInfo = _a.sent();
                         console.log(userInfo);
+                        _a.label = 6;
+                    case 6:
                         this.loadLoadingResource();
                         return [2 /*return*/];
                 }

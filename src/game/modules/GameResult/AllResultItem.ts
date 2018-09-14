@@ -13,6 +13,7 @@ module game {
 			let user:User = GameModel.ins.roomModel.getUserById(value.uid);
 			this.m_txt_name.text = user.name;
 			this.m_txt_id.text = "ID:"+user.uid;
+			(this.m_head as PlayerHeadImg).setURL(user.avatar); 
 			for(let i:number=0;i<6;i++){
 				if(value.scoreArr[i]!=null){
 					let score:string = value.scoreArr[i].toString();
@@ -39,6 +40,7 @@ module game {
 			let scoreArr:Array<number> = value.getScoreById(value.playerFinalData[index].uid);
 			this.m_txt_name.text = value.playerFinalData[index].name;
 			this.m_txt_id.text = "ID:"+value.playerFinalData[index].uid;
+			(this.m_head as PlayerHeadImg).setURL(value.playerFinalData[index].avatar); 
 			for(let i:number=0;i<6;i++){
 				if(scoreArr[i]!=null){
 					let score:string = scoreArr[i].toString();

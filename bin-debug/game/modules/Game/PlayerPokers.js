@@ -13,7 +13,9 @@ var game;
     var PlayerPokers = (function (_super) {
         __extends(PlayerPokers, _super);
         function PlayerPokers() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.offsite = 45;
+            return _this;
         }
         PlayerPokers.prototype.init = function () {
             this.m_qiangyan.visible = false;
@@ -28,6 +30,51 @@ var game;
                 poker.x = -26;
                 poker.m_ctrlstate.selectedIndex = 0;
                 egret.Tween.get(poker, { loop: false }).to({ x: -26 + (i * 20) }, 300);
+            }
+        };
+        PlayerPokers.prototype.showSpecialResult = function (result) {
+            var bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
+            for (var i = 0; i < 13; i++) {
+                var poker = this['m_pork' + i];
+                poker.showResult(result.cards[i]);
+            }
+            if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                if (game.GameModel.ins.uid != result.uid) {
+                    if (bipai.px > 0) {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                        this.m_txt_score_result.text = "翻倍";
+                    }
+                    else {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                        this.m_txt_score_result.text = "不翻倍";
+                    }
+                }
+                else {
+                    if (result.sc >= 0) {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                    }
+                    else {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                    }
+                    var f = "";
+                    if (result.sc > 0) {
+                        f = "+";
+                    }
+                    this.m_txt_score_result.text = "总得分：" + f + result.sc;
+                }
+            }
+            else {
+                if (result.sc >= 0) {
+                    this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                }
+                else {
+                    this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                }
+                var f = "";
+                if (result.sc > 0) {
+                    f = "+";
+                }
+                this.m_txt_score_result.text = f + result.sc;
             }
         };
         PlayerPokers.prototype.showResult = function (pos, result) {
@@ -46,7 +93,7 @@ var game;
             if (pos == 0) {
                 start = 0;
                 end = 3;
-                this.m_porka.y = -73;
+                this.m_porka.y = -73 + this.offsite;
                 this.m_porka1.visible = false;
                 this.m_porka5.visible = false;
                 for (var i = 2; i < 5; i++) {
@@ -105,7 +152,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 3;
                 end = 8;
-                this.m_porka.y = -22;
+                this.m_porka.y = -22 + this.offsite;
                 this.m_porka1.showResult(result.cards[3]);
                 this.m_porka2.showResult(result.cards[4]);
                 this.m_porka3.showResult(result.cards[5]);
@@ -162,7 +209,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 8;
                 end = 13;
-                this.m_porka.y = 31;
+                this.m_porka.y = 31 + this.offsite;
                 this.m_porka1.showResult(result.cards[8]);
                 this.m_porka2.showResult(result.cards[9]);
                 this.m_porka3.showResult(result.cards[10]);
@@ -266,7 +313,7 @@ var game;
             if (pos == 0) {
                 start = 0;
                 end = 3;
-                this.m_porka.y = -73;
+                this.m_porka.y = -73 + this.offsite;
                 this.m_porka1.visible = false;
                 this.m_porka5.visible = false;
                 for (var i = 2; i < 5; i++) {
@@ -283,7 +330,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 3;
                 end = 8;
-                this.m_porka.y = -22;
+                this.m_porka.y = -22 + this.offsite;
                 this.m_porka1.showResult(result.midCards[0]);
                 this.m_porka2.showResult(result.midCards[1]);
                 this.m_porka3.showResult(result.midCards[2]);
@@ -298,7 +345,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 8;
                 end = 13;
-                this.m_porka.y = 31;
+                this.m_porka.y = 31 + this.offsite;
                 this.m_porka1.showResult(result.downCards[0]);
                 this.m_porka2.showResult(result.downCards[1]);
                 this.m_porka3.showResult(result.downCards[2]);

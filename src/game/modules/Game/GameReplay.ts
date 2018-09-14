@@ -186,7 +186,7 @@ module game {
 		}
 		private showSingleResult():void
 		{
-			if(this.startState==true){
+			if(this.startState==true&&this.wantToBreakHere==false){
 				this.doShowSingleResult();
 			}
 			/*this.doShowSingleResult().then(() => {
@@ -282,6 +282,7 @@ module game {
 			this.wantToBreakHere=true;
 			TweenMax.killAll();
 			this.preCloseCpl();
+			App.MessageCenter.removeListener(MsgEnum.PLAY_NEXT,this.playNext,this);
 			this.mContent.m_btn_quit.removeClickListener(this.onQuit,this);
 		}
 	}

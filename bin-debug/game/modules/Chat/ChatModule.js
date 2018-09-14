@@ -13,7 +13,9 @@ var game;
     var ChatModule = (function (_super) {
         __extends(ChatModule, _super);
         function ChatModule() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.emstr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"];
+            return _this;
         }
         ChatModule.prototype.initContent = function () {
             this.content = UI.Game.UI_ChatModule.createInstance();
@@ -33,10 +35,17 @@ var game;
             _super.prototype.preShow.call(this, data);
             App.MessageCenter.addListener(game.MsgEnum.GAME_CHAT, this.onReceive, this);
             this.mContent.m_ctrl.selectedIndex = 1;
+            this.mContent.m_btn_record.addClickListener(this.changeTab, this);
+            this.mContent.m_btn_liaotian.addClickListener(this.changeTab, this);
+            this.mContent.m_btn_biaoq.addClickListener(this.changeTab, this);
             this.mContent.m_btn_send.addClickListener(this.onSend, this);
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
             this.mContent.m_list.numItems = game.ChatModel.ins.arr.length;
+            this.mContent.m_list_emoji.itemRenderer = this.EmojiRenderListItem;
+            this.mContent.m_list_emoji.callbackThisObj = this;
+            this.mContent.m_list_emoji.numItems = 21;
+            this.mContent.m_list_emoji.addEventListener(fairygui.ItemEvent.CLICK, this.onClickItem, this);
             if (game.ChatModel.ins.arr.length > 0) {
                 this.mContent.m_list.scrollToView(game.ChatModel.ins.arr.length - 1);
             }
@@ -44,6 +53,23 @@ var game;
         };
         ChatModule.prototype.show = function (data) {
             _super.prototype.show.call(this, data);
+        };
+        ChatModule.prototype.onClickItem = function (evt) {
+            var item = evt.itemObject;
+            game.ServerEngine.sendChat("%%-" + item.vv + "-%%");
+            this.mContent.m_ctrl.selectedIndex = 1;
+        };
+        ChatModule.prototype.changeTab = function () {
+            switch (this.mContent.m_ctrl.selectedIndex) {
+                case 0:
+                    this.mContent.m_list.numItems = game.ChatModel.ins.arr_his.length;
+                    break;
+                case 1:
+                    this.mContent.m_list.numItems = game.ChatModel.ins.arr.length;
+                    break;
+                case 2:
+                    break;
+            }
         };
         ChatModule.prototype.onSend = function () {
             if (this.mContent.m_btn_input.text != "") {
@@ -58,7 +84,19 @@ var game;
         };
         ChatModule.prototype.RenderListItem = function (index, _item) {
             var mailItem = _item;
-            mailItem.setData(game.ChatModel.ins.arr[index]);
+            switch (this.mContent.m_ctrl.selectedIndex) {
+                case 0:
+                    mailItem.setData(game.ChatModel.ins.arr_his[index]);
+                    break;
+                case 1:
+                    mailItem.setData(game.ChatModel.ins.arr[index]);
+                    break;
+            }
+        };
+        ChatModule.prototype.EmojiRenderListItem = function (index, _item) {
+            var str = this.emstr[index];
+            var emojiItem = _item;
+            emojiItem.setData(str);
         };
         ChatModule.prototype.preClose = function (data) {
             App.MessageCenter.removeListener(game.MsgEnum.GAME_CHAT, this.onReceive, this);

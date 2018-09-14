@@ -60,6 +60,7 @@ module game {
 			for(let i:number=0;i<GameModel.ins.roomModel.users.length;i++){
 				this.UserIn(GameModel.ins.roomModel.users[i]);
 			}
+			
 			App.MessageCenter.addListener(MsgEnum.NEW_UESR_IN,this.UserIn,this);
 			App.MessageCenter.addListener(MsgEnum.NEW_UESR_OUT,this.UserOut,this);
 			App.MessageCenter.addListener(MsgEnum.NEW_UESR_READY,this.UserReady,this);
@@ -74,10 +75,11 @@ module game {
 			App.MessageCenter.addListener(MsgEnum.GAME_USER_DIAOXIAN_BACK,this.UserDiaoXianBack,this);
 			App.MessageCenter.addListener(MsgEnum.GAME_ASKFOR_DISMISS,this.UserAskForDismiss,this);
 			App.MessageCenter.addListener(MsgEnum.GAME_ANSWER_FAILED,this.RoomDismissFailed,this);
-
+			App.MessageCenter.addListener(MsgEnum.GAME_CHAT,this.onReceiveChat,this);
 			App.MessageCenter.addListener(MsgEnum.STOP_PLAY_MUSIC,this.playMusic,this);
 
 			App.MessageCenter.addListener(MsgEnum.CHANGE_BG,this.changeBg,this);
+			App.MessageCenter.addListener(MsgEnum.GAME_FLOWER,this.flower,this);
 
 			this.mContent.m_txt_room.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
 			switch(GameModel.ins.roomModel.rinfo.rp){
@@ -294,6 +296,7 @@ module game {
 			//先得到特殊牌型，把特殊牌型展示出来
 			for(let a:number=0;a<bipai.length;a++){
 				if(bipai[a].px>0){
+				// if(a==0){
 					let uid:string = round.result.bipai[a].uid;
 					let playerHead:PlayerHead = this.getPlayerById(uid);
 					playerHead.showSpecial();
@@ -304,7 +307,10 @@ module game {
 			// 	await this.sleep(500);
 			// }
 			await this.sleep(500);
-
+			for(let c:number=0;c<special_uid.length;c++){
+				let playerHead:PlayerHead = this.getPlayerById(special_uid[c]);
+				playerHead.showSpecialResult(cards[c]);
+			}
 			for(let j:number = 0;j<3;j++){
 				for(let i:number=0;i<cards.length;i++){
 					let uid:string = cards[i].uid;
@@ -483,6 +489,19 @@ module game {
 			App.TimerManager.doTimer(3000,1,this.hideInvite,this)
 
 		}
+		private onReceiveChat(msg:T2C_Chat):void
+		{
+			this.getPlayerById(msg.uid).speek(msg.str);
+		}
+		private flower(msg:T2C_Chat):void
+		{
+			let arr:Array<string> = msg.str.split("|");
+			if(arr.length>1){
+				let uid:string = arr[0];
+				let str:string = arr[1];
+				this.getPlayerById(uid).flower(str);
+			}
+		}
 		private hideInvite():void
 		{
 			this.mContent.m_sharetips.visible=false;
@@ -495,6 +514,11 @@ module game {
 			this.wantToBreakHere=true;
 			App.SoundUtils.stopSoundByID("music_bg_game_mp3");
 			App.TimerManager.remove(this.hideInvite,this);
+
+			for(let i:number=0;i<this.curHeadAry.length;i++){
+				this.curHeadAry[i].doDispose();
+			}
+
 			ChatModel.ins.dispose();
 			App.MessageCenter.removeListener(MsgEnum.NEW_UESR_IN,this.UserIn,this);
 			App.MessageCenter.removeListener(MsgEnum.NEW_UESR_OUT,this.UserOut,this);
@@ -511,6 +535,8 @@ module game {
 			App.MessageCenter.removeListener(MsgEnum.STOP_PLAY_MUSIC,this.playMusic,this);
 			App.MessageCenter.removeListener(MsgEnum.GAME_BEGIN_RESTART,this.doRestart,this);
 			App.MessageCenter.removeListener(MsgEnum.CHANGE_BG,this.changeBg,this);
+			App.MessageCenter.removeListener(MsgEnum.GAME_CHAT,this.onReceiveChat,this);
+			App.MessageCenter.removeListener(MsgEnum.GAME_FLOWER,this.flower,this);
 			this.preCloseCpl();
 		}
 	}
