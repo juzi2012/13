@@ -4,7 +4,7 @@ module game {
 
 		static UPDATE_MYINFO:string="UPDATE_MYINFO";
 		static CREATE_ROOM:string="CREATE_ROOM";
-		// static ENTER_ROOM:string="ENTER_ROOM";
+		static ENTER_ROOM_FAILD:string="ENTER_ROOM_FAILD";
 
 		static NEW_UESR_IN:string="NEW_UESR_IN";//一个新的用户进到房间
 		static NEW_UESR_OUT:string="NEW_UESR_OUT";//一个新的用户退出房间

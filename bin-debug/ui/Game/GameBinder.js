@@ -10,6 +10,9 @@ var UI;
             function GameBinder() {
             }
             GameBinder.bindAll = function () {
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_Flower.URL, Game.UI_Flower);
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_Boom.URL, Game.UI_Boom);
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatYuSheItem.URL, Game.UI_ChatYuSheItem);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_SecurityCheck.URL, Game.UI_SecurityCheck);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_PlayerPokers.URL, Game.UI_PlayerPokers);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_DissolveRoom.URL, Game.UI_DissolveRoom);

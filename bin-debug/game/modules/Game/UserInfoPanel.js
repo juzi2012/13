@@ -33,21 +33,40 @@ var game;
             this.mContent.m_btn_close.addClickListener(this.onClose, this);
             this.mContent.m_btn_zadan.addClickListener(this.onZaDan, this);
             this.mContent.m_btn_flower.addClickListener(this.onFlower, this);
+            this.mContent.m_head.setURL(this.user.avatar);
             this.mContent.m_txt_name.text = '昵称:' + this.user.name;
             this.mContent.m_txt_id.text = 'ID:' + this.user.uid;
             this.mContent.m_txt_score.text = '积分:' + this.user.sc.toString();
-            this.mContent.m_txt_pos.text = '上海市徐汇区888号';
+            this.mContent.m_txt_pos.text = '';
             _super.prototype.preShow.call(this, data);
         };
         UserInfoPanel.prototype.show = function (data) {
             _super.prototype.show.call(this, data);
         };
         UserInfoPanel.prototype.onZaDan = function () {
-            game.ServerEngine.sendFlower(this.user.uid + "|boom");
+            if (this.user.uid == game.GameModel.ins.uid) {
+                for (var i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
+                    if (game.GameModel.ins.roomModel.users[i].uid != game.GameModel.ins.uid) {
+                        game.ServerEngine.sendFlower(game.GameModel.ins.roomModel.users[i].uid + "|boom");
+                    }
+                }
+            }
+            else {
+                game.ServerEngine.sendFlower(this.user.uid + "|boom");
+            }
             this.onClose();
         };
         UserInfoPanel.prototype.onFlower = function () {
-            game.ServerEngine.sendFlower(this.user.uid + "|flower");
+            if (this.user.uid == game.GameModel.ins.uid) {
+                for (var i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
+                    if (game.GameModel.ins.roomModel.users[i].uid != game.GameModel.ins.uid) {
+                        game.ServerEngine.sendFlower(game.GameModel.ins.roomModel.users[i].uid + "|flower");
+                    }
+                }
+            }
+            else {
+                game.ServerEngine.sendFlower(this.user.uid + "|flower");
+            }
             this.onClose();
         };
         UserInfoPanel.prototype.onClose = function () {

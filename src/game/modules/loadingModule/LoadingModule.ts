@@ -15,6 +15,8 @@ module game {
 		 * 预显示
 		 */
 		public preShow(data?: any): void {
+			this.mContent.m_btn_start.visible=false;
+			this.mContent.m_txt.visible=false;
 			this.preShowCpl();
 		}
 		public show(data?:any):void
@@ -31,6 +33,13 @@ module game {
 			this.mContent.m_txt_name.requestFocus();
 			App.Socket.connect(core.Handler.create(this,this.onServerConnected));
 			// this.onServerConnected();
+
+			console.log(fairygui.GRoot.inst.width)
+			console.log(window.innerWidth);
+			console.log(fairygui.GRoot.inst.height)
+			console.log(window.innerHeight);
+			// console.log(LayerCenter.Instance.stage.height)
+			setDivOri(window.innerWidth,window.innerHeight);
 			super.show(data);
 		}
 		private uid:string;
@@ -43,8 +52,7 @@ module game {
 
 			// }, this, RES.ResourceItem.TYPE_IMAGE);
 			if(App.GlobalData.IsDebug==false){
-				this.mContent.m_btn_start.visible=false;
-				this.mContent.m_txt.visible=false;
+				
 				App.Socket.addCmdListener(MsgType.Login,core.Handler.create(this,this.loginCallBack));
 				let loginMsg:C2T_Login = new C2T_Login();
 				loginMsg.Msg.name = OptModel.ins.name;//App.MathUtils.random(1,1000);
@@ -54,7 +62,8 @@ module game {
 				loginMsg.Msg.chid = OptModel.ins.channelId;
 				App.Socket.send(loginMsg);
 			}else{
-				
+				this.mContent.m_btn_start.visible=true;
+				this.mContent.m_txt.visible=true;
 				this.mContent.m_btn_start.addClickListener(this.doStart,this);
 			}
 			// this.mContent.m_txt_name.text="t1";
@@ -142,20 +151,58 @@ module game {
 			fairygui.UIPackage.addPackage("Rank");
 			fairygui.UIPackage.addPackage("Result");
 			fairygui.UIPackage.addPackage("TestPork");
-			ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
+			// ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
 			ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
 
 			
 			// ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
-
+			console.log("-----shareRoomId"+OptModel.ins.shareRoomId)
+			console.log("-----shareRePlayRoomId"+OptModel.ins.shareRePlayRoomId)
 			if(GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.isReConnectInRoom){
-				ModuleMgr.ins.showModule(ModuleEnum.GAME);
+				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME);
+			}else if(OptModel.ins.shareRoomId!=null&&OptModel.ins.shareUserId!=GameModel.ins.uid){
+				ServerEngine.enterRoom(OptModel.ins.shareRoomId)
+				App.MessageCenter.addListener(MsgEnum.NEW_UESR_IN,this.enterRoomCallBack,this);
+				App.MessageCenter.addListener(MsgEnum.ENTER_ROOM_FAILD,this.enterRoomFaild,this);
+			}else if(OptModel.ins.shareRePlayRoomId!=null){
+				HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/huifang",{'uid':GameModel.ins.uid,'id':OptModel.ins.shareRePlayRoomId},this.onCallBack,this.onError,this);
 			}else{
-				ModuleMgr.ins.showModule(ModuleEnum.GAME_MAIN,[]);
+				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
 			}
 			
+
+			getLocation();
 			// GameModel.ins.createRoundTest();
 			// ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK,[]);
+		}
+		private enterRoomCallBack(user:User):void
+		{
+			if(user.uid==GameModel.ins.uid){
+				App.MessageCenter.removeListener(MsgEnum.NEW_UESR_IN,this.enterRoomCallBack,this);
+				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME);
+			}
+		}
+		private enterRoomFaild():void
+		{
+			ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
+		}
+
+		private onCallBack(evt:egret.Event):void
+		{
+			let callBackJson:any = JSON.parse(evt.target.response);
+			if(callBackJson.data==null){
+				AlertUtil.floatMsg(callBackJson.err);
+				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
+			}else{
+				let data:any = JSON.parse(callBackJson.data['msg']);
+				let round = new Round();
+				round.init(data);
+				ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.REPLAY,round);
+			}
+		}
+		private onError(evt:egret.Event):void
+		{
+			ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
 		}
 	}
 }

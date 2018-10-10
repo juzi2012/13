@@ -49,12 +49,14 @@ var game;
             for (var i = 0; i < this.result.length; i++) {
                 if (this.result[i]['uid'] == game.GameModel.ins.uid) {
                     this.mContent.m_img_outrank.visible = false;
-                    this.mContent.m_txt_rank.text = i.toString();
+                    var rankTxt = (i + 1).toString();
+                    this.mContent.m_txt_rank.text = "第" + rankTxt + "名";
                     this.mContent.m_txt_name.text = this.result[i]['uname'];
                     this.mContent.m_txt_score.text = this.result[i]['wnum'] + "/" + this.result[i]['num'];
                     break;
                 }
             }
+            this.mContent.m_head.setURL(game.GameModel.ins.avatar);
         };
         RankModule.prototype.onError = function (evt) {
         };

@@ -55,14 +55,24 @@ var game;
         };
         ZhanJiItem.prototype.replay = function (evt) {
             evt.stopImmediatePropagation();
-            ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY, this.data);
+            if (this.data.jus.length > 0) {
+                ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY, this.data);
+            }
+            else {
+                game.AlertUtil.floatMsg("牌局数据有问题！");
+            }
         };
         ZhanJiItem.prototype.RenderListItem = function (index, _item) {
             var item = _item;
             item.setData(this.users[index], this.maxScore);
         };
         ZhanJiItem.prototype.onClick = function (evt) {
-            ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL, this.data);
+            if (this.data.jus.length > 0) {
+                ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL, this.data);
+            }
+            else {
+                game.AlertUtil.floatMsg("牌局数据有问题！");
+            }
         };
         return ZhanJiItem;
     }(UI.ZhanJi.UI_ZhanJiItem));

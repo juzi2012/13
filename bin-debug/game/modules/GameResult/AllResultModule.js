@@ -48,10 +48,23 @@ var game;
             item.setData(index, game.GameModel.ins.roomModel.jieSuanAll[index]);
         };
         AllResultModule.prototype.onBack = function () {
+            if (game.GameModel.ins.roomModel.hasPlayedJu < game.GameModel.ins.roomModel.rinfo.snum) {
+                game.AlertUtil.floatMsg("房间已经解散");
+            }
             game.GameModel.ins.disMissRoom();
             ModuleMgr.ins.changeScene(ModuleEnum.GAME_SINGLE_RESULT, ModuleEnum.GAME_MAIN);
         };
+        /**
+         * 点击分享截屏按钮
+         * Click the button
+         */
         AllResultModule.prototype.onShare = function () {
+            var renderTexture = new egret.RenderTexture();
+            renderTexture.drawToTexture(this.mContent.displayObject); //渲染到临时画布
+            var divImage = document.getElementById("divImage"); //获取DIV
+            var shareImage = document.getElementById("shareImage"); //获取Image标签		
+            shareImage.src = renderTexture.toDataURL('image/jpeg'); //把数据赋值给Image
+            divImage.style.display = "block"; //显示DIV
         };
         return AllResultModule;
     }(Module));

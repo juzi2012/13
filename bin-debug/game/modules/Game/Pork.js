@@ -35,6 +35,12 @@ var game;
             else {
                 this.m_img_joke.visible = false;
             }
+            if (this.vo.showStr == "K" && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
+                this.m_img_ma.visible = true;
+            }
+            else {
+                this.m_img_ma.visible = false;
+            }
             this.resetState();
         };
         Pork.prototype.changeSelectState = function () {
@@ -66,6 +72,12 @@ var game;
             }
             else {
                 this.m_img_joke.visible = false;
+            }
+            if (this.vo.showStr == "K" && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
+                this.m_img_ma.visible = true;
+            }
+            else {
+                this.m_img_ma.visible = false;
             }
         };
         return Pork;

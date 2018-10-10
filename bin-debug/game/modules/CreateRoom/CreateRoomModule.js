@@ -133,7 +133,7 @@ var game;
                     this.mContent.m_checkbox_zhuang.selected = false;
                     this.mContent.m_checkbox_mapai.selected = false;
                     this.maxHuaSe = 1;
-                    this.mContent.m_jiama.visible = true;
+                    this.mContent.m_jiama.visible = false;
                     this.mContent.m_jiayise.visible = false;
                     break;
                 case 5:

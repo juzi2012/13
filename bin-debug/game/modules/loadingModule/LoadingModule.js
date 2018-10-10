@@ -30,6 +30,8 @@ var game;
          * 预显示
          */
         LoadingModule.prototype.preShow = function (data) {
+            this.mContent.m_btn_start.visible = false;
+            this.mContent.m_txt.visible = false;
             this.preShowCpl();
         };
         LoadingModule.prototype.show = function (data) {
@@ -45,6 +47,12 @@ var game;
             this.mContent.m_txt_name.requestFocus();
             App.Socket.connect(core.Handler.create(this, this.onServerConnected));
             // this.onServerConnected();
+            console.log(fairygui.GRoot.inst.width);
+            console.log(window.innerWidth);
+            console.log(fairygui.GRoot.inst.height);
+            console.log(window.innerHeight);
+            // console.log(LayerCenter.Instance.stage.height)
+            setDivOri(window.innerWidth, window.innerHeight);
             _super.prototype.show.call(this, data);
         };
         LoadingModule.prototype.onServerConnected = function () {
@@ -54,8 +62,6 @@ var game;
             // 	this.mContent.displayListContainer.addChild(bmp);
             // }, this, RES.ResourceItem.TYPE_IMAGE);
             if (App.GlobalData.IsDebug == false) {
-                this.mContent.m_btn_start.visible = false;
-                this.mContent.m_txt.visible = false;
                 App.Socket.addCmdListener(MsgType.Login, core.Handler.create(this, this.loginCallBack));
                 var loginMsg = new C2T_Login();
                 loginMsg.Msg.name = game.OptModel.ins.name; //App.MathUtils.random(1,1000);
@@ -66,6 +72,8 @@ var game;
                 App.Socket.send(loginMsg);
             }
             else {
+                this.mContent.m_btn_start.visible = true;
+                this.mContent.m_txt.visible = true;
                 this.mContent.m_btn_start.addClickListener(this.doStart, this);
             }
             // this.mContent.m_txt_name.text="t1";
@@ -145,17 +153,53 @@ var game;
             fairygui.UIPackage.addPackage("Rank");
             fairygui.UIPackage.addPackage("Result");
             fairygui.UIPackage.addPackage("TestPork");
-            ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
+            // ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
             ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
             // ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
+            console.log("-----shareRoomId" + game.OptModel.ins.shareRoomId);
+            console.log("-----shareRePlayRoomId" + game.OptModel.ins.shareRePlayRoomId);
             if (game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.isReConnectInRoom) {
-                ModuleMgr.ins.showModule(ModuleEnum.GAME);
+                ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME);
+            }
+            else if (game.OptModel.ins.shareRoomId != null && game.OptModel.ins.shareUserId != game.GameModel.ins.uid) {
+                game.ServerEngine.enterRoom(game.OptModel.ins.shareRoomId);
+                App.MessageCenter.addListener(game.MsgEnum.NEW_UESR_IN, this.enterRoomCallBack, this);
+                App.MessageCenter.addListener(game.MsgEnum.ENTER_ROOM_FAILD, this.enterRoomFaild, this);
+            }
+            else if (game.OptModel.ins.shareRePlayRoomId != null) {
+                HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/huifang", { 'uid': game.GameModel.ins.uid, 'id': game.OptModel.ins.shareRePlayRoomId }, this.onCallBack, this.onError, this);
             }
             else {
-                ModuleMgr.ins.showModule(ModuleEnum.GAME_MAIN, []);
+                ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);
             }
+            getLocation();
             // GameModel.ins.createRoundTest();
             // ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK,[]);
+        };
+        LoadingModule.prototype.enterRoomCallBack = function (user) {
+            if (user.uid == game.GameModel.ins.uid) {
+                App.MessageCenter.removeListener(game.MsgEnum.NEW_UESR_IN, this.enterRoomCallBack, this);
+                ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME);
+            }
+        };
+        LoadingModule.prototype.enterRoomFaild = function () {
+            ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);
+        };
+        LoadingModule.prototype.onCallBack = function (evt) {
+            var callBackJson = JSON.parse(evt.target.response);
+            if (callBackJson.data == null) {
+                game.AlertUtil.floatMsg(callBackJson.err);
+                ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);
+            }
+            else {
+                var data = JSON.parse(callBackJson.data['msg']);
+                var round = new game.Round();
+                round.init(data);
+                ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.REPLAY, round);
+            }
+        };
+        LoadingModule.prototype.onError = function (evt) {
+            ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);
         };
         return LoadingModule;
     }(Module));

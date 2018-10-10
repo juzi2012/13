@@ -4,6 +4,9 @@ module UI.Game {
 
 	export class GameBinder{
 		public static bindAll():void {
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_Flower.URL, UI_Flower);
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_Boom.URL, UI_Boom);
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatYuSheItem.URL, UI_ChatYuSheItem);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_SecurityCheck.URL, UI_SecurityCheck);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_PlayerPokers.URL, UI_PlayerPokers);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_DissolveRoom.URL, UI_DissolveRoom);

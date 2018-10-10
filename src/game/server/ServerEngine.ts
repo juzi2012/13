@@ -58,7 +58,7 @@ module game {
 			createRoomMsg.Msg = msg;
 			App.Socket.send(createRoomMsg);
 		}
-		public static enterRoom(rid:number):void
+		public static enterRoom(rid:string):void
 		{
 			let enterRoomMsg:C2T_Msg = new C2T_Msg();
 			enterRoomMsg.Aid = MsgType.EnterRooom;
@@ -158,11 +158,13 @@ module game {
 		{
 			if($msg['ok']>0){
 				if(GameModel.ins.roomModel.isAllFinish==false){
+					AlertUtil.floatMsg("房间已经解散");
 					GameModel.ins.disMissRoom();
 					ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
 					ModuleMgr.ins.changeScene(ModuleEnum.GAME,ModuleEnum.GAME_MAIN);
 				}else{
 					if(GameModel.ins.roomModel.hasPlayedJu<GameModel.ins.roomModel.rinfo.snum){//结算的局数小余房间总局数，说明是解散的
+						
 						ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
 						ModuleMgr.ins.changeScene(ModuleEnum.GAME,ModuleEnum.GAME_ALL_RESULT);
 					}
@@ -190,7 +192,7 @@ module game {
 			subMsg.uname = GameModel.ins.uname;
 			let date:Date = new Date();
 			subMsg.times = date.getTime().toString();
-			subMsg.time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
+			subMsg.time = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
 			
 			msg.Msg = subMsg;
 			App.Socket.send(msg);

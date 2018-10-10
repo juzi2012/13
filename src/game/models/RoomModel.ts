@@ -121,7 +121,7 @@ module game {
 			this.fname = msg.fname;
 			this.fuid = msg.fuid;
 			this.rid = msg.rid;
-
+			this.ju = msg.ju;
 			this.js = msg.js;
 			this.jt = msg.jt;
 			this.of = msg.of;
@@ -248,11 +248,12 @@ module game {
 			}
 		}
 		public getIsAccept($uid:string):number{
+			console.log($uid)
 			for(let uid in this.ju){
 				if($uid==uid){
-					if(this.ju['uid']==1){
+					if(this.ju[uid]==1){
 						return 1;
-					}else if(this.ju['uid']==0){
+					}else if(this.ju[uid]==0){
 						return 0;
 					}
 				}

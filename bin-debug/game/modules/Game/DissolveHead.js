@@ -33,6 +33,7 @@ var game;
             }
             this.m_txt_name.text = this.user.name;
             this.m_txt_score.text = this.user.sc.toString();
+            this.m_head.setURL(this.user.avatar);
         };
         DissolveHead.prototype.setState = function (act) {
             if (act == 1) {

@@ -15,9 +15,8 @@ module UI.Game {
 		public m_lixian:fairygui.GTextField;
 		public m_img_special:fairygui.GImage;
 		public m_img_fz:fairygui.GLoader;
-		public m_:fairygui.GImage;
-		public m__2:fairygui.GImage;
 		public m_chat_txt:fairygui.GTextField;
+		public m_chat_txt_emoji:fairygui.GTextField;
 		public m_chat:fairygui.GGroup;
 		public m_flower:fairygui.GImage;
 		public m_boom1:fairygui.GImage;
@@ -49,13 +48,12 @@ module UI.Game {
 			this.m_lixian = <fairygui.GTextField><any>(this.getChildAt(9));
 			this.m_img_special = <fairygui.GImage><any>(this.getChildAt(10));
 			this.m_img_fz = <fairygui.GLoader><any>(this.getChildAt(11));
-			this.m_ = <fairygui.GImage><any>(this.getChildAt(12));
-			this.m__2 = <fairygui.GImage><any>(this.getChildAt(13));
 			this.m_chat_txt = <fairygui.GTextField><any>(this.getChildAt(14));
-			this.m_chat = <fairygui.GGroup><any>(this.getChildAt(15));
-			this.m_flower = <fairygui.GImage><any>(this.getChildAt(16));
-			this.m_boom1 = <fairygui.GImage><any>(this.getChildAt(17));
-			this.m_boom2 = <fairygui.GImage><any>(this.getChildAt(18));
+			this.m_chat_txt_emoji = <fairygui.GTextField><any>(this.getChildAt(15));
+			this.m_chat = <fairygui.GGroup><any>(this.getChildAt(16));
+			this.m_flower = <fairygui.GImage><any>(this.getChildAt(17));
+			this.m_boom1 = <fairygui.GImage><any>(this.getChildAt(18));
+			this.m_boom2 = <fairygui.GImage><any>(this.getChildAt(19));
 			this.m_t0 = this.getTransitionAt(0);
 			this.m_t1 = this.getTransitionAt(1);
 		}

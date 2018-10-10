@@ -13,6 +13,7 @@ module UI.Game {
 		public m_btn_send:fairygui.GButton;
 		public m_btn_input:fairygui.GTextInput;
 		public m_list_emoji:fairygui.GList;
+		public m_listyushe:fairygui.GList;
 
 		public static URL:string = "ui://jow5n9bqx90y31";
 
@@ -36,6 +37,7 @@ module UI.Game {
 			this.m_btn_send = <fairygui.GButton><any>(this.getChildAt(5));
 			this.m_btn_input = <fairygui.GTextInput><any>(this.getChildAt(7));
 			this.m_list_emoji = <fairygui.GList><any>(this.getChildAt(8));
+			this.m_listyushe = <fairygui.GList><any>(this.getChildAt(9));
 		}
 	}
 }

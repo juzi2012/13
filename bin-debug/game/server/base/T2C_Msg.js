@@ -249,6 +249,9 @@ var T2C_Msg = (function (_super) {
         }
         else {
             App.MessageCenter.dispatch(game.MsgEnum.FLOAT_MSG, this.Err, this.Aid);
+            if (this.Aid == MsgType.EnterRooom) {
+                App.MessageCenter.dispatch(game.MsgEnum.ENTER_ROOM_FAILD);
+            }
         }
     };
     return T2C_Msg;

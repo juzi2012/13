@@ -40,6 +40,14 @@ var game;
     }());
     game.DaQiang = DaQiang;
     __reflect(DaQiang.prototype, "game.DaQiang");
+    //特殊牌型要扣分的对象
+    var TeSuPaiTarget = (function () {
+        function TeSuPaiTarget() {
+        }
+        return TeSuPaiTarget;
+    }());
+    game.TeSuPaiTarget = TeSuPaiTarget;
+    __reflect(TeSuPaiTarget.prototype, "game.TeSuPaiTarget");
     var Win = (function () {
         function Win() {
         }
@@ -47,6 +55,22 @@ var game;
     }());
     game.Win = Win;
     __reflect(Win.prototype, "game.Win");
+    //这个类是记录了坐庄玩法时其他玩家是上中下墩的分数
+    var ZZOtherScore = (function () {
+        function ZZOtherScore() {
+        }
+        return ZZOtherScore;
+    }());
+    game.ZZOtherScore = ZZOtherScore;
+    __reflect(ZZOtherScore.prototype, "game.ZZOtherScore");
+    //全垒打的目标
+    var QLDTarget = (function () {
+        function QLDTarget() {
+        }
+        return QLDTarget;
+    }());
+    game.QLDTarget = QLDTarget;
+    __reflect(QLDTarget.prototype, "game.QLDTarget");
     var ResultBP = (function () {
         function ResultBP() {
         }
@@ -54,11 +78,21 @@ var game;
             this.scoretop = 0;
             this.scoremid = 0;
             this.scoredown = 0;
-            this.dq = new DaQiang();
-            this.dq.uid = this.uid;
+            this.dq = new Array();
+            this.otherScores = new Array();
             this.wins = [];
+            if (this.ql > 0) {
+                this.qlTar = new QLDTarget();
+                this.qlTar.uid = this.uid;
+                this.qlTar.tarUidArr = [];
+            }
+            if (this.px > 0) {
+                this.tesuPaiTarArr = [];
+            }
             for (var i = 0; i < this.rs.length; i++) {
                 var bp = this.rs[i];
+                var dq1 = new DaQiang();
+                this.dq.push(dq1);
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
                     if (this.uid == game.GameModel.ins.uid) {
                         this.scoretop += bp['sc1'];
@@ -74,13 +108,38 @@ var game;
                     }
                 }
                 else {
+                    //这个是算庄家的总分
                     this.scoretop += bp['sc1'];
                     this.scoremid += bp['sc2'];
                     this.scoredown += bp['sc3'];
+                    var zzotherscore = new ZZOtherScore();
+                    zzotherscore.uid = bp['uid'];
+                    zzotherscore.topscore = bp['sc1'];
+                    zzotherscore.midscore = bp['sc2'];
+                    zzotherscore.downscore = bp['sc3'];
+                    this.otherScores.push(zzotherscore);
+                }
+                if (this.px > 0) {
+                    var tesupaitar = new TeSuPaiTarget();
+                    tesupaitar.uid = bp['uid'];
+                    tesupaitar.tc = bp['tc'];
+                    this.tesuPaiTarArr.push(tesupaitar);
                 }
                 if (bp['dq'] == 1) {
-                    if (this.dq.tarIds.indexOf(bp['uid']) == -1) {
-                        this.dq.tarIds.push(bp['uid']);
+                    dq1.uid = this.uid;
+                    if (dq1.tarIds.indexOf(bp['uid']) == -1) {
+                        dq1.tarIds.push(bp['uid']);
+                    }
+                    if (this.qlTar != null) {
+                        this.qlTar.tarUidArr.push(bp['uid']);
+                    }
+                }
+                if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                    if (bp['dq'] == -1) {
+                        dq1.uid = bp['uid'];
+                        if (dq1.tarIds.indexOf(this.uid) == -1) {
+                            dq1.tarIds.push(this.uid);
+                        }
                     }
                 }
                 var win = new Win();
@@ -96,6 +155,33 @@ var game;
             this.scoretopstr = this.scoretop > 0 ? ("+" + this.scoretop) : this.scoretop.toString();
             this.scoremidstr = this.scoremid > 0 ? ("+" + this.scoremid) : this.scoremid.toString();
             this.scoredownstr = this.scoredown > 0 ? ("+" + this.scoredown) : this.scoredown.toString();
+        };
+        ResultBP.prototype.getTeSuPaiTarByUid = function (uid) {
+            for (var i = 0; i < this.tesuPaiTarArr.length; i++) {
+                if (this.tesuPaiTarArr[i].uid == uid) {
+                    return this.tesuPaiTarArr[i];
+                }
+            }
+            return null;
+        };
+        //多人的时候，大枪不是简单的当前总分翻倍，而是要找到跟谁比牌而翻倍的，所以要拿到当前对比的人的分数
+        ResultBP.prototype.getDQFanBeiScore = function (uid) {
+            for (var i = 0; i < this.rs.length; i++) {
+                var bp = this.rs[i];
+                if (uid == bp['uid']) {
+                    return bp;
+                }
+            }
+            return null;
+        };
+        //坐庄的时候获取其他人的分数
+        ResultBP.prototype.getotherScoreById = function (uid) {
+            for (var i = 0; i < this.otherScores.length; i++) {
+                if (this.otherScores[i].uid == uid) {
+                    return this.otherScores[i];
+                }
+            }
+            return null;
         };
         ResultBP.prototype.getWinById = function (uid) {
             for (var i = 0; i < this.wins.length; i++) {

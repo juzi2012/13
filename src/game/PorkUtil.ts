@@ -321,6 +321,9 @@ module game {
 		 * 查找同花
 		 */
 		public static findTongHua(cards:Array<PorkVO>,length=5):Array<any>{
+			if(GameModel.ins.roomModel.rinfo.rp==6){
+				return [];
+			}
 			if(cards.length<5){
 				return [];
 			}
@@ -402,25 +405,34 @@ module game {
 			let color2 = [];//梅花
 			let color3 = [];//红心
 			let color4 = [];//黑桃
+			
+			let color11 = [];//方块
+			let color22 = [];//梅花
+			let color33 = [];//红心
+			let color44 = [];//黑桃
 			for(let i=0;i<cards.length;i++){
 				if(cards[i].type==4){
-					if(color4.indexOf(cards[i].point)==-1){
+					if(color44.indexOf(cards[i].point)==-1){
 						color4.push(cards[i])
+						color44.push(cards[i].point);
 					}
 				}
 				if(cards[i].type==3){
-					if(color3.indexOf(cards[i].point)==-1){
+					if(color33.indexOf(cards[i].point)==-1){
 						color3.push(cards[i])
+						color33.push(cards[i].point);
 					}
 				}
 				if(cards[i].type==2){
-					if(color2.indexOf(cards[i].point)==-1){
+					if(color22.indexOf(cards[i].point)==-1){
 						color2.push(cards[i])
+						color22.push(cards[i].point);
 					}
 				}
 				if(cards[i].type==1){
-					if(color1.indexOf(cards[i].point)==-1){
+					if(color11.indexOf(cards[i].point)==-1){
 						color1.push(cards[i])
+						color11.push(cards[i].point);
 					}
 				}
 			}
@@ -942,9 +954,18 @@ module game {
 				}else if(paixing1==7){
 					return this.checkHulu(nowArr,otherArr);
 				}else if(paixing1==8){
-					return this.checkTiezhi(nowArr,otherArr);
+					if(GameModel.ins.roomModel.rinfo.rp==6){
+						return this.checkTonghuashun(nowArr,otherArr);
+					}else{
+						return this.checkTiezhi(nowArr,otherArr);
+					}
 				}else if(paixing1==9){
-					return this.checkTonghuashun(nowArr,otherArr);
+					if(GameModel.ins.roomModel.rinfo.rp==6){
+						return this.checkTiezhi(nowArr,otherArr);
+					}else{
+						return this.checkTonghuashun(nowArr,otherArr);
+					}
+					
 				}else if(paixing1==10){
 					return this.checkWutong(nowArr,otherArr);
 				}
@@ -1126,7 +1147,7 @@ module game {
 			// 		break;
 			// 	}
 			// }
-			return true;
+			return false;
 		}
 		//获取单
 		// public static getSingBigger():boolean{
@@ -1153,7 +1174,7 @@ module game {
 			if(this.findHuLu(arr).length>0){
 				return 7;
 			}
-			if(this.findTongHua(arr).length>0){
+			if(this.findTongHua(arr).length>0&&GameModel.ins.roomModel.rinfo.rp!=6){
 				return 6;
 			}
 			if(this.findShunZi(arr).length>0){

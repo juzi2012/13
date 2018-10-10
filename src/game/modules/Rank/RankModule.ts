@@ -38,12 +38,14 @@ module game {
 			for(let i:number =0;i<this.result.length;i++){
 				if(this.result[i]['uid']==GameModel.ins.uid){
 					this.mContent.m_img_outrank.visible=false;
-					this.mContent.m_txt_rank.text = i.toString();
+					let rankTxt:string = (i+1).toString();
+					this.mContent.m_txt_rank.text = "第"+rankTxt+"名";
 					this.mContent.m_txt_name.text = this.result[i]['uname'];
 					this.mContent.m_txt_score.text = this.result[i]['wnum']+"/"+this.result[i]['num'];
 					break;
 				}
 			}
+			(this.mContent.m_head as PlayerHeadImg1).setURL(GameModel.ins.avatar); 
 		}
 		private onError(evt:egret.Event):void
 		{

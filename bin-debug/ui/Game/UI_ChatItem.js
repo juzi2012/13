@@ -23,8 +23,9 @@ var UI;
             };
             UI_ChatItem.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
-                this.m_txt_content = (this.getChildAt(1));
+                this.m_txt_name = (this.getChildAt(1));
                 this.m_txt_time = (this.getChildAt(2));
+                this.m_txt_content = (this.getChildAt(3));
             };
             UI_ChatItem.URL = "ui://jow5n9bqx90y38";
             return UI_ChatItem;

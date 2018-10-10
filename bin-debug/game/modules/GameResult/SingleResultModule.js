@@ -34,7 +34,11 @@ var game;
             this.mContent.m_c1.selectedIndex = 0;
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
-            this.mContent.m_list.numItems = game.GameModel.ins.roundModel.result.cards.length;
+            this.cards = game.GameModel.ins.roundModel.result.cards.concat([]);
+            this.cards.sort(function (a, b) {
+                return b.sc - a.sc;
+            });
+            this.mContent.m_list.numItems = this.cards.length;
             this.mContent.m_txt_roominfo.text = game.GameModel.ins.roomModel.rinfo.fc == 1 ? "房主付费" : "房费AA " + game.GameModel.ins.roomModel.rinfo.pn + "人 " + game.GameModel.ins.roomModel.rinfo.nnum + "/" + game.GameModel.ins.roomModel.rinfo.snum + "局 ";
             this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
             _super.prototype.preShow.call(this, data);
@@ -55,7 +59,7 @@ var game;
         };
         SingleResultModule.prototype.RenderListItem = function (index, _item) {
             var item = _item;
-            item.setData(game.GameModel.ins.roundModel.result.cards[index]);
+            item.setData(this.cards[index]);
         };
         SingleResultModule.prototype.onCheck = function () {
             App.MessageCenter.dispatch(game.MsgEnum.GAME_CHECK_SINGLE);

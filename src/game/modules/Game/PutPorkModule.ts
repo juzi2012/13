@@ -179,6 +179,8 @@ module game {
 			this.mContent.m_btntype5.enabled=(GameModel.ins.roundModel.tonghua.length>0);
 			this.mContent.m_btntype6.enabled=(GameModel.ins.roundModel.hulu.length>0);
 			if(GameModel.ins.roomModel.rinfo.rp==6){//纯一色十三水
+				this.mContent.m_btntype4.enabled=false;
+				this.mContent.m_btntype5.enabled=false;
 				this.mContent.m_btntype7.enabled=(GameModel.ins.roundModel.tonghuashun.length>0);
 				this.mContent.m_btntype8.enabled=(GameModel.ins.roundModel.tiezhi.length>0);
 			}else{
@@ -448,7 +450,11 @@ module game {
 			ModuleMgr.ins.showModule(ModuleEnum.GAME_HELP);
 		}
 		public preClose(data?: any):void {
-			this.onReset();
+			this.RenderTopList([]);
+			this.RenderMidList([]);
+			this.RenderDownList([]);
+			this.mContent.m_ctrl.selectedIndex = 0;
+
 			this.mContent.m_btntype1.removeClickListener(this.onChooseType,this);
 			this.mContent.m_btntype2.removeClickListener(this.onChooseType,this);
 			this.mContent.m_btntype3.removeClickListener(this.onChooseType,this);

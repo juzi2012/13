@@ -33,8 +33,10 @@ module game {
 		}
 		private onContinue():void
 		{
-			if(this.round.cur==this.round.Jn-1){//全部结束了，就显示结果
-				ModuleMgr.ins.changeScene(ModuleEnum.REPLAY,ModuleEnum.GAME_ALL_RESULT_PLAY,this.round);
+			if(this.round.cur==this.round.jus.length-1){//全部结束了，就显示结果
+				// ModuleMgr.ins.changeScene(ModuleEnum.REPLAY,ModuleEnum.GAME_ALL_RESULT_PLAY,this.round);
+				ModuleMgr.ins.changeScene(ModuleEnum.REPLAY,ModuleEnum.GAME_MAIN,{fromPlay:true});
+
 			}else{
 				this.round.cur++;
 				App.MessageCenter.dispatch(MsgEnum.PLAY_NEXT)

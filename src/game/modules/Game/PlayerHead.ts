@@ -77,7 +77,7 @@ module game {
 			this.m_img_special.visible=false;
 			this.pokers.m_txt_score_result.text="";
 			this.m_ctrlState.selectedIndex=0;
-			this.m_score.text="0";
+			// this.m_score.text="0";
 			this.m_chat.visible=false;
 			this.m_chat.alpha=0;
 		}
@@ -98,13 +98,11 @@ module game {
 		}
 		public speek(str:string):void{
 			if(str.slice(0,3)=="%%-"&&str.slice(str.length-3,str.length)=="-%%"){
-				this.m_chat_txt.font = "ui://jow5n9bqd8n86l";
-				// this.m_chat_txt.fontSize = 30;
-				this.m_chat_txt.text = str.slice(3,str.length-3);
+				this.m_chat_txt.text = "";
+				this.m_chat_txt_emoji.text = str.slice(3,str.length-3);
 			}else{
-				this.m_chat_txt.font = "";
-				// this.m_chat_txt.fontSize = 16;
 				this.m_chat_txt.text = str;
+				this.m_chat_txt_emoji.text = "";
 			}
 			this.m_chat.visible=true;
 			TweenMax.to(this.m_chat,0.5,{alpha:1,onComplete:this.onHide,onCompleteParams:[this.m_chat]});
@@ -137,15 +135,20 @@ module game {
 			this.m_img_finish.visible=true;
 		}
 		//pos 为上敦 中墩 下墩
-		public showResult(pos:number,result:ResultCard):void
+		public showResult(pos:number,result:ResultCard,istesu:boolean=false):void
 		{
 			this.m_img_finish.visible=false;
-			this.pokers.showResult(pos,result);
+			this.pokers.showResult(pos,result,istesu);
 		}
 		public showSpecialResult(result:ResultCard):void
 		{
 			this.m_img_finish.visible=false;
 			this.pokers.showSpecialResult(result);
+		}
+		public showSpecialPlay(result:JuPlayer):void
+		{
+			this.m_img_finish.visible=false;
+			this.pokers.showSpecialPlay(result);
 		}
 		//pos 为上敦 中墩 下墩
 		public showResultPlay(pos:number,result:JuPlayer):void
@@ -165,9 +168,9 @@ module game {
 		}
 		public showInfo():void
 		{
-			if(this.user!=null&&this.user.uid!=GameModel.ins.uid){
+			// if(this.user!=null&&this.user.uid!=GameModel.ins.uid){
 				ModuleMgr.ins.showModule(ModuleEnum.USERINFO,this.user);
-			}
+			// }
 		}
 		public updateScore():void
 		{

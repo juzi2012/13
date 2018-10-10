@@ -16,6 +16,7 @@ module UI.Game {
 		public m_txt_pos0_4:fairygui.GTextField;
 		public m_txt_pos0_5:fairygui.GTextField;
 		public m_btn_close:fairygui.GButton;
+		public m_head:fairygui.GComponent;
 
 		public static URL:string = "ui://jow5n9bqwigp4o";
 
@@ -41,7 +42,8 @@ module UI.Game {
 			this.m_txt_pos0_3 = <fairygui.GTextField><any>(this.getChildAt(13));
 			this.m_txt_pos0_4 = <fairygui.GTextField><any>(this.getChildAt(14));
 			this.m_txt_pos0_5 = <fairygui.GTextField><any>(this.getChildAt(15));
-			this.m_btn_close = <fairygui.GButton><any>(this.getChildAt(17));
+			this.m_btn_close = <fairygui.GButton><any>(this.getChildAt(16));
+			this.m_head = <fairygui.GComponent><any>(this.getChildAt(17));
 		}
 	}
 }

@@ -71,6 +71,7 @@ var game;
             game.ServerEngine.sendAcceptOrRefuseDismiss(0);
             this.mContent.m_btn_accept.visible = false;
             this.mContent.m_btn_refuse.visible = false;
+            ModuleMgr.ins.closeModule(this.moduleId);
         };
         DissolveRoomModule.prototype.RenderListItem = function (index, _item) {
             var item = _item;
@@ -84,6 +85,7 @@ var game;
             }
             if (msg.uid != game.GameModel.ins.uid && msg.act == 0) {
                 game.AlertUtil.floatMsg(game.GameModel.ins.roomModel.getUserById(msg.uid).name + "不同意解散房间.");
+                ModuleMgr.ins.closeModule(this.moduleId);
             }
         };
         DissolveRoomModule.prototype.getPlayerById = function (uid) {

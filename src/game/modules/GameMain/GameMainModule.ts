@@ -38,7 +38,11 @@ module game {
 		
 		public show(data?:any):void
 		{
+			this.onShare();
 			super.show(data);
+			if(data!=null && data.fromPlay==true){
+				ModuleMgr.ins.showModule(ModuleEnum.ZHANJI);
+			}
 		}
 		private updatePlayerInfo():void
 		{
@@ -77,6 +81,9 @@ module game {
 		}
 		private onActivityClick():void
 		{
+			// let rt:egret.RenderTexture = new egret.RenderTexture();
+			// rt.drawToTexture(this.mContent.displayObject);
+			// rt.saveToFile("image/jpeg","/Users/WT");
 			ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
 		}
 		private onJoinRoom():void
@@ -103,6 +110,14 @@ module game {
 			}else{
 				App.SoundUtils.stopSoundByID("music_bg_home_mp3");
 			}
+		}
+		private onShare():void
+		{
+			let shareData:Object = new Object();
+			shareData["shareUserId"]=GameModel.ins.uid;
+			shareData["shareUserName"]=GameModel.ins.uname;
+			shareData["avatar"]=GameModel.ins.avatar;
+			WXUtil.ins.share(shareData);
 		}
 		public preClose(data?: any):void {
 			App.SoundUtils.stopSoundByID("music_bg_home_mp3");

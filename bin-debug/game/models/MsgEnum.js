@@ -9,7 +9,7 @@ var game;
         MsgEnum.FLOAT_MSG = "FLOAT_MSG";
         MsgEnum.UPDATE_MYINFO = "UPDATE_MYINFO";
         MsgEnum.CREATE_ROOM = "CREATE_ROOM";
-        // static ENTER_ROOM:string="ENTER_ROOM";
+        MsgEnum.ENTER_ROOM_FAILD = "ENTER_ROOM_FAILD";
         MsgEnum.NEW_UESR_IN = "NEW_UESR_IN"; //一个新的用户进到房间
         MsgEnum.NEW_UESR_OUT = "NEW_UESR_OUT"; //一个新的用户退出房间
         MsgEnum.NEW_UESR_READY = "NEW_UESR_READY"; //一个玩家准备

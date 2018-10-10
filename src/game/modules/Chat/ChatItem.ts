@@ -10,8 +10,9 @@ module game {
 				this.m_txt_content.text = value.str.slice(3,value.str.length-3);
 			}else{
 				this.m_txt_content.font = "";
-				this.m_txt_content.text = value.uname+":"+value.str;
+				this.m_txt_content.text = value.str;
 			}
+			this.m_txt_name.text = value.uname+":";
 		}
 	}
 }

@@ -7,6 +7,7 @@ module UI.Game {
 		public m_txt_top:fairygui.GTextField;
 		public m_txt_name:fairygui.GTextField;
 		public m_txt_score:fairygui.GTextField;
+		public m_head:fairygui.GComponent;
 
 		public static URL:string = "ui://jow5n9bqgl8o4i";
 
@@ -24,6 +25,7 @@ module UI.Game {
 			this.m_txt_top = <fairygui.GTextField><any>(this.getChildAt(2));
 			this.m_txt_name = <fairygui.GTextField><any>(this.getChildAt(3));
 			this.m_txt_score = <fairygui.GTextField><any>(this.getChildAt(5));
+			this.m_head = <fairygui.GComponent><any>(this.getChildAt(6));
 		}
 	}
 }

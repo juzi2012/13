@@ -15,6 +15,7 @@ var game;
         function PlayerPokers() {
             var _this = _super.call(this) || this;
             _this.offsite = 45;
+            _this.beishu = 1;
             return _this;
         }
         PlayerPokers.prototype.init = function () {
@@ -25,6 +26,9 @@ var game;
             this.m_txt_scoretop.visible = false;
             this.m_txt_score_mid.visible = false;
             this.m_txt_score_down.visible = false;
+            this.beishu = 1;
+            this.zongfen = 0;
+            this.zongfenbase = 0;
             for (var i = 0; i < 13; i++) {
                 var poker = this['m_pork' + i];
                 poker.x = -26;
@@ -33,54 +37,88 @@ var game;
             }
         };
         PlayerPokers.prototype.showSpecialResult = function (result) {
-            var bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
+            this.result = result;
+            this.bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
             for (var i = 0; i < 13; i++) {
                 var poker = this['m_pork' + i];
                 poker.showResult(result.cards[i]);
             }
-            if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
-                if (game.GameModel.ins.uid != result.uid) {
-                    if (bipai.px > 0) {
+            /*
+            if(GameModel.ins.roomModel.rinfo.zz==0){
+                if(GameModel.ins.uid!=result.uid){
+                    if(this.bipai.px>0){
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                        this.m_txt_score_result.text = "翻倍";
-                    }
-                    else {
+                        this.m_txt_score_result.text="翻倍";
+                    }else{
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
-                        this.m_txt_score_result.text = "不翻倍";
+                        this.m_txt_score_result.text="不翻倍";
                     }
-                }
-                else {
-                    if (result.sc >= 0) {
+                }else{
+                    if(result.sc>=0){
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                    }
-                    else {
+                    }else{
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
                     }
-                    var f = "";
-                    if (result.sc > 0) {
+                    let f:string="";
+                    if(result.sc>0){
                         f = "+";
                     }
-                    this.m_txt_score_result.text = "总得分：" + f + result.sc;
+                    this.m_txt_score_result.text="总得分："+f+result.sc;
                 }
-            }
-            else {
-                if (result.sc >= 0) {
+            }else{
+                if(result.sc>=0){
                     this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                }
-                else {
+                }else{
                     this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
                 }
-                var f = "";
-                if (result.sc > 0) {
+                let f:string="";
+                if(result.sc>0){
                     f = "+";
                 }
-                this.m_txt_score_result.text = f + result.sc;
+                this.m_txt_score_result.text=f+result.sc;
+            }*/
+            if (result.sc >= 0) {
+                this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
             }
+            else {
+                this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+            }
+            var f = "";
+            if (result.sc > 0) {
+                f = "+";
+            }
+            this.m_txt_score_result.text = f + result.sc;
         };
-        PlayerPokers.prototype.showResult = function (pos, result) {
-            var bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
+        PlayerPokers.prototype.showSpecialPlay = function (result) {
+            var resultCards = result.topCards.concat(result.midCards).concat(result.downCards);
+            for (var i = 0; i < 13; i++) {
+                var poker = this['m_pork' + i];
+                poker.showResult(resultCards[i]);
+            }
+            if (result.sc >= 0) {
+                this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+            }
+            var f = "";
+            if (result.sc > 0) {
+                f = "+";
+            }
+            this.m_txt_score_result.text = f + result.sc;
+        };
+        //更新被特俗牌的玩家的分数
+        PlayerPokers.prototype.updateTeSuScore = function (tesuPaiTar) {
+            this.zongfen += tesuPaiTar.tc;
+            this.showResultScore(false, false);
+        };
+        PlayerPokers.prototype.showResult = function (pos, result, istesu) {
+            if (istesu === void 0) { istesu = false; }
+            this.istesu = istesu;
+            this.result = result;
+            this.bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);
             if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
-                bipai = game.GameModel.ins.roundModel.result.bipai[0];
+                this.bipai = game.GameModel.ins.roundModel.result.bipai[0];
             }
             if (result.ty > 0) {
                 // this.m_imt_teshu.visible=true;
@@ -103,47 +141,57 @@ var game;
                 }
                 this.findPaiXing(result.ty1);
                 this.m_txt_scoretop.visible = true;
-                if (bipai.scoretop >= 0) {
+                if (this.bipai.scoretop >= 0) {
                     this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
                 }
                 else {
                     this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
                 }
+                this.scoretop = this.bipai.scoretop;
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
                     if (result.uid == game.GameModel.ins.uid) {
-                        this.m_txt_scoretop.text = bipai.scoretopstr.toString();
+                        this.m_txt_scoretop.text = istesu ? "" : this.bipai.scoretopstr.toString();
+                        this.score_fanbei_top = "@param0";
                     }
                     else {
-                        var win = bipai.getWinById(game.GameModel.ins.uid);
+                        var win = this.bipai.getWinById(game.GameModel.ins.uid);
                         if (win.w1 == result.uid) {
                             this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_scoretop.text = "赢" + bipai.scoretopstr;
+                            this.m_txt_scoretop.text = istesu ? "" : "赢" + this.bipai.scoretopstr;
+                            this.score_fanbei_top = "赢" + "@param0";
                         }
                         else if (win.w1 == "") {
-                            this.m_txt_scoretop.text = "" + bipai.scoretopstr;
+                            this.m_txt_scoretop.text = istesu ? "" : "" + this.bipai.scoretopstr;
+                            this.score_fanbei_top = "@param0";
                         }
                         else {
                             this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_scoretop.text = "输" + bipai.scoretopstr;
+                            this.m_txt_scoretop.text = istesu ? "" : "输" + this.bipai.scoretopstr;
+                            this.score_fanbei_top = "输" + "@param0";
                         }
                     }
                 }
                 else {
                     if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
-                        if (bipai.getWinById(result.uid).w1 == result.uid) {
+                        this.scoretop = this.bipai.getotherScoreById(result.uid).topscore;
+                        if (this.bipai.getWinById(result.uid).w1 == result.uid) {
                             this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_scoretop.text = "赢";
+                            this.m_txt_scoretop.text = istesu ? "" : "赢";
+                            this.score_fanbei_top = "赢";
                         }
-                        else if (bipai.getWinById(result.uid).w1 == "") {
+                        else if (this.bipai.getWinById(result.uid).w1 == "") {
                             this.m_txt_scoretop.text = "";
+                            this.score_fanbei_top = "";
                         }
                         else {
                             this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_scoretop.text = "输";
+                            this.m_txt_scoretop.text = istesu ? "" : "输";
+                            this.score_fanbei_top = "输";
                         }
                     }
                     else {
                         this.m_txt_scoretop.text = "";
+                        this.score_fanbei_top = "";
                     }
                 }
             }
@@ -160,47 +208,57 @@ var game;
                 this.m_porka5.showResult(result.cards[7]);
                 this.findPaiXing(result.ty2);
                 this.m_txt_score_mid.visible = true;
-                if (bipai.scoremid >= 0) {
+                if (this.bipai.scoremid >= 0) {
                     this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
                 }
                 else {
                     this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
                 }
+                this.scoremid = this.bipai.scoremid;
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
                     if (result.uid == game.GameModel.ins.uid) {
-                        this.m_txt_score_mid.text = bipai.scoremidstr.toString();
+                        this.m_txt_score_mid.text = istesu ? "" : this.bipai.scoremidstr.toString();
+                        this.score_fanbei_mid = "@param0";
                     }
                     else {
-                        var win = bipai.getWinById(game.GameModel.ins.uid);
+                        var win = this.bipai.getWinById(game.GameModel.ins.uid);
                         if (win.w2 == result.uid) {
                             this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_score_mid.text = "赢" + bipai.scoremidstr;
+                            this.m_txt_score_mid.text = istesu ? "" : "赢" + this.bipai.scoremidstr;
+                            this.score_fanbei_mid = "赢" + "@param0";
                         }
                         else if (win.w2 == '') {
-                            this.m_txt_score_mid.text = "" + bipai.scoremidstr;
+                            this.m_txt_score_mid.text = istesu ? "" : "" + this.bipai.scoremidstr;
+                            this.score_fanbei_mid = "" + "@param0";
                         }
                         else {
                             this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_score_mid.text = "输" + bipai.scoremidstr;
+                            this.m_txt_score_mid.text = istesu ? "" : "输" + this.bipai.scoremidstr;
+                            this.score_fanbei_mid = "输" + "@param0";
                         }
                     }
                 }
                 else {
                     if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
-                        if (bipai.getWinById(result.uid).w2 == result.uid) {
+                        this.scoremid = this.bipai.getotherScoreById(result.uid).midscore;
+                        if (this.bipai.getWinById(result.uid).w2 == result.uid) {
                             this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_score_mid.text = "赢";
+                            this.m_txt_score_mid.text = istesu ? "" : "赢";
+                            this.score_fanbei_mid = "赢";
                         }
-                        else if (bipai.getWinById(result.uid).w2 == '') {
+                        else if (this.bipai.getWinById(result.uid).w2 == '') {
                             this.m_txt_score_mid.text = "";
+                            this.score_fanbei_mid = "";
                         }
                         else {
                             this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_score_mid.text = "输";
+                            this.m_txt_score_mid.text = istesu ? "" : "输";
+                            this.score_fanbei_mid = "输";
                         }
                     }
                     else {
                         this.m_txt_score_mid.text = "";
+                        this.score_fanbei_mid = "";
                     }
                 }
             }
@@ -209,7 +267,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 8;
                 end = 13;
-                this.m_porka.y = 31 + this.offsite;
+                this.m_porka.y = 36 + this.offsite;
                 this.m_porka1.showResult(result.cards[8]);
                 this.m_porka2.showResult(result.cards[9]);
                 this.m_porka3.showResult(result.cards[10]);
@@ -217,83 +275,104 @@ var game;
                 this.m_porka5.showResult(result.cards[12]);
                 this.findPaiXing(result.ty3);
                 this.m_txt_score_down.visible = true;
-                if (bipai.scoredown >= 0) {
+                if (this.bipai.scoredown >= 0) {
                     this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
                 }
                 else {
                     this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
                 }
+                this.scoredown = this.bipai.scoredown;
                 if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
                     if (result.uid == game.GameModel.ins.uid) {
-                        this.m_txt_score_down.text = bipai.scoredownstr.toString();
+                        this.m_txt_score_down.text = istesu ? "" : this.bipai.scoredownstr.toString();
+                        this.score_fanbei_down = "@param0";
                     }
                     else {
-                        var win = bipai.getWinById(game.GameModel.ins.uid);
+                        var win = this.bipai.getWinById(game.GameModel.ins.uid);
                         if (win.w3 == result.uid) {
                             this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_score_down.text = "赢" + bipai.scoredownstr;
+                            this.m_txt_score_down.text = istesu ? "" : "赢" + this.bipai.scoredownstr;
+                            this.score_fanbei_down = "赢" + "@param0";
                         }
                         else if (win.w3 == "") {
-                            this.m_txt_score_down.text = "" + bipai.scoredownstr;
+                            this.m_txt_score_down.text = istesu ? "" : "" + this.bipai.scoredownstr;
+                            this.score_fanbei_down = "" + "@param0";
                         }
                         else {
                             this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_score_down.text = "输" + bipai.scoredownstr;
+                            this.m_txt_score_down.text = istesu ? "" : "输" + this.bipai.scoredownstr;
+                            this.score_fanbei_down = "输" + "@param0";
                         }
                     }
-                    if (game.GameModel.ins.uid != result.uid) {
-                        if (bipai.px > 0) {
+                    /*
+                    if(GameModel.ins.uid!=result.uid){
+                        if(bipai.px>0){
                             this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_score_result.text = "翻倍";
-                        }
-                        else {
+                            this.m_txt_score_result.text="翻倍";
+                        }else{
                             this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_score_result.text = "不翻倍";
+                            this.m_txt_score_result.text="不翻倍";
                         }
-                    }
-                    else {
-                        if (result.sc >= 0) {
+                    }else{
+                        if(result.sc>=0){
                             this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                        }
-                        else {
+                        }else{
                             this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
                         }
-                        var f = "";
-                        if (result.sc > 0) {
+                        let f:string="";
+                        if(result.sc>0){
                             f = "+";
                         }
-                        this.m_txt_score_result.text = "总得分：" + f + result.sc;
-                    }
+                        this.m_txt_score_result.text="总得分："+f+result.sc;
+                    }*/
                 }
                 else {
                     if (game.GameModel.ins.roomModel.rinfo.zuid != result.uid) {
-                        if (bipai.getWinById(result.uid).w3 == result.uid) {
+                        this.scoredown = this.bipai.getotherScoreById(result.uid).downscore;
+                        if (this.bipai.getWinById(result.uid).w3 == result.uid) {
                             this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
-                            this.m_txt_score_down.text = "赢";
+                            this.m_txt_score_down.text = istesu ? "" : "赢";
+                            this.score_fanbei_down = "赢";
                         }
-                        else if (bipai.getWinById(result.uid).w3 == "") {
+                        else if (this.bipai.getWinById(result.uid).w3 == "") {
                             this.m_txt_score_down.text = "";
+                            this.score_fanbei_down = "";
                         }
                         else {
                             this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
-                            this.m_txt_score_down.text = "输";
+                            this.m_txt_score_down.text = istesu ? "" : "输";
+                            this.score_fanbei_down = "输";
                         }
                     }
                     else {
                         this.m_txt_score_down.text = "";
+                        this.score_fanbei_down = "";
                     }
-                    if (result.sc >= 0) {
+                    /*
+                    if(result.sc>=0){
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
-                    }
-                    else {
+                    }else{
                         this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
                     }
-                    var f = "";
-                    if (result.sc > 0) {
+                    let f:string="";
+                    if(result.sc>0){
                         f = "+";
                     }
-                    this.m_txt_score_result.text = f + result.sc;
+                    this.m_txt_score_result.text=f+result.sc;
+                    */
                 }
+                this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                this.zongfenbase = this.scoretop + this.scoremid + this.scoredown;
+                if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                    if (this.result.uid != game.GameModel.ins.roomModel.rinfo.zuid) {
+                        var otherScore = this.bipai.getotherScoreById(this.result.uid);
+                        if (otherScore) {
+                            this.zongfenbase = otherScore.topscore + otherScore.midscore + otherScore.downscore;
+                            this.zongfen = this.zongfenbase;
+                        }
+                    }
+                }
+                this.showResultScore(false, false);
             }
             this.m_t1.play(this.effectEnd, this);
             for (var i = start; i < end; i++) {
@@ -301,6 +380,228 @@ var game;
                 poker.showResult(result.cards[i]);
             }
         };
+        PlayerPokers.prototype.UpDateULD = function (resultBP) {
+            if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                if (resultBP.qlTar.uid == this.result.uid) {
+                    for (var i = 0; i < resultBP.qlTar.tarUidArr.length; i++) {
+                        var bp = resultBP.getDQFanBeiScore(resultBP.qlTar.tarUidArr[i]);
+                        if (bp) {
+                            this.scoretop -= (bp['sc1'] * 2);
+                            this.scoremid -= (bp['sc2'] * 2);
+                            this.scoredown -= (bp['sc3'] * 2);
+                            // this.zongfen+=((bp['sc1']*2+bp['sc2']*2+bp['sc3']*2));
+                            this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                        }
+                    }
+                }
+                else {
+                    var bp = resultBP.getDQFanBeiScore(this.result.uid);
+                    if (bp) {
+                        this.scoretop += (bp['sc1'] * 2);
+                        this.scoremid += (bp['sc2'] * 2);
+                        this.scoredown += (bp['sc3'] * 2);
+                        // this.zongfen+=((bp['sc1']*2+bp['sc2']*2+bp['sc3']*2));
+                        this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                    }
+                }
+            }
+            else {
+                if (resultBP.qlTar.uid == game.GameModel.ins.uid) {
+                    for (var i = 0; i < resultBP.qlTar.tarUidArr.length; i++) {
+                        var bp = resultBP.getDQFanBeiScore(resultBP.qlTar.tarUidArr[i]);
+                        if (bp) {
+                            if (resultBP.qlTar.uid == this.result.uid) {
+                                this.scoretop -= (bp['sc1'] * 2);
+                                this.scoremid -= (bp['sc2'] * 2);
+                                this.scoredown -= (bp['sc3'] * 2);
+                            }
+                            else if (resultBP.qlTar.tarUidArr[i] == this.result.uid) {
+                                this.scoretop += (bp['sc1'] * 2);
+                                this.scoremid += (bp['sc2'] * 2);
+                                this.scoredown += (bp['sc3'] * 2);
+                            }
+                            // this.zongfen+=((bp['sc1']*2+bp['sc2']*2+bp['sc3']*2));
+                            this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                        }
+                    }
+                }
+                else {
+                    var bp = resultBP.getDQFanBeiScore(game.GameModel.ins.uid);
+                    if (bp) {
+                        if (resultBP.qlTar.uid == this.result.uid) {
+                            this.scoretop -= (bp['sc1'] * 2);
+                            this.scoremid -= (bp['sc2'] * 2);
+                            this.scoredown -= (bp['sc3'] * 2);
+                        }
+                        else {
+                            this.scoretop += (bp['sc1'] * 2);
+                            this.scoremid += (bp['sc2'] * 2);
+                            this.scoredown += (bp['sc3'] * 2);
+                        }
+                        this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                    }
+                }
+            }
+            var tstr = (this.scoretop).toString();
+            if (this.scoretop >= 0) {
+                tstr = "+" + tstr;
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+            }
+            var mstr = (this.scoremid).toString();
+            if (this.scoremid >= 0) {
+                mstr = "+" + mstr;
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+            }
+            var dstr = (this.scoredown).toString();
+            if (this.scoredown >= 0) {
+                dstr = "+" + dstr;
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+            }
+            this.m_txt_scoretop.text = App.StringUtils.strParams(this.score_fanbei_top, [tstr]);
+            this.m_txt_score_mid.text = App.StringUtils.strParams(this.score_fanbei_mid, [mstr]);
+            this.m_txt_score_down.text = App.StringUtils.strParams(this.score_fanbei_down, [dstr]);
+            this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+            this.showResultScore(false, false);
+        };
+        PlayerPokers.prototype.showFanBei = function (from, to, isqld) {
+            if (isqld === void 0) { isqld = false; }
+            this.beishu += 1;
+            if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                if (from == game.GameModel.ins.roomModel.rinfo.zuid) {
+                    var bp = game.GameModel.ins.roundModel.getResultBPByUid(from).getDQFanBeiScore(to);
+                    if (bp) {
+                        this.scoretop -= (bp['sc1']);
+                        this.scoremid -= (bp['sc2']);
+                        this.scoredown -= (bp['sc3']);
+                        this.zongfen -= ((bp['sc1'] + bp['sc2'] + bp['sc3']));
+                    }
+                }
+                else {
+                    var bp = game.GameModel.ins.roundModel.getResultBPByUid(to).getDQFanBeiScore(from);
+                    if (bp) {
+                        this.scoretop += (bp['sc1']);
+                        this.scoremid += (bp['sc2']);
+                        this.scoredown += (bp['sc3']);
+                        this.zongfen += ((bp['sc1'] + bp['sc2'] + bp['sc3']));
+                    }
+                }
+            }
+            else {
+                var bp = game.GameModel.ins.roundModel.getResultBPByUid(from).getDQFanBeiScore(to);
+                if (bp) {
+                    this.scoretop -= (bp['sc1']);
+                    this.scoremid -= (bp['sc2']);
+                    this.scoredown -= (bp['sc3']);
+                    this.zongfen -= ((bp['sc1'] + bp['sc2'] + bp['sc3']));
+                }
+            }
+            var tstr = (this.scoretop).toString();
+            if (this.scoretop > 0) {
+                tstr = "+" + tstr;
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+            }
+            var mstr = (this.scoremid).toString();
+            if (this.scoremid > 0) {
+                mstr = "+" + mstr;
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+            }
+            var dstr = (this.scoredown).toString();
+            if (this.scoredown > 0) {
+                dstr = "+" + dstr;
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+            }
+            this.m_txt_scoretop.text = App.StringUtils.strParams(this.score_fanbei_top, [tstr]);
+            this.m_txt_score_mid.text = App.StringUtils.strParams(this.score_fanbei_mid, [mstr]);
+            ;
+            this.m_txt_score_down.text = App.StringUtils.strParams(this.score_fanbei_down, [dstr]);
+            ;
+            // this.zongfen = this.zongfenbase*this.beishu;
+            this.showResultScore(true);
+        };
+        /**
+         * 显示最下面的分数或者输赢状态
+         * fanbei 是否翻倍
+         * showfirst 第一次显示的时候，如果后面有翻倍的，传ture，如果后面没有翻倍，传false，显示不翻倍
+         */
+        PlayerPokers.prototype.showResultScore = function (fanbei, showfirst) {
+            if (showfirst === void 0) { showfirst = false; }
+            if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                if (game.GameModel.ins.uid != this.result.uid) {
+                    // if(this.bipai.px>0||this.bipai.dq){
+                    if (fanbei) {
+                        if (this.zongfen > 0) {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                            this.m_txt_score_result.text = this.istesu ? "" : "翻倍";
+                        }
+                        else {
+                            this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                            this.m_txt_score_result.text = this.istesu ? "" : "翻倍";
+                        }
+                    }
+                    else {
+                        if (showfirst == true) {
+                            if (this.beishu == 1) {
+                                this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                                this.m_txt_score_result.text = this.istesu ? "" : "不翻倍";
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (this.result.sc >= 0) {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                    }
+                    else {
+                        this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                    }
+                    var f = "";
+                    if (this.result.sc > 0) {
+                        f = "+";
+                    }
+                    this.m_txt_score_result.text = "总得分：" + f + this.zongfen;
+                }
+            }
+            else {
+                var f = "";
+                if (showfirst == true) {
+                    this.zongfen = this.result.sc;
+                }
+                // if(this.result.sc>=0){
+                if (this.zongfen > 0) {
+                    this.m_txt_score_result.font = "ui://jow5n9bqx90y46";
+                    f = "+";
+                }
+                else {
+                    this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
+                }
+                this.m_txt_score_result.text = f + this.zongfen;
+            }
+        };
+        /*private fanbei(score:number):string{
+            if(score>0){
+                return "+"+(score*2).toString();
+            }else{
+                return (score*2).toString();
+            }
+        }*/
         PlayerPokers.prototype.showResultPlay = function (pos, result) {
             if (result.px > 0) {
                 // this.m_imt_teshu.visible=true;
@@ -345,7 +646,7 @@ var game;
                 this.m_porka5.visible = true;
                 start = 8;
                 end = 13;
-                this.m_porka.y = 31 + this.offsite;
+                this.m_porka.y = 36 + this.offsite;
                 this.m_porka1.showResult(result.downCards[0]);
                 this.m_porka2.showResult(result.downCards[1]);
                 this.m_porka3.showResult(result.downCards[2]);

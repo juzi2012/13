@@ -26,6 +26,7 @@ var UI;
                 this.m_txt_top = (this.getChildAt(2));
                 this.m_txt_name = (this.getChildAt(3));
                 this.m_txt_score = (this.getChildAt(5));
+                this.m_head = (this.getChildAt(6));
             };
             UI_DissolveHead.URL = "ui://jow5n9bqgl8o4i";
             return UI_DissolveHead;

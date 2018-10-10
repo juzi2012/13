@@ -139,6 +139,7 @@ var game;
         ServerEngine.roomDismiss = function ($msg) {
             if ($msg['ok'] > 0) {
                 if (game.GameModel.ins.roomModel.isAllFinish == false) {
+                    game.AlertUtil.floatMsg("房间已经解散");
                     game.GameModel.ins.disMissRoom();
                     ModuleMgr.ins.closeModule(ModuleEnum.GAME_SINGLE_RESULT);
                     ModuleMgr.ins.changeScene(ModuleEnum.GAME, ModuleEnum.GAME_MAIN);
@@ -170,7 +171,7 @@ var game;
             subMsg.uname = game.GameModel.ins.uname;
             var date = new Date();
             subMsg.times = date.getTime().toString();
-            subMsg.time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+            subMsg.time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
             msg.Msg = subMsg;
             App.Socket.send(msg);
         };

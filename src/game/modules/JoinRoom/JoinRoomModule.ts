@@ -57,7 +57,7 @@ module game {
 				}
 			}
 			if(this.enterNumber.length==6){
-				ServerEngine.enterRoom(Number(this.enterNumber))
+				ServerEngine.enterRoom(this.enterNumber)
 				App.MessageCenter.addListener(MsgEnum.NEW_UESR_IN,this.enterRoomCallBack,this);
 			}
 		}

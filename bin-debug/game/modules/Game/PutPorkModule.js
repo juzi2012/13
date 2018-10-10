@@ -173,6 +173,8 @@ var game;
             this.mContent.m_btntype5.enabled = (game.GameModel.ins.roundModel.tonghua.length > 0);
             this.mContent.m_btntype6.enabled = (game.GameModel.ins.roundModel.hulu.length > 0);
             if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                this.mContent.m_btntype4.enabled = false;
+                this.mContent.m_btntype5.enabled = false;
                 this.mContent.m_btntype7.enabled = (game.GameModel.ins.roundModel.tonghuashun.length > 0);
                 this.mContent.m_btntype8.enabled = (game.GameModel.ins.roundModel.tiezhi.length > 0);
             }
@@ -426,7 +428,10 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.GAME_HELP);
         };
         PutPorkModule.prototype.preClose = function (data) {
-            this.onReset();
+            this.RenderTopList([]);
+            this.RenderMidList([]);
+            this.RenderDownList([]);
+            this.mContent.m_ctrl.selectedIndex = 0;
             this.mContent.m_btntype1.removeClickListener(this.onChooseType, this);
             this.mContent.m_btntype2.removeClickListener(this.onChooseType, this);
             this.mContent.m_btntype3.removeClickListener(this.onChooseType, this);

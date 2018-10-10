@@ -44,7 +44,12 @@ module game {
 		private replay(evt:any):void
 		{
 			evt.stopImmediatePropagation();
-			ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY,this.data);
+			if(this.data.jus.length>0){
+				ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.REPLAY,this.data);
+			}else{
+				AlertUtil.floatMsg("牌局数据有问题！")
+			}
+			
 		}
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{
@@ -53,7 +58,11 @@ module game {
 		}
 		private onClick(evt:any):void
 		{
-			ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL,this.data);
+			if(this.data.jus.length>0){
+				ModuleMgr.ins.showModule(ModuleEnum.ZHANJIDETAIL,this.data);
+			}else{
+				AlertUtil.floatMsg("牌局数据有问题！")
+			}
 		}
 	}
 	export class ZhanJiUser{

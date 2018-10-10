@@ -29,6 +29,7 @@ var UI;
                 this.m_txt_type1 = (this.getChildAt(4));
                 this.m_txt_type2 = (this.getChildAt(5));
                 this.m_img_joke = (this.getChildAt(7));
+                this.m_img_ma = (this.getChildAt(8));
             };
             UI_Pork.URL = "ui://jow5n9bqmwp41d";
             return UI_Pork;

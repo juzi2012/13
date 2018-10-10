@@ -54,8 +54,21 @@ var game;
             this.mContent.m_playcontrol.m_btn_pre.enabled = false;
             this.mContent.m_txt_ju.text = "第" + (this.round.cur + 1) + "/" + this.round.jus.length + "局";
             this.mContent.m_playcontrol.m_txt_huifangma.text = "回放码:" + this.round.Rd;
+            if (this.round.cur == this.round.jus.length - 1) {
+                this.mContent.m_playcontrol.m_btn_next.enabled = false;
+            }
+            else {
+                this.mContent.m_playcontrol.m_btn_next.enabled = true;
+            }
+            if (this.round.cur == 0) {
+                this.mContent.m_playcontrol.m_btn_pre.enabled = false;
+            }
+            else {
+                this.mContent.m_playcontrol.m_btn_pre.enabled = true;
+            }
         };
         GameReplay.prototype.play = function () {
+            this.wantToBreakHere = false;
             this.mContent.m_txt_ju.text = "第" + (this.round.cur + 1) + "/" + this.round.jus.length + "局";
             if (this.round.cur == this.round.jus.length - 1) {
                 this.mContent.m_playcontrol.m_btn_next.enabled = false;
@@ -132,6 +145,7 @@ var game;
             }
         };
         GameReplay.prototype.show = function (data) {
+            this.doShareJs();
             _super.prototype.show.call(this, data);
         };
         GameReplay.prototype.setHead = function () {
@@ -202,6 +216,14 @@ var game;
                 playerHead.onBaiPaiEnd();
                 playerHead.updateScorePlay(players[i]);
             }
+            for (var c = 0; c < special_uid.length; c++) {
+                var playerHead = this.getPlayerById(special_uid[c]);
+                for (var i = 0; i < players.length; i++) {
+                    if (players[i].id == special_uid[c]) {
+                        playerHead.showSpecialPlay(players[i]);
+                    }
+                }
+            }
             // await this.sleep(1000);
             var t = 0;
             var _loop_1 = function (j) {
@@ -259,6 +281,20 @@ var game;
                 }
             }
             return null;
+        };
+        GameReplay.prototype.doShareJs = function () {
+            var shareData = new Object();
+            shareData["shareUserId"] = game.GameModel.ins.uid;
+            shareData["shareUserName"] = game.GameModel.ins.uname;
+            shareData["shareRePlayRoomId"] = this.round.Rd;
+            shareData["shareTime"] = Utils.timetrans(this.round.Tm * 1000);
+            // shareData["totalNum"]=GameModel.ins.roomModel.rinfo.pn;
+            // shareData["nowNum"]=GameModel.ins.roomModel.users.length;
+            // shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"AA局";
+            // shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?"坐庄模式":"算分模式";
+            // shareData["juNum"]=GameModel.ins.roomModel.rinfo.snum;
+            shareData["avatar"] = game.GameModel.ins.avatar;
+            game.WXUtil.ins.shareRePlay(shareData);
         };
         // 延迟
         GameReplay.prototype.sleep = function (ms) {

@@ -44,11 +44,15 @@ module game {
 		//解散房间
 		public disMissRoom():void
 		{
-			AlertUtil.floatMsg("房间已经解散")
 			this.roomModel=null;
+			//清除聊天数据
+			egret.localStorage.removeItem("Thirting_Chat");
 		}
 		public createRound(msg:T2C_GameStart):void
 		{
+			// if(this.roomModel.rinfo.nnum==0){
+			// 	this.roomModel.rinfo.nnum=1;
+			// }
 			this.roomModel.addRound(msg.card);
 		}
 		public createRoundTest():void

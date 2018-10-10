@@ -24,7 +24,7 @@ class T2C_Enter_Room extends T2C_Message_Base{
 }
 class T2C_Create_Room extends T2C_Message_Base{
 	public dk:number;
-	public rid:number;
+	public rid:string;
 
 }
 class T2C_Leave_Room extends T2C_Message_Base{
@@ -198,6 +198,9 @@ class T2C_Msg extends T2C_Base {
 			App.Socket.dispatchCmd(this.Aid,this.Msg);
 		}else{
 			App.MessageCenter.dispatch(game.MsgEnum.FLOAT_MSG,this.Err,this.Aid);
+			if(this.Aid == MsgType.EnterRooom){
+				App.MessageCenter.dispatch(game.MsgEnum.ENTER_ROOM_FAILD);
+			}
 		}
 	}
 

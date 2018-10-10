@@ -52,9 +52,21 @@ module game {
 			this.mContent.m_playcontrol.m_btn_pre.enabled = false;
 			this.mContent.m_txt_ju.text = "第"+(this.round.cur+1)+"/"+this.round.jus.length+"局";
 			this.mContent.m_playcontrol.m_txt_huifangma.text = "回放码:"+this.round.Rd;
+			
+			if(this.round.cur == this.round.jus.length-1){
+				this.mContent.m_playcontrol.m_btn_next.enabled=false;
+			}else{
+				this.mContent.m_playcontrol.m_btn_next.enabled=true;
+			}
+			if(this.round.cur == 0){
+				this.mContent.m_playcontrol.m_btn_pre.enabled=false;
+			}else{
+				this.mContent.m_playcontrol.m_btn_pre.enabled=true;
+			}
 		}
 		private play():void
 		{
+			this.wantToBreakHere = false;
 			this.mContent.m_txt_ju.text = "第"+(this.round.cur+1)+"/"+this.round.jus.length+"局";
 			if(this.round.cur == this.round.jus.length-1){
 				this.mContent.m_playcontrol.m_btn_next.enabled=false;
@@ -135,6 +147,7 @@ module game {
 		}
 		public show(data?:any):void
 		{
+			this.doShareJs();
 			super.show(data);
 		}
 		private setHead():void
@@ -214,6 +227,15 @@ module game {
 				playerHead.onBaiPaiEnd();
 				playerHead.updateScorePlay(players[i]);
 			}
+			for(let c:number=0;c<special_uid.length;c++){
+				let playerHead:PlayerHead = this.getPlayerById(special_uid[c]);
+				for(let i:number=0;i<players.length;i++){
+					if(players[i].id==special_uid[c]){
+						playerHead.showSpecialPlay(players[i]);
+					}
+				}
+				
+			}
 			// await this.sleep(1000);
 			let t:number = 0
 			for(let j:number = 0;j<3;j++){
@@ -268,6 +290,21 @@ module game {
 				}
 			}
 			return null;
+		}
+		private doShareJs():void
+		{
+			let shareData:Object = new Object();
+			shareData["shareUserId"]=GameModel.ins.uid;
+			shareData["shareUserName"]=GameModel.ins.uname;
+			shareData["shareRePlayRoomId"]=this.round.Rd;
+			shareData["shareTime"]=  Utils.timetrans(this.round.Tm*1000)
+			// shareData["totalNum"]=GameModel.ins.roomModel.rinfo.pn;
+			// shareData["nowNum"]=GameModel.ins.roomModel.users.length;
+			// shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"AA局";
+			// shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?"坐庄模式":"算分模式";
+			// shareData["juNum"]=GameModel.ins.roomModel.rinfo.snum;
+			shareData["avatar"]=GameModel.ins.avatar;
+			WXUtil.ins.shareRePlay(shareData);
 		}
 		// 延迟
 		private sleep(ms = 0) {

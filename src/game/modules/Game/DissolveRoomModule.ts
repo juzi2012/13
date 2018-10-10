@@ -65,6 +65,7 @@ module game {
 			ServerEngine.sendAcceptOrRefuseDismiss(0);
 			this.mContent.m_btn_accept.visible=false;
 			this.mContent.m_btn_refuse.visible=false;
+			ModuleMgr.ins.closeModule(this.moduleId);
 		}
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{
@@ -80,6 +81,7 @@ module game {
 			}
 			if(msg.uid!=GameModel.ins.uid&&msg.act==0){
 				AlertUtil.floatMsg(GameModel.ins.roomModel.getUserById(msg.uid).name+"不同意解散房间.")
+				ModuleMgr.ins.closeModule(this.moduleId);
 			}
 		}
 		private getPlayerById(uid:string):DissolveHead{

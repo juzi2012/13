@@ -29,6 +29,7 @@ var UI;
                 this.m_txt_score = (this.getChildAt(11));
                 this.m_txt_name = (this.getChildAt(12));
                 this.m_txt_rank = (this.getChildAt(13));
+                this.m_head = (this.getChildAt(15));
             };
             UI_RankModule.URL = "ui://ljka2qsxdu50b";
             return UI_RankModule;

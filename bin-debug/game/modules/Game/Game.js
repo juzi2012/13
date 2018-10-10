@@ -69,6 +69,7 @@ var game;
         Game.prototype.preShow = function (data) {
             App.SoundUtils.playSound("music_bg_game_mp3", 1, 0);
             this.readyArr = [];
+            this.cur = this;
             this.mContent.m_sharetips.visible = false;
             if (game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
                 this.mContent.m_btn_ready.visible = false;
@@ -188,9 +189,12 @@ var game;
             this.wantToBreakHere = false;
         };
         Game.prototype.show = function (data) {
+            this.doInviteJs();
             _super.prototype.show.call(this, data);
         };
         Game.prototype.UserIn = function (user) {
+            if (this.getPlayerById(user.uid) != null)
+                return;
             if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn && game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
                 this.mContent.m_btn_invite.visible = true;
             }
@@ -261,6 +265,7 @@ var game;
             this.mContent.m_btn_ready.visible = false;
         };
         Game.prototype.FaPai = function () {
+            this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
             // 先播放开始特效,完了在开始发牌
             this.mContent.m_img_start.visible = true;
             this.mContent.m_t1.play(this.onStartEffectComplete, this);
@@ -280,7 +285,10 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK);
         };
         Game.prototype.BaiPaiCallBack = function (msg) {
-            this.getPlayerById(msg.uid).onBaiPaiEnd();
+            var playerHead = this.getPlayerById(msg.uid);
+            if (playerHead) {
+                playerHead.onBaiPaiEnd();
+            }
         };
         Game.prototype.doRestart = function () {
             this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
@@ -311,7 +319,7 @@ var game;
         };
         Game.prototype.doShowSingleResult = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var round, bipai, cards, special_uid, a, uid, playerHead, c, playerHead, j, i, uid, playerHead, i, j, from, to, i;
+                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, c, playerHead, i, bipai_1, j, playerHeadTar, i, a, j, from, to, j, from, to, j, from, to, i, j, j, j, i, head;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -337,10 +345,6 @@ var game;
                             // 	await this.sleep(500);
                             // }
                             _a.sent();
-                            for (c = 0; c < special_uid.length; c++) {
-                                playerHead = this.getPlayerById(special_uid[c]);
-                                playerHead.showSpecialResult(cards[c]);
-                            }
                             j = 0;
                             _a.label = 2;
                         case 2:
@@ -352,7 +356,12 @@ var game;
                             uid = cards[i].uid;
                             if (!(special_uid.indexOf(uid) < 0)) return [3 /*break*/, 5];
                             playerHead = this.getPlayerById(uid);
-                            playerHead.showResult(j, cards[i]);
+                            if (special_uid.indexOf(game.GameModel.ins.uid) == -1) {
+                                playerHead.showResult(j, cards[i], false);
+                            }
+                            else {
+                                playerHead.showResult(j, cards[i], true);
+                            }
                             return [4 /*yield*/, this.sleep(1200)];
                         case 4:
                             _a.sent();
@@ -366,44 +375,147 @@ var game;
                         case 7: return [4 /*yield*/, this.sleep(1000)];
                         case 8:
                             _a.sent();
-                            i = 0;
-                            _a.label = 9;
+                            if (!(special_uid.length > 0)) return [3 /*break*/, 10];
+                            for (c = 0; c < special_uid.length; c++) {
+                                playerHead = this.getPlayerById(special_uid[c]);
+                                for (i = 0; i < cards.length; i++) {
+                                    if (cards[i].uid == special_uid[c]) {
+                                        playerHead.showSpecialResult(cards[i]);
+                                        bipai_1 = game.GameModel.ins.roundModel.getResultBPByUid(cards[i].uid);
+                                        if (bipai_1.tesuPaiTarArr) {
+                                            for (j = 0; j < bipai_1.tesuPaiTarArr.length; j++) {
+                                                playerHeadTar = this.getPlayerById(bipai_1.tesuPaiTarArr[j].uid);
+                                                playerHeadTar.pokers.updateTeSuScore(bipai_1.tesuPaiTarArr[j]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            return [4 /*yield*/, this.sleep(500)];
                         case 9:
-                            if (!(i < bipai.length)) return [3 /*break*/, 14];
-                            j = 0;
+                            _a.sent();
                             _a.label = 10;
                         case 10:
-                            if (!(j < bipai[i].dq.tarIds.length)) return [3 /*break*/, 13];
-                            from = this.getPlayerById(bipai[i].uid);
-                            to = this.getPlayerById(bipai[i].dq.tarIds[j]);
-                            this.daQiang(from, to);
-                            return [4 /*yield*/, this.sleep(2500)];
+                            i = 0;
+                            _a.label = 11;
                         case 11:
-                            _a.sent();
+                            if (!(i < bipai.length)) return [3 /*break*/, 28];
+                            a = 0;
                             _a.label = 12;
                         case 12:
-                            j++;
-                            return [3 /*break*/, 10];
+                            if (!(a < bipai[i].dq.length)) return [3 /*break*/, 27];
+                            if (!(game.GameModel.ins.roomModel.rinfo.zz == 1)) return [3 /*break*/, 17];
+                            j = 0;
+                            _a.label = 13;
                         case 13:
-                            i++;
-                            return [3 /*break*/, 9];
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 16];
+                            from = this.getPlayerById(bipai[i].dq[a].uid);
+                            to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+                            from.pokers.showFanBei(from.user.uid, to.user.uid);
+                            to.pokers.showFanBei(to.user.uid, from.user.uid);
+                            this.daQiang(from, to);
+                            return [4 /*yield*/, this.sleep(2500)];
                         case 14:
-                            this.upDateScore();
-                            i = 0;
+                            _a.sent();
                             _a.label = 15;
                         case 15:
-                            if (!(i < bipai.length)) return [3 /*break*/, 18];
-                            if (!(bipai[i].ql > 0)) return [3 /*break*/, 17];
+                            j++;
+                            return [3 /*break*/, 13];
+                        case 16: return [3 /*break*/, 26];
+                        case 17:
+                            if (!(bipai[i].dq[a].uid == game.GameModel.ins.uid)) return [3 /*break*/, 22];
+                            j = 0;
+                            _a.label = 18;
+                        case 18:
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 21];
+                            from = this.getPlayerById(bipai[i].dq[a].uid);
+                            to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+                            from.pokers.showFanBei(from.user.uid, to.user.uid);
+                            to.pokers.showFanBei(to.user.uid, from.user.uid);
+                            this.daQiang(from, to);
+                            return [4 /*yield*/, this.sleep(2500)];
+                        case 19:
+                            _a.sent();
+                            _a.label = 20;
+                        case 20:
+                            j++;
+                            return [3 /*break*/, 18];
+                        case 21: return [3 /*break*/, 26];
+                        case 22:
+                            j = 0;
+                            _a.label = 23;
+                        case 23:
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 26];
+                            if (!(bipai[i].dq[a].tarIds[j] == game.GameModel.ins.uid)) return [3 /*break*/, 25];
+                            from = this.getPlayerById(bipai[i].dq[a].uid);
+                            to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+                            from.pokers.showFanBei(from.user.uid, to.user.uid);
+                            to.pokers.showFanBei(to.user.uid, from.user.uid);
+                            this.daQiang(from, to);
+                            return [4 /*yield*/, this.sleep(2500)];
+                        case 24:
+                            _a.sent();
+                            _a.label = 25;
+                        case 25:
+                            j++;
+                            return [3 /*break*/, 23];
+                        case 26:
+                            a++;
+                            return [3 /*break*/, 12];
+                        case 27:
+                            i++;
+                            return [3 /*break*/, 11];
+                        case 28:
+                            i = 0;
+                            _a.label = 29;
+                        case 29:
+                            if (!(i < bipai.length)) return [3 /*break*/, 32];
+                            if (!(bipai[i].ql > 0)) return [3 /*break*/, 31];
                             this.mContent.m_qld.visible = true;
                             this.mContent.m_t3.play(this.qldComplete, this);
+                            if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
+                                this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+                                for (j = 0; j < bipai[i].qlTar.tarUidArr.length; j++) {
+                                    this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+                                }
+                            }
+                            else {
+                                if (bipai[i].qlTar.uid == game.GameModel.ins.uid) {
+                                    this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+                                    for (j = 0; j < bipai[i].qlTar.tarUidArr.length; j++) {
+                                        this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+                                    }
+                                }
+                                else {
+                                    this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+                                    for (j = 0; j < bipai[i].qlTar.tarUidArr.length; j++) {
+                                        if (bipai[i].qlTar.tarUidArr[j] == game.GameModel.ins.uid) {
+                                            this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+                                        }
+                                    }
+                                }
+                            }
                             return [4 /*yield*/, this.sleep(3000)];
-                        case 16:
+                        case 30:
                             _a.sent();
-                            _a.label = 17;
-                        case 17:
+                            _a.label = 31;
+                        case 31:
                             i++;
-                            return [3 /*break*/, 15];
-                        case 18: return [2 /*return*/];
+                            return [3 /*break*/, 29];
+                        case 32:
+                            //上面的大枪、全垒打结束后最后更新一次是否翻倍的数据
+                            for (i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
+                                if (special_uid.indexOf(game.GameModel.ins.roomModel.users[i].uid) < 0) {
+                                    head = this.getPlayerById(game.GameModel.ins.roomModel.users[i].uid);
+                                    head.pokers.showResultScore(false, true);
+                                }
+                            }
+                            //更新总分数
+                            this.upDateScore();
+                            return [4 /*yield*/, this.sleep(1500)];
+                        case 33:
+                            _a.sent();
+                            return [2 /*return*/];
                     }
                 });
             });
@@ -506,7 +618,7 @@ var game;
         };
         Game.prototype.getPlayerById = function (uid) {
             for (var i = 0; i < this.curHeadAry.length; i++) {
-                if (this.curHeadAry[i].user.uid == uid) {
+                if (this.curHeadAry[i].user != null && this.curHeadAry[i].user.uid == uid) {
                     return this.curHeadAry[i];
                 }
             }
@@ -536,6 +648,19 @@ var game;
             this.mContent.m_sharetips.visible = true;
             App.TimerManager.doTimer(3000, 1, this.hideInvite, this);
         };
+        Game.prototype.doInviteJs = function () {
+            var shareData = new Object();
+            shareData["shareUserId"] = game.GameModel.ins.uid;
+            shareData["shareUserName"] = game.GameModel.ins.uname;
+            shareData["shareRoomId"] = game.GameModel.ins.roomModel.rid;
+            shareData["totalNum"] = game.GameModel.ins.roomModel.rinfo.pn;
+            shareData["nowNum"] = game.GameModel.ins.roomModel.users.length;
+            shareData["payModel"] = game.GameModel.ins.roomModel.rinfo.fc == 1 ? "房主付费" : "AA局";
+            shareData["model"] = game.GameModel.ins.roomModel.rinfo.zz == 1 ? "坐庄模式" : "算分模式";
+            shareData["juNum"] = game.GameModel.ins.roomModel.rinfo.snum;
+            shareData["avatar"] = game.GameModel.ins.avatar;
+            game.WXUtil.ins.invit(shareData);
+        };
         Game.prototype.onReceiveChat = function (msg) {
             this.getPlayerById(msg.uid).speek(msg.str);
         };
@@ -544,8 +669,56 @@ var game;
             if (arr.length > 1) {
                 var uid = arr[0];
                 var str = arr[1];
-                this.getPlayerById(uid).flower(str);
+                if (str == "flower") {
+                    this.showFlower(msg.uid, uid);
+                }
+                else if (str == "boom") {
+                    this.showBoom(msg.uid, uid);
+                }
+                // this.getPlayerById(uid).flower(str);
             }
+        };
+        Game.prototype.showFlower = function (fromUid, toUid) {
+            var flower = UI.Game.UI_Flower.createInstance();
+            var fromHead = this.getPlayerById(fromUid);
+            var toHead = this.getPlayerById(toUid);
+            flower.x = fromHead.x;
+            flower.y = fromHead.y;
+            this.mContent.addChild(flower);
+            TweenMax.to(flower, 0.4, { x: toHead.x + 60, y: toHead.y + 70, onComplete: this.flowerMoveComplete, onCompleteParams: [flower, this] });
+        };
+        Game.prototype.flowerMoveComplete = function (flower, cur) {
+            flower.m_t0.play(cur.onFlowerEffectComplete, cur, flower);
+        };
+        Game.prototype.showBoom = function (fromUid, toUid) {
+            var boom = UI.Game.UI_Boom.createInstance();
+            var fromHead = this.getPlayerById(fromUid);
+            var toHead = this.getPlayerById(toUid);
+            boom.x = fromHead.x;
+            boom.y = fromHead.y;
+            boom.m_boom2.visible = false;
+            this.mContent.addChild(boom);
+            TweenMax.to(boom, 0.4, { x: toHead.x, y: toHead.y, onComplete: this.boomMoveComplete, onCompleteParams: [boom, this] });
+        };
+        Game.prototype.boomMoveComplete = function (boom, cur) {
+            boom.m_boom2.visible = true;
+            boom.m_t0.play(cur.onBoomEffectComplete, cur, boom);
+        };
+        Game.prototype.onFlowerEffectComplete = function (flower) {
+            // App.DisplayUtils.removeFromParent(flower.displayObject);
+            flower.dispose();
+            if (flower.parent) {
+                flower.parent.removeChild(flower);
+            }
+            flower = null;
+        };
+        Game.prototype.onBoomEffectComplete = function (boom) {
+            // App.DisplayUtils.removeFromParent(boom.displayObject);
+            boom.dispose();
+            if (boom.parent) {
+                boom.parent.removeChild(boom);
+            }
+            boom = null;
         };
         Game.prototype.hideInvite = function () {
             this.mContent.m_sharetips.visible = false;

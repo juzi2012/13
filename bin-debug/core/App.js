@@ -120,6 +120,16 @@ var App = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(App, "StringUtils", {
+        /*
+        *StringUtils
+        */
+        get: function () {
+            return core.StringUtils.getInstance();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(App, "EgretExpandUtils", {
         /**
          * 引擎扩展类

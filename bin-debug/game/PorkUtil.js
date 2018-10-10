@@ -316,6 +316,9 @@ var game;
          */
         PorkUtil.findTongHua = function (cards, length) {
             if (length === void 0) { length = 5; }
+            if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                return [];
+            }
             if (cards.length < 5) {
                 return [];
             }
@@ -397,25 +400,33 @@ var game;
             var color2 = []; //梅花
             var color3 = []; //红心
             var color4 = []; //黑桃
+            var color11 = []; //方块
+            var color22 = []; //梅花
+            var color33 = []; //红心
+            var color44 = []; //黑桃
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].type == 4) {
-                    if (color4.indexOf(cards[i].point) == -1) {
+                    if (color44.indexOf(cards[i].point) == -1) {
                         color4.push(cards[i]);
+                        color44.push(cards[i].point);
                     }
                 }
                 if (cards[i].type == 3) {
-                    if (color3.indexOf(cards[i].point) == -1) {
+                    if (color33.indexOf(cards[i].point) == -1) {
                         color3.push(cards[i]);
+                        color33.push(cards[i].point);
                     }
                 }
                 if (cards[i].type == 2) {
-                    if (color2.indexOf(cards[i].point) == -1) {
+                    if (color22.indexOf(cards[i].point) == -1) {
                         color2.push(cards[i]);
+                        color22.push(cards[i].point);
                     }
                 }
                 if (cards[i].type == 1) {
-                    if (color1.indexOf(cards[i].point) == -1) {
+                    if (color11.indexOf(cards[i].point) == -1) {
                         color1.push(cards[i]);
+                        color11.push(cards[i].point);
                     }
                 }
             }
@@ -943,10 +954,20 @@ var game;
                     return this.checkHulu(nowArr, otherArr);
                 }
                 else if (paixing1 == 8) {
-                    return this.checkTiezhi(nowArr, otherArr);
+                    if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                        return this.checkTonghuashun(nowArr, otherArr);
+                    }
+                    else {
+                        return this.checkTiezhi(nowArr, otherArr);
+                    }
                 }
                 else if (paixing1 == 9) {
-                    return this.checkTonghuashun(nowArr, otherArr);
+                    if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
+                        return this.checkTiezhi(nowArr, otherArr);
+                    }
+                    else {
+                        return this.checkTonghuashun(nowArr, otherArr);
+                    }
                 }
                 else if (paixing1 == 10) {
                     return this.checkWutong(nowArr, otherArr);
@@ -1137,7 +1158,7 @@ var game;
             // 		break;
             // 	}
             // }
-            return true;
+            return false;
         };
         //获取单
         // public static getSingBigger():boolean{
@@ -1165,7 +1186,7 @@ var game;
             if (this.findHuLu(arr).length > 0) {
                 return 7;
             }
-            if (this.findTongHua(arr).length > 0) {
+            if (this.findTongHua(arr).length > 0 && game.GameModel.ins.roomModel.rinfo.rp != 6) {
                 return 6;
             }
             if (this.findShunZi(arr).length > 0) {

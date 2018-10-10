@@ -32,6 +32,7 @@ var UI;
                 this.m_btn_send = (this.getChildAt(5));
                 this.m_btn_input = (this.getChildAt(7));
                 this.m_list_emoji = (this.getChildAt(8));
+                this.m_listyushe = (this.getChildAt(9));
             };
             UI_ChatModule.URL = "ui://jow5n9bqx90y31";
             return UI_ChatModule;

@@ -23,8 +23,9 @@ var game;
             }
             else {
                 this.m_txt_content.font = "";
-                this.m_txt_content.text = value.uname + ":" + value.str;
+                this.m_txt_content.text = value.str;
             }
+            this.m_txt_name.text = value.uname + ":";
         };
         return ChatItem;
     }(UI.Game.UI_ChatItem));

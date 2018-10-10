@@ -44,8 +44,9 @@ var game;
             _super.prototype.show.call(this, data);
         };
         SingleResultPlayModule.prototype.onContinue = function () {
-            if (this.round.cur == this.round.Jn - 1) {
-                ModuleMgr.ins.changeScene(ModuleEnum.REPLAY, ModuleEnum.GAME_ALL_RESULT_PLAY, this.round);
+            if (this.round.cur == this.round.jus.length - 1) {
+                // ModuleMgr.ins.changeScene(ModuleEnum.REPLAY,ModuleEnum.GAME_ALL_RESULT_PLAY,this.round);
+                ModuleMgr.ins.changeScene(ModuleEnum.REPLAY, ModuleEnum.GAME_MAIN, { fromPlay: true });
             }
             else {
                 this.round.cur++;

@@ -10,6 +10,7 @@ module UI.Game {
 		public m_txt_type1:fairygui.GTextField;
 		public m_txt_type2:fairygui.GTextField;
 		public m_img_joke:fairygui.GImage;
+		public m_img_ma:fairygui.GImage;
 
 		public static URL:string = "ui://jow5n9bqmwp41d";
 
@@ -30,6 +31,7 @@ module UI.Game {
 			this.m_txt_type1 = <fairygui.GTextField><any>(this.getChildAt(4));
 			this.m_txt_type2 = <fairygui.GTextField><any>(this.getChildAt(5));
 			this.m_img_joke = <fairygui.GImage><any>(this.getChildAt(7));
+			this.m_img_ma = <fairygui.GImage><any>(this.getChildAt(8));
 		}
 	}
 }

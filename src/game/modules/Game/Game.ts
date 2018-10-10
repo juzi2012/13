@@ -23,12 +23,14 @@ module game {
 		private wantToBreakHere:boolean=false;
 
 		private readyArr:Array<T2C_Ready>;
+		private cur:any;
 		/**
 		 * 预显示
 		 */
 		public preShow(data?: any): void {
 			App.SoundUtils.playSound("music_bg_game_mp3",1,0);
 			this.readyArr=[];
+			this.cur = this;
 			this.mContent.m_sharetips.visible=false;
 			if(GameModel.ins.uid == GameModel.ins.roomModel.fuid){
 				this.mContent.m_btn_ready.visible=false;
@@ -155,11 +157,13 @@ module game {
 		}
 		public show(data?:any):void
 		{
+			this.doInviteJs();
 			super.show(data);
 		}
 		
 		private UserIn(user:User):void
 		{
+			if(this.getPlayerById(user.uid)!=null)return;
 			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn&&GameModel.ins.uid==GameModel.ins.roomModel.fuid){
 				this.mContent.m_btn_invite.visible=true;
 			}else{
@@ -234,6 +238,7 @@ module game {
 		}
 		private FaPai():void
 		{
+			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 			// 先播放开始特效,完了在开始发牌
 			this.mContent.m_img_start.visible=true;
 			this.mContent.m_t1.play(this.onStartEffectComplete,this);
@@ -257,7 +262,10 @@ module game {
 		}
 		private BaiPaiCallBack(msg:T2C_BaiPai):void
 		{
-			this.getPlayerById(msg.uid).onBaiPaiEnd();
+			let playerHead:PlayerHead = this.getPlayerById(msg.uid)
+			if(playerHead){
+				playerHead.onBaiPaiEnd();
+			}
 		}
 		private doRestart():void
 		{
@@ -307,42 +315,121 @@ module game {
 			// 	await this.sleep(500);
 			// }
 			await this.sleep(500);
-			for(let c:number=0;c<special_uid.length;c++){
-				let playerHead:PlayerHead = this.getPlayerById(special_uid[c]);
-				playerHead.showSpecialResult(cards[c]);
-			}
+			
 			for(let j:number = 0;j<3;j++){
 				for(let i:number=0;i<cards.length;i++){
 					let uid:string = cards[i].uid;
 					if(special_uid.indexOf(uid)<0){
 						let playerHead:PlayerHead = this.getPlayerById(uid);
-						playerHead.showResult(j,cards[i]);
+						if(special_uid.indexOf(GameModel.ins.uid)==-1){
+							playerHead.showResult(j,cards[i],false);
+						}else{
+							playerHead.showResult(j,cards[i],true);
+						}
 						await this.sleep(1200);
 					}
 				}
 			}
 			await this.sleep(1000);
 			
+			if(special_uid.length>0){
+				for(let c:number=0;c<special_uid.length;c++){
+					let playerHead:PlayerHead = this.getPlayerById(special_uid[c]);
+					for(let i:number=0;i<cards.length;i++){
+						if(cards[i].uid==special_uid[c]){
+							playerHead.showSpecialResult(cards[i]);
+
+							let bipai:ResultBP = GameModel.ins.roundModel.getResultBPByUid(cards[i].uid);
+							if(bipai.tesuPaiTarArr){
+								for(let j:number=0;j<bipai.tesuPaiTarArr.length;j++){
+									let playerHeadTar:PlayerHead = this.getPlayerById(bipai.tesuPaiTarArr[j].uid);
+									playerHeadTar.pokers.updateTeSuScore(bipai.tesuPaiTarArr[j]);
+								}
+							}
+						}
+					}
+				}
+				await this.sleep(500);
+			}
+
 			//打枪
 			for(let i:number=0;i<bipai.length;i++){
-				for(let j:number =0;j<bipai[i].dq.tarIds.length;j++){
-					let from:PlayerHead = this.getPlayerById(bipai[i].uid);
-					let to:PlayerHead = this.getPlayerById(bipai[i].dq.tarIds[j]);
-					this.daQiang(from,to);
-					await this.sleep(2500);
+				for(let a:number=0;a<bipai[i].dq.length;a++){
+					if(GameModel.ins.roomModel.rinfo.zz==1){
+						for(let j:number =0;j<bipai[i].dq[a].tarIds.length;j++){
+							let from:PlayerHead = this.getPlayerById(bipai[i].dq[a].uid);
+							let to:PlayerHead = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+							from.pokers.showFanBei(from.user.uid,to.user.uid);
+							to.pokers.showFanBei(to.user.uid,from.user.uid);
+							this.daQiang(from,to);
+							await this.sleep(2500);
+						}
+					}else{
+						if(bipai[i].dq[a].uid==GameModel.ins.uid){//只显示跟自己相关的打枪的对象
+							for(let j:number =0;j<bipai[i].dq[a].tarIds.length;j++){
+								let from:PlayerHead = this.getPlayerById(bipai[i].dq[a].uid);
+								let to:PlayerHead = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+								from.pokers.showFanBei(from.user.uid,to.user.uid);
+								to.pokers.showFanBei(to.user.uid,from.user.uid);
+								this.daQiang(from,to);
+								await this.sleep(2500);
+							}
+						}else{
+							for(let j:number =0;j<bipai[i].dq[a].tarIds.length;j++){
+								if(bipai[i].dq[a].tarIds[j]==GameModel.ins.uid){
+									let from:PlayerHead = this.getPlayerById(bipai[i].dq[a].uid);
+									let to:PlayerHead = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+									from.pokers.showFanBei(from.user.uid,to.user.uid);
+									to.pokers.showFanBei(to.user.uid,from.user.uid);
+									this.daQiang(from,to);
+									await this.sleep(2500);
+								}
+							}
+						}
+					}
 				}
 			}
-			this.upDateScore();
-
+			
 			//全垒打
-
 			for(let i:number=0;i<bipai.length;i++){
 				if(bipai[i].ql>0){
 					this.mContent.m_qld.visible=true;
 					this.mContent.m_t3.play(this.qldComplete,this);
+					if(GameModel.ins.roomModel.rinfo.zz==1){
+						this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+						for(let j:number=0;j<bipai[i].qlTar.tarUidArr.length;j++){
+							this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+						}
+					}else{
+						if(bipai[i].qlTar.uid==GameModel.ins.uid){
+							this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+							for(let j:number=0;j<bipai[i].qlTar.tarUidArr.length;j++){
+								this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+							}
+						}else{
+							this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
+							for(let j:number=0;j<bipai[i].qlTar.tarUidArr.length;j++){
+								if(bipai[i].qlTar.tarUidArr[j]==GameModel.ins.uid){
+									this.getPlayerById(bipai[i].qlTar.tarUidArr[j]).pokers.UpDateULD(bipai[i]);
+								}
+							}
+						}
+					}
+
 					await this.sleep(3000);
 				}
 			}
+
+			//上面的大枪、全垒打结束后最后更新一次是否翻倍的数据
+			for(let i:number=0;i<GameModel.ins.roomModel.users.length;i++){
+				if(special_uid.indexOf(GameModel.ins.roomModel.users[i].uid)<0){
+					let head:PlayerHead = this.getPlayerById(GameModel.ins.roomModel.users[i].uid);
+					head.pokers.showResultScore(false,true);
+				}
+			}
+			//更新总分数
+			this.upDateScore();
+			await this.sleep(1500);
 		}
 		private qldComplete():void
 		{
@@ -458,7 +545,7 @@ module game {
 		}
 		private getPlayerById(uid:string):PlayerHead{
 			for(let i:number=0;i<this.curHeadAry.length;i++){
-				if(this.curHeadAry[i].user.uid==uid){
+				if(this.curHeadAry[i].user!=null&&this.curHeadAry[i].user.uid==uid){
 					return this.curHeadAry[i];
 				}
 			}
@@ -489,6 +576,20 @@ module game {
 			App.TimerManager.doTimer(3000,1,this.hideInvite,this)
 
 		}
+		private doInviteJs():void
+		{
+			let shareData:Object = new Object();
+			shareData["shareUserId"]=GameModel.ins.uid;
+			shareData["shareUserName"]=GameModel.ins.uname;
+			shareData["shareRoomId"]=GameModel.ins.roomModel.rid;
+			shareData["totalNum"]=GameModel.ins.roomModel.rinfo.pn;
+			shareData["nowNum"]=GameModel.ins.roomModel.users.length;
+			shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"AA局";
+			shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?"坐庄模式":"算分模式";
+			shareData["juNum"]=GameModel.ins.roomModel.rinfo.snum;
+			shareData["avatar"]=GameModel.ins.avatar;
+			WXUtil.ins.invit(shareData);
+		}
 		private onReceiveChat(msg:T2C_Chat):void
 		{
 			this.getPlayerById(msg.uid).speek(msg.str);
@@ -499,8 +600,61 @@ module game {
 			if(arr.length>1){
 				let uid:string = arr[0];
 				let str:string = arr[1];
-				this.getPlayerById(uid).flower(str);
+				if(str == "flower"){
+					this.showFlower(msg.uid,uid);
+				}else if(str == "boom"){
+					this.showBoom(msg.uid,uid);
+				}
+				// this.getPlayerById(uid).flower(str);
 			}
+		}
+		private showFlower(fromUid:string,toUid:string):void
+		{
+			let flower:UI.Game.UI_Flower = UI.Game.UI_Flower.createInstance();
+			let fromHead:PlayerHead = this.getPlayerById(fromUid);
+			let toHead:PlayerHead = this.getPlayerById(toUid);
+			flower.x = fromHead.x;
+			flower.y = fromHead.y;
+			this.mContent.addChild(flower);
+			TweenMax.to(flower,0.4,{x:toHead.x+60,y:toHead.y+70,onComplete:this.flowerMoveComplete,onCompleteParams:[flower,this]})
+		}
+		private flowerMoveComplete(flower:UI.Game.UI_Flower,cur:any):void
+		{
+			flower.m_t0.play(cur.onFlowerEffectComplete,cur,flower);
+		}
+		private showBoom(fromUid:string,toUid:string):void
+		{
+			let boom:UI.Game.UI_Boom = UI.Game.UI_Boom.createInstance();
+			let fromHead:PlayerHead = this.getPlayerById(fromUid);
+			let toHead:PlayerHead = this.getPlayerById(toUid);
+			boom.x = fromHead.x;
+			boom.y = fromHead.y;
+			boom.m_boom2.visible=false;
+			this.mContent.addChild(boom);
+			TweenMax.to(boom,0.4,{x:toHead.x,y:toHead.y,onComplete:this.boomMoveComplete,onCompleteParams:[boom,this]})
+		}
+		private boomMoveComplete(boom:UI.Game.UI_Boom,cur:any):void
+		{
+			boom.m_boom2.visible=true;
+			boom.m_t0.play(cur.onBoomEffectComplete,cur,boom);
+		}
+		private onFlowerEffectComplete(flower:UI.Game.UI_Flower):void
+		{
+			// App.DisplayUtils.removeFromParent(flower.displayObject);
+			flower.dispose();
+			if(flower.parent){
+				flower.parent.removeChild(flower);
+			}
+			flower=null;
+		}
+		private onBoomEffectComplete(boom:UI.Game.UI_Boom):void
+		{
+			// App.DisplayUtils.removeFromParent(boom.displayObject);
+			boom.dispose();
+			if(boom.parent){
+				boom.parent.removeChild(boom);
+			}
+			boom=null;
 		}
 		private hideInvite():void
 		{

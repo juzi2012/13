@@ -50,7 +50,11 @@ var game;
             App.SoundUtils.playSound("music_bg_home_mp3", 1, 0);
         };
         GameMainModule.prototype.show = function (data) {
+            this.onShare();
             _super.prototype.show.call(this, data);
+            if (data != null && data.fromPlay == true) {
+                ModuleMgr.ins.showModule(ModuleEnum.ZHANJI);
+            }
         };
         GameMainModule.prototype.updatePlayerInfo = function () {
             this.mContent.m_txt_name.text = game.GameModel.ins.uname;
@@ -80,6 +84,9 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.RANK);
         };
         GameMainModule.prototype.onActivityClick = function () {
+            // let rt:egret.RenderTexture = new egret.RenderTexture();
+            // rt.drawToTexture(this.mContent.displayObject);
+            // rt.saveToFile("image/jpeg","/Users/WT");
             ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
         };
         GameMainModule.prototype.onJoinRoom = function () {
@@ -102,6 +109,13 @@ var game;
             else {
                 App.SoundUtils.stopSoundByID("music_bg_home_mp3");
             }
+        };
+        GameMainModule.prototype.onShare = function () {
+            var shareData = new Object();
+            shareData["shareUserId"] = game.GameModel.ins.uid;
+            shareData["shareUserName"] = game.GameModel.ins.uname;
+            shareData["avatar"] = game.GameModel.ins.avatar;
+            game.WXUtil.ins.share(shareData);
         };
         GameMainModule.prototype.preClose = function (data) {
             App.SoundUtils.stopSoundByID("music_bg_home_mp3");

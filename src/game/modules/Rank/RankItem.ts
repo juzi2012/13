@@ -20,7 +20,7 @@ module game {
 				this.m_c1.selectedIndex=1;
 				this.m_txt_rank.text = (id+1).toString();
 			}
-			
+			(this.m_head as PlayerHeadImg1).setURL(data["header"]); 
 			// this.m_head.url="http://www.touxiang.cn/uploads/20131110/10-010858_115.jpg";//data['header'];
 		}
 	}

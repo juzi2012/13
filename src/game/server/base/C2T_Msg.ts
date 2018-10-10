@@ -41,7 +41,7 @@ class C2T_Message_CreateRoom{
 class C2T_Message_EnterRoom{
 	public constructor() {
 	}
-	public rid:number;
+	public rid:string;
 }
 class C2T_Message_BaiPai{
 	public constructor() {

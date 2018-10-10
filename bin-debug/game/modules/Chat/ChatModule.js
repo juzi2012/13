@@ -15,6 +15,12 @@ var game;
         function ChatModule() {
             var _this = _super.call(this) || this;
             _this.emstr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"];
+            _this.yushestr = ["赶紧的!!!打牌不是相面!",
+                "等等，人生的抉择~~",
+                "绝世好牌，等着掏钱吧~!",
+                "运气真差，随便都被打~",
+                "嘿，我就是枪神",
+                "别跑，战斗到底"];
             return _this;
         }
         ChatModule.prototype.initContent = function () {
@@ -34,48 +40,58 @@ var game;
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80g2wj1e";
             _super.prototype.preShow.call(this, data);
             App.MessageCenter.addListener(game.MsgEnum.GAME_CHAT, this.onReceive, this);
-            this.mContent.m_ctrl.selectedIndex = 1;
+            this.mContent.m_ctrl.selectedIndex = 0;
             this.mContent.m_btn_record.addClickListener(this.changeTab, this);
             this.mContent.m_btn_liaotian.addClickListener(this.changeTab, this);
             this.mContent.m_btn_biaoq.addClickListener(this.changeTab, this);
             this.mContent.m_btn_send.addClickListener(this.onSend, this);
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
-            this.mContent.m_list.numItems = game.ChatModel.ins.arr.length;
+            this.mContent.m_list.numItems = game.ChatModel.ins.arr_his.length;
+            this.mContent.m_listyushe.itemRenderer = this.YuSheRenderListItem;
+            this.mContent.m_listyushe.callbackThisObj = this;
+            this.mContent.m_listyushe.numItems = this.yushestr.length;
+            this.mContent.m_listyushe.addEventListener(fairygui.ItemEvent.CLICK, this.onClickYuSheItem, this);
             this.mContent.m_list_emoji.itemRenderer = this.EmojiRenderListItem;
             this.mContent.m_list_emoji.callbackThisObj = this;
             this.mContent.m_list_emoji.numItems = 21;
             this.mContent.m_list_emoji.addEventListener(fairygui.ItemEvent.CLICK, this.onClickItem, this);
-            if (game.ChatModel.ins.arr.length > 0) {
-                this.mContent.m_list.scrollToView(game.ChatModel.ins.arr.length - 1);
-            }
             _super.prototype.preShow.call(this, data);
         };
         ChatModule.prototype.show = function (data) {
+            if (game.ChatModel.ins.arr_his.length > 0) {
+                this.mContent.m_list.scrollToView(game.ChatModel.ins.arr_his.length - 1);
+            }
             _super.prototype.show.call(this, data);
+        };
+        ChatModule.prototype.onClickYuSheItem = function (evt) {
+            var item = evt.itemObject;
+            game.ServerEngine.sendChat(item.str);
+            ModuleMgr.ins.closeModule(this.moduleId);
         };
         ChatModule.prototype.onClickItem = function (evt) {
             var item = evt.itemObject;
             game.ServerEngine.sendChat("%%-" + item.vv + "-%%");
-            this.mContent.m_ctrl.selectedIndex = 1;
+            ModuleMgr.ins.closeModule(this.moduleId);
         };
         ChatModule.prototype.changeTab = function () {
-            switch (this.mContent.m_ctrl.selectedIndex) {
-                case 0:
-                    this.mContent.m_list.numItems = game.ChatModel.ins.arr_his.length;
-                    break;
-                case 1:
-                    this.mContent.m_list.numItems = game.ChatModel.ins.arr.length;
-                    break;
-                case 2:
-                    break;
-            }
+            // switch(this.mContent.m_ctrl.selectedIndex){
+            // 	case 0:
+            // 		this.mContent.m_list.numItems=ChatModel.ins.arr_his.length;
+            // 	break;
+            // 	case 1:
+            // 		this.mContent.m_list.numItems=ChatModel.ins.arr.length;
+            // 	break;
+            // 	case 2:
+            // 	break;
+            // }
         };
         ChatModule.prototype.onSend = function () {
             if (this.mContent.m_btn_input.text != "") {
                 game.ServerEngine.sendChat(this.mContent.m_btn_input.text);
                 this.mContent.m_btn_input.text = "";
             }
+            ModuleMgr.ins.closeModule(this.moduleId);
         };
         ChatModule.prototype.onReceive = function (msg) {
             var item = this.mContent.m_list.addItemFromPool(game.ChatItem.URL);
@@ -92,6 +108,11 @@ var game;
                     mailItem.setData(game.ChatModel.ins.arr[index]);
                     break;
             }
+        };
+        ChatModule.prototype.YuSheRenderListItem = function (index, _item) {
+            var str = this.yushestr[index];
+            var yusheItem = _item;
+            yusheItem.setData(str);
         };
         ChatModule.prototype.EmojiRenderListItem = function (index, _item) {
             var str = this.emstr[index];

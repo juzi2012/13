@@ -43,10 +43,14 @@ var game;
         };
         //解散房间
         GameModel.prototype.disMissRoom = function () {
-            game.AlertUtil.floatMsg("房间已经解散");
             this.roomModel = null;
+            //清除聊天数据
+            egret.localStorage.removeItem("Thirting_Chat");
         };
         GameModel.prototype.createRound = function (msg) {
+            // if(this.roomModel.rinfo.nnum==0){
+            // 	this.roomModel.rinfo.nnum=1;
+            // }
             this.roomModel.addRound(msg.card);
         };
         GameModel.prototype.createRoundTest = function () {

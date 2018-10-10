@@ -38,12 +38,24 @@ module game {
 		}
 		private onBack():void
 		{
+			if(GameModel.ins.roomModel.hasPlayedJu<GameModel.ins.roomModel.rinfo.snum){//结算的局数小余房间总局数，说明是解散的
+				AlertUtil.floatMsg("房间已经解散");
+			}
 			GameModel.ins.disMissRoom();
 			ModuleMgr.ins.changeScene(ModuleEnum.GAME_SINGLE_RESULT,ModuleEnum.GAME_MAIN);
 		}
-		private onShare():void
-		{
-
+		/**
+		 * 点击分享截屏按钮
+		 * Click the button
+		 */
+		private onShare() {
+			var renderTexture = new egret.RenderTexture();
+			renderTexture.drawToTexture(this.mContent.displayObject);//渲染到临时画布
+			var divImage = document.getElementById("divImage");//获取DIV
+			var shareImage: HTMLImageElement = document.getElementById("shareImage") as HTMLImageElement;//获取Image标签		
+			shareImage.src = renderTexture.toDataURL('image/jpeg');//把数据赋值给Image
+			divImage.style.display = "block";//显示DIV
 		}
+		
 	}
 }

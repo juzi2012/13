@@ -10,6 +10,7 @@ module UI.Rank {
 		public m_txt_score:fairygui.GTextField;
 		public m_txt_name:fairygui.GTextField;
 		public m_txt_rank:fairygui.GTextField;
+		public m_head:fairygui.GComponent;
 
 		public static URL:string = "ui://ljka2qsxdu50b";
 
@@ -30,6 +31,7 @@ module UI.Rank {
 			this.m_txt_score = <fairygui.GTextField><any>(this.getChildAt(11));
 			this.m_txt_name = <fairygui.GTextField><any>(this.getChildAt(12));
 			this.m_txt_rank = <fairygui.GTextField><any>(this.getChildAt(13));
+			this.m_head = <fairygui.GComponent><any>(this.getChildAt(15));
 		}
 	}
 }

@@ -20,6 +20,7 @@ module game {
 			}
 			this.m_txt_name.text = this.user.name;
 			this.m_txt_score.text = this.user.sc.toString();
+			(this.m_head as PlayerHeadImg1).setURL(this.user.avatar); 
 		}
 		public setState(act:number):void
 		{

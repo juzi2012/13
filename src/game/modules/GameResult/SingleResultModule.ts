@@ -10,6 +10,7 @@ module game {
 		public get mContent():UI.Result.UI_SingleResult{
 			return this.content as UI.Result.UI_SingleResult;
 		}
+		public cards:Array<ResultCard>;
 		/**
 		 * 预显示
 		 */
@@ -19,7 +20,11 @@ module game {
 			this.mContent.m_c1.selectedIndex=0;
 			this.mContent.m_list.itemRenderer = this.RenderListItem;
 			this.mContent.m_list.callbackThisObj=this;
-			this.mContent.m_list.numItems=GameModel.ins.roundModel.result.cards.length;
+			this.cards = GameModel.ins.roundModel.result.cards.concat([]);
+			this.cards.sort((a,b)=>{
+				return b.sc-a.sc;
+			})
+			this.mContent.m_list.numItems=this.cards.length;
 
 			this.mContent.m_txt_roominfo.text = GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"房费AA "+GameModel.ins.roomModel.rinfo.pn+"人 "+GameModel.ins.roomModel.rinfo.nnum+"/"+GameModel.ins.roomModel.rinfo.snum+"局 ";
 			this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
@@ -43,7 +48,7 @@ module game {
 		private RenderListItem(index:number,_item:fairygui.GObject):void
 		{
 			let item:SingleResultItem = _item as SingleResultItem;
-			item.setData(GameModel.ins.roundModel.result.cards[index]);
+			item.setData(this.cards[index]);
 		}
 		private onCheck():void
 		{

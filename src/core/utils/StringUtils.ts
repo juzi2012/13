@@ -47,5 +47,18 @@ module core {
             var reg = /^.*[\u4E00-\u9FA5]+.*$/;
             return reg.test(str);
         }
+        /**
+         * aaaa@param0bbbb
+         * 将字符串中的param替换成具体的值
+         */
+        public strParams(str:string,params:Array<string>):string
+        {
+            if(params!=null){
+                for(let i:number=0;i<params.length;i++){
+                    str = str.replace("@param"+i.toString(),params[i]);
+                }
+            }
+            return str;
+        }
     }
 }

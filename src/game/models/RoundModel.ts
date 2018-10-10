@@ -40,6 +40,14 @@ module game {
 		public uid:string;
 		public tarIds:Array<string>;
 	}
+	//特殊牌型要扣分的对象
+	export class TeSuPaiTarget{
+		public constructor(){
+
+		}
+		public uid:string;
+		public tc:number;
+	}
 	export class Win{
 		public constructor(){
 		}
@@ -48,13 +56,30 @@ module game {
 		public w2:string;
 		public w3:string;
 	}
+	//这个类是记录了坐庄玩法时其他玩家是上中下墩的分数
+	export class ZZOtherScore{
+		public constructor(){
+		}
+		public uid:string;
+		public topscore:number;
+		public midscore:number;
+		public downscore:number;
+	}
+	//全垒打的目标
+	export class QLDTarget{
+		public constructor(){
+		}
+		public uid:string;
+		public tarUidArr:Array<string>;
+	}
 	export class ResultBP{
 		public constructor(){
 
 		}
-		public dq:DaQiang;//打枪
+		public dq:Array<DaQiang>;//打枪
 		public px:number;//特俗牌型
 		public ql:number;//全垒打 1是
+		public qlTar:QLDTarget;
 		public uid:string;
 		public rs:Array<any>;
 		public scoretop:number;//上分数
@@ -64,15 +89,27 @@ module game {
 		public scoremidstr:string;//中分数
 		public scoredownstr:string;//下分数
 		public wins:Array<Win>;
+		public otherScores:Array<ZZOtherScore>;
+		public tesuPaiTarArr:Array<TeSuPaiTarget>;
 		public initRS():void{
 			this.scoretop = 0;
 			this.scoremid = 0;
 			this.scoredown = 0;
-			this.dq = new DaQiang();
-			this.dq.uid= this.uid;
+			this.dq = new Array<DaQiang>();
+			this.otherScores = new Array<ZZOtherScore>();
 			this.wins = [];
+			if(this.ql>0){
+				this.qlTar = new QLDTarget();
+				this.qlTar.uid = this.uid;
+				this.qlTar.tarUidArr = [];
+			}
+			if(this.px>0){
+				this.tesuPaiTarArr = [];
+			}
 			for(let i:number=0;i<this.rs.length;i++){
 				let bp:any = this.rs[i];
+				let dq1:DaQiang = new DaQiang();
+				this.dq.push(dq1);
 				if(GameModel.ins.roomModel.rinfo.zz==0){
 					if(this.uid==GameModel.ins.uid){
 						this.scoretop+=bp['sc1'];
@@ -86,13 +123,38 @@ module game {
 						}
 					}
 				}else{
+					//这个是算庄家的总分
 					this.scoretop+=bp['sc1'];
 					this.scoremid+=bp['sc2'];
 					this.scoredown+=bp['sc3'];
+					let zzotherscore:ZZOtherScore = new ZZOtherScore();
+					zzotherscore.uid = bp['uid'];
+					zzotherscore.topscore = bp['sc1'];
+					zzotherscore.midscore = bp['sc2'];
+					zzotherscore.downscore = bp['sc3'];
+					this.otherScores.push(zzotherscore);
+				}
+				if(this.px>0){
+					let tesupaitar:TeSuPaiTarget = new TeSuPaiTarget();
+					tesupaitar.uid = bp['uid'];
+					tesupaitar.tc = bp['tc'];
+					this.tesuPaiTarArr.push(tesupaitar);
 				}
 				if(bp['dq']==1){
-					if(this.dq.tarIds.indexOf(bp['uid'])==-1){
-						this.dq.tarIds.push(bp['uid'])
+					dq1.uid = this.uid;
+					if(dq1.tarIds.indexOf(bp['uid'])==-1){
+						dq1.tarIds.push(bp['uid'])
+					}
+					if(this.qlTar!=null){
+						this.qlTar.tarUidArr.push(bp['uid']);
+					}
+				}
+				if(GameModel.ins.roomModel.rinfo.zz==1){
+					if(bp['dq']==-1){
+						dq1.uid=bp['uid'];
+						if(dq1.tarIds.indexOf(this.uid)==-1){
+							dq1.tarIds.push(this.uid)
+						}
 					}
 				}
 				let win:Win = new Win();
@@ -109,6 +171,37 @@ module game {
 			this.scoretopstr = this.scoretop>0?("+"+this.scoretop):this.scoretop.toString();
 			this.scoremidstr = this.scoremid>0?("+"+this.scoremid):this.scoremid.toString();
 			this.scoredownstr = this.scoredown>0?("+"+this.scoredown):this.scoredown.toString();
+		}
+		public getTeSuPaiTarByUid(uid:string):TeSuPaiTarget
+		{
+			for(let i:number=0;i<this.tesuPaiTarArr.length;i++){
+				if(this.tesuPaiTarArr[i].uid==uid){
+					return this.tesuPaiTarArr[i];
+				}
+			}
+			return null;
+		}
+		//多人的时候，大枪不是简单的当前总分翻倍，而是要找到跟谁比牌而翻倍的，所以要拿到当前对比的人的分数
+		public getDQFanBeiScore(uid:string):any
+		{
+			for(let i:number=0;i<this.rs.length;i++){
+				let bp:any = this.rs[i];
+				if(uid==bp['uid']){
+					return bp;
+				}
+			}
+			return null;
+		}
+
+		//坐庄的时候获取其他人的分数
+		public getotherScoreById(uid:string):ZZOtherScore
+		{
+			for(let i:number=0;i<this.otherScores.length;i++){
+				if(this.otherScores[i].uid==uid){
+					return this.otherScores[i];
+				}
+			}
+			return null;
 		}
 		public getWinById(uid:string):Win
 		{
@@ -444,7 +537,7 @@ module game {
 					return this.result.bipai[i];
 				}
 			}
-			return null
+			return null;
 		}
 		//数组里面是否有重复的num的
 		private checkHasSameNum(num:number,arr:Array<PorkVO>,min:number):boolean

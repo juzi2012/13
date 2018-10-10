@@ -69,7 +69,7 @@ var game;
                 }
             }
             if (this.enterNumber.length == 6) {
-                game.ServerEngine.enterRoom(Number(this.enterNumber));
+                game.ServerEngine.enterRoom(this.enterNumber);
                 App.MessageCenter.addListener(game.MsgEnum.NEW_UESR_IN, this.enterRoomCallBack, this);
             }
         };

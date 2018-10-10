@@ -103,6 +103,12 @@ class App {
     public static get ShockUtils():core.ShockUtils {
         return core.ShockUtils.getInstance();
     }
+    /*
+    *StringUtils
+    */
+    public static get StringUtils():core.StringUtils {
+        return core.StringUtils.getInstance();
+    }
 	/**
      * 引擎扩展类
      */

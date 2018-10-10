@@ -17,5 +17,12 @@ module game {
 
 			public name:string;
 			public head:string;
+
+			public shareRoomId:string;//是否是分享过来的
+			public shareUserId:string;//是否是分享过来的
+
+			public shareRePlayRoomId:string;//是否是分享回放的
+			
+			
     }
 }
