@@ -378,7 +378,12 @@ var game;
         //铁支六对半
         PorkUtilExtends.getTieZhiLiuDuiBan = function (cards) {
             if (this.isLiuDuiBan(cards) != null && this.containTieZhi(cards)) {
-                return cards;
+                var arr = game.PorkUtil.findTieZhi(cards);
+                var tarr = arr[0];
+                var narr = this.getRestCard1(tarr, cards);
+                tarr.push(this.getResetSingle(narr));
+                narr = this.getRestCard1(tarr, cards);
+                return narr.concat(tarr);
             }
             return null;
         };
@@ -499,7 +504,7 @@ var game;
             //三种花色
             if (colorSum.length == 3) {
                 for (var i = 0; i < colorSum.length; i++) {
-                    if (colorSum[i] != 5 && colorSum[i] != 3) {
+                    if (colorSum[i] != 5) {
                         if ((colorSum[i] == 2 && gAry.length > 0)) {
                             teShuCard[i].push(gAry.pop());
                         }
@@ -514,10 +519,10 @@ var game;
                             teShuCard[i].push(gAry.pop());
                             teShuCard[i].push(gAry.pop());
                         }
-                        else {
-                            return null;
-                        }
                     }
+                }
+                if (teShuCard[0].length + teShuCard[1].length + teShuCard[2].length < 13) {
+                    return null;
                 }
                 teShuCard.sort(function (a, b) {
                     return a.length - b.length;
@@ -965,6 +970,31 @@ var game;
                 return true;
             }
             return false;
+        };
+        //当拿到的是两对或者是铁支等四张牌型的时候，获取剩下的一个单张牌，补齐5张
+        PorkUtilExtends.getResetSingle = function (ary) {
+            var restAry = ary;
+            for (var i = restAry.length - 1; i > 0; i--) {
+                if (this.checkHasSameNum(restAry[i].point, restAry, 1) == false) {
+                    return restAry[i];
+                }
+            }
+            return restAry[restAry.length - 1];
+        };
+        //数组里面是否有重复的num的
+        PorkUtilExtends.checkHasSameNum = function (num, arr, min) {
+            var len = 0;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].point == num) {
+                    len += 1;
+                }
+            }
+            if (len > min) {
+                return true;
+            }
+            else {
+                return false;
+            }
         };
         // 三顺子
         /*public static getSanShunZi(_cards:Array<PorkVO>):Array<PorkVO>

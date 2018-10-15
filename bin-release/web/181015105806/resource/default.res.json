@@ -1,0 +1,353 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,config_json,PreLoading@atlas0_png,PreLoading_fui,close_png",
+			"name": "preload"
+		},
+		{
+			"keys": "Base_fui,Base@atlas0_png,Activity_fui,AddRoom_fui,AddRoom@atlas0_png,BuyCard_fui,CreateRoom_fui,Kefu_fui,Mail_fui,MainUI_fui,Notice_fui,Rank_fui,ZhanJi_fui,ZhanJi@atlas0_png,Notice@atlas0_png,MainUI@atlas0_png,Mail@atlas0_png,Kefu@atlas0_png,CreateRoom@atlas0_png,BuyCard@atlas0_png,Activity@atlas0_png,Setting_fui,Setting@atlas0_png,ShuoMing_fui,ShuoMing@atlas0_png,Game_fui,Game@atlas0_png,Bg1_fui,Bg1@atlas0_jpg,Bg2_fui,Bg3_fui,Bg3@atlas0_jpg,PutPorkBg_fui,PutPorkBg@atlas0_png,Result_fui,Result@atlas0_png,GameHelper_fui,Rank@atlas0_png,MainBg_fui,MainBg@atlas0_png,Bg4_fui,Bg4@atlas0_jpg,music_bg_game_mp3,music_bg_home_mp3,over_mp3,showCard_mp3,start_mp3,win_mp3,deal_mp3,sg_common0_mp3,sg_common1_mp3,sg_common2_mp3,sg_common3_mp3,sg_common4_mp3,sg_common5_mp3,sg_common6_mp3,sg_common7_mp3,sg_common8_mp3,TestPork_fui,Bg2@atlas0_png",
+			"name": "game"
+		},
+		{
+			"keys": "Loading_fui,Loading@atlas0_png",
+			"name": "loading"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/ui/Loading.fui",
+			"type": "bin",
+			"name": "Loading_fui"
+		},
+		{
+			"url": "assets/ui/Loading@atlas0.png",
+			"type": "image",
+			"name": "Loading@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Base.fui",
+			"type": "bin",
+			"name": "Base_fui"
+		},
+		{
+			"url": "assets/ui/Base@atlas0.png",
+			"type": "image",
+			"name": "Base@atlas0_png"
+		},
+		{
+			"url": "config/config.json",
+			"type": "json",
+			"name": "config_json"
+		},
+		{
+			"url": "assets/ui/Activity.fui",
+			"type": "bin",
+			"name": "Activity_fui"
+		},
+		{
+			"url": "assets/ui/AddRoom.fui",
+			"type": "bin",
+			"name": "AddRoom_fui"
+		},
+		{
+			"url": "assets/ui/AddRoom@atlas0.png",
+			"type": "image",
+			"name": "AddRoom@atlas0_png"
+		},
+		{
+			"url": "assets/ui/BuyCard.fui",
+			"type": "bin",
+			"name": "BuyCard_fui"
+		},
+		{
+			"url": "assets/ui/CreateRoom.fui",
+			"type": "bin",
+			"name": "CreateRoom_fui"
+		},
+		{
+			"url": "assets/ui/Kefu.fui",
+			"type": "bin",
+			"name": "Kefu_fui"
+		},
+		{
+			"url": "assets/ui/Mail.fui",
+			"type": "bin",
+			"name": "Mail_fui"
+		},
+		{
+			"url": "assets/ui/MainUI.fui",
+			"type": "bin",
+			"name": "MainUI_fui"
+		},
+		{
+			"url": "assets/ui/Notice.fui",
+			"type": "bin",
+			"name": "Notice_fui"
+		},
+		{
+			"url": "assets/ui/Rank.fui",
+			"type": "bin",
+			"name": "Rank_fui"
+		},
+		{
+			"url": "assets/ui/ZhanJi.fui",
+			"type": "bin",
+			"name": "ZhanJi_fui"
+		},
+		{
+			"url": "assets/ui/ZhanJi@atlas0.png",
+			"type": "image",
+			"name": "ZhanJi@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Notice@atlas0.png",
+			"type": "image",
+			"name": "Notice@atlas0_png"
+		},
+		{
+			"url": "assets/ui/MainUI@atlas0.png",
+			"type": "image",
+			"name": "MainUI@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Mail@atlas0.png",
+			"type": "image",
+			"name": "Mail@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Kefu@atlas0.png",
+			"type": "image",
+			"name": "Kefu@atlas0_png"
+		},
+		{
+			"url": "assets/ui/CreateRoom@atlas0.png",
+			"type": "image",
+			"name": "CreateRoom@atlas0_png"
+		},
+		{
+			"url": "assets/ui/BuyCard@atlas0.png",
+			"type": "image",
+			"name": "BuyCard@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Activity@atlas0.png",
+			"type": "image",
+			"name": "Activity@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Setting@atlas0.png",
+			"type": "image",
+			"name": "Setting@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Setting.fui",
+			"type": "bin",
+			"name": "Setting_fui"
+		},
+		{
+			"url": "assets/ui/ShuoMing@atlas0.png",
+			"type": "image",
+			"name": "ShuoMing@atlas0_png"
+		},
+		{
+			"url": "assets/ui/ShuoMing.fui",
+			"type": "bin",
+			"name": "ShuoMing_fui"
+		},
+		{
+			"url": "assets/ui/Game@atlas0.png",
+			"type": "image",
+			"name": "Game@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Game.fui",
+			"type": "bin",
+			"name": "Game_fui"
+		},
+		{
+			"url": "assets/ui/Bg1@atlas0.jpg",
+			"type": "image",
+			"name": "Bg1@atlas0_jpg"
+		},
+		{
+			"url": "assets/ui/Bg3@atlas0.jpg",
+			"type": "image",
+			"name": "Bg3@atlas0_jpg"
+		},
+		{
+			"url": "assets/ui/Bg1.fui",
+			"type": "bin",
+			"name": "Bg1_fui"
+		},
+		{
+			"url": "assets/ui/Bg2.fui",
+			"type": "bin",
+			"name": "Bg2_fui"
+		},
+		{
+			"url": "assets/ui/Bg3.fui",
+			"type": "bin",
+			"name": "Bg3_fui"
+		},
+		{
+			"url": "assets/ui/PutPorkBg@atlas0.png",
+			"type": "image",
+			"name": "PutPorkBg@atlas0_png"
+		},
+		{
+			"url": "assets/ui/PutPorkBg.fui",
+			"type": "bin",
+			"name": "PutPorkBg_fui"
+		},
+		{
+			"url": "assets/ui/Result@atlas0.png",
+			"type": "image",
+			"name": "Result@atlas0_png"
+		},
+		{
+			"url": "assets/ui/Result.fui",
+			"type": "bin",
+			"name": "Result_fui"
+		},
+		{
+			"url": "assets/ui/GameHelper.fui",
+			"type": "bin",
+			"name": "GameHelper_fui"
+		},
+		{
+			"url": "assets/ui/Rank@atlas0.png",
+			"type": "image",
+			"name": "Rank@atlas0_png"
+		},
+		{
+			"url": "assets/ui/MainBg@atlas0.png",
+			"type": "image",
+			"name": "MainBg@atlas0_png"
+		},
+		{
+			"url": "assets/ui/MainBg.fui",
+			"type": "bin",
+			"name": "MainBg_fui"
+		},
+		{
+			"url": "assets/ui/Bg4@atlas0.jpg",
+			"type": "image",
+			"name": "Bg4@atlas0_jpg"
+		},
+		{
+			"url": "assets/ui/Bg4.fui",
+			"type": "bin",
+			"name": "Bg4_fui"
+		},
+		{
+			"url": "assets/sound/music_bg_game.mp3",
+			"type": "sound",
+			"name": "music_bg_game_mp3"
+		},
+		{
+			"url": "assets/sound/music_bg_home.mp3",
+			"type": "sound",
+			"name": "music_bg_home_mp3"
+		},
+		{
+			"url": "assets/sound/over.mp3",
+			"type": "sound",
+			"name": "over_mp3"
+		},
+		{
+			"url": "assets/sound/showCard.mp3",
+			"type": "sound",
+			"name": "showCard_mp3"
+		},
+		{
+			"url": "assets/sound/start.mp3",
+			"type": "sound",
+			"name": "start_mp3"
+		},
+		{
+			"url": "assets/sound/win.mp3",
+			"type": "sound",
+			"name": "win_mp3"
+		},
+		{
+			"url": "assets/sound/deal.mp3",
+			"type": "sound",
+			"name": "deal_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common0.mp3",
+			"type": "sound",
+			"name": "sg_common0_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common1.mp3",
+			"type": "sound",
+			"name": "sg_common1_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common2.mp3",
+			"type": "sound",
+			"name": "sg_common2_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common3.mp3",
+			"type": "sound",
+			"name": "sg_common3_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common4.mp3",
+			"type": "sound",
+			"name": "sg_common4_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common5.mp3",
+			"type": "sound",
+			"name": "sg_common5_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common6.mp3",
+			"type": "sound",
+			"name": "sg_common6_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common7.mp3",
+			"type": "sound",
+			"name": "sg_common7_mp3"
+		},
+		{
+			"url": "assets/sound/sg_common8.mp3",
+			"type": "sound",
+			"name": "sg_common8_mp3"
+		},
+		{
+			"url": "assets/ui/TestPork.fui",
+			"type": "bin",
+			"name": "TestPork_fui"
+		},
+		{
+			"url": "assets/ui/Bg2@atlas0.png",
+			"type": "image",
+			"name": "Bg2@atlas0_png"
+		},
+		{
+			"url": "assets/ui/PreLoading@atlas0.png",
+			"type": "image",
+			"name": "PreLoading@atlas0_png"
+		},
+		{
+			"url": "assets/ui/PreLoading.fui",
+			"type": "bin",
+			"name": "PreLoading_fui"
+		},
+		{
+			"name": "close_png",
+			"type": "image",
+			"url": "assets/close.png"
+		}
+	]
+}

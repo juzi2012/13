@@ -319,7 +319,7 @@ var game;
         };
         Game.prototype.doShowSingleResult = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, c, playerHead, i, bipai_1, j, playerHeadTar, i, a, j, from, to, j, from, to, j, from, to, i, j, j, j, i, head;
+                var round, bipai, cards, special_uid, a, uid, playerHead, j, i, uid, playerHead, c, playerHead, i, bipai_1, j, playerHeadTar, i, a, j, from, to, j, from, to, j, from, to, i, j, j, j, i, head, bipai_2, head, i, head1, bipai_3, head, i, head1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -508,6 +508,29 @@ var game;
                                 if (special_uid.indexOf(game.GameModel.ins.roomModel.users[i].uid) < 0) {
                                     head = this.getPlayerById(game.GameModel.ins.roomModel.users[i].uid);
                                     head.pokers.showResultScore(false, true);
+                                }
+                            }
+                            //更新马牌的分数
+                            if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                                bipai_2 = game.GameModel.ins.roundModel.getResultBPByUid(game.GameModel.ins.uid);
+                                if (bipai_2 != null && bipai_2.mapaiTarArr.length > 0) {
+                                    head = this.getPlayerById(game.GameModel.ins.uid);
+                                    for (i = 0; i < bipai_2.mapaiTarArr.length; i++) {
+                                        head1 = this.getPlayerById(bipai_2.mapaiTarArr[i]);
+                                        head.pokers.updateMP(true, head1.pokers.scoretop, head1.pokers.scoremid, head1.pokers.scoredown);
+                                        head1.pokers.updateMP(false);
+                                    }
+                                }
+                            }
+                            else {
+                                bipai_3 = game.GameModel.ins.roundModel.getResultBPByUid(game.GameModel.ins.roomModel.rinfo.zuid);
+                                if (bipai_3 != null && bipai_3.mapaiTarArr.length > 0) {
+                                    head = this.getPlayerById(game.GameModel.ins.roomModel.rinfo.zuid);
+                                    for (i = 0; i < bipai_3.mapaiTarArr.length; i++) {
+                                        head1 = this.getPlayerById(bipai_3.mapaiTarArr[i]);
+                                        head.pokers.updateMP(true, head1.pokers.scoretop, head1.pokers.scoremid, head1.pokers.scoredown);
+                                        head1.pokers.updateMP(false);
+                                    }
                                 }
                             }
                             //更新总分数

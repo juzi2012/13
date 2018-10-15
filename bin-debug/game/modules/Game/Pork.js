@@ -35,7 +35,7 @@ var game;
             else {
                 this.m_img_joke.visible = false;
             }
-            if (this.vo.showStr == "K" && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
+            if (this.vo.showStr == "K" && this.vo.type == 3 && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
                 this.m_img_ma.visible = true;
             }
             else {
@@ -73,7 +73,7 @@ var game;
             else {
                 this.m_img_joke.visible = false;
             }
-            if (this.vo.showStr == "K" && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
+            if (this.vo.showStr == "K" && this.vo.type == 3 && game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.rinfo.jm == 1) {
                 this.m_img_ma.visible = true;
             }
             else {

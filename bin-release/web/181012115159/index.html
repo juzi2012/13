@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Egret</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="full-screen" content="true" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: #000000;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="https://alpha-api.fpwan.com/asset/js/fpclient.js"></script>
+    <script type="text/javascript">
+       function invit(msg){
+            var obj = {};
+            
+            obj.title = msg.shareUserName+"邀请你加入房间:"+msg.shareRoomId+"-十三水";
+            obj.desc = "["+msg.nowNum+"缺"+(parseInt(msg.totalNum)-parseInt(msg.nowNum))+"],"+msg.model+","+msg.payModel+"局,"+msg.totalNum+"人场,"+msg.juNum+"局决胜负!";
+            obj.imgUrl = msg.avatar;
+            obj.para = {
+                shareUserId:msg.shareUserId,
+                shareRoomId:msg.shareRoomId
+            };
+            fpclient.share(obj,function(res){
+                if(res=='share success'){
+                    console.log("用户分享成功!")
+                }
+            })
+        }
+        function share(msg){
+            var obj = {};
+            
+            obj.title = "十三水";
+            obj.desc = "自己人才懂的玩法，熟人线上约打！快来加我好友！我的ID"+msg.shareUserId;
+            obj.imgUrl = msg.avatar;
+            obj.para = {
+                shareUserId:msg.shareUserId
+            };
+            fpclient.share(obj,function(res){
+                if(res=='share success'){
+                    console.log("用户分享成功!")
+                }
+            })
+        }
+        function shareRePlay(msg){
+            var obj = {};
+            
+            obj.title = msg.shareUserName+" 向你分享了 十三水 牌局回放";
+            obj.desc = "十三水--录像分享  "+msg.shareTime;
+            obj.imgUrl = msg.avatar;
+            obj.para = {
+                shareUserId:msg.shareUserId,
+                shareRePlayRoomId:msg.shareRePlayRoomId
+            };
+            fpclient.share(obj,function(res){
+                if(res=='share success'){
+                    console.log("用户分享成功!")
+                }
+            })
+        }
+        function getParentUrl() { 
+            var url = null;
+            if (parent !== window) { 
+                try {
+                url = parent.location.href; 
+                }catch (e) { 
+                url = document.referrer; 
+                } 
+            }
+            return url;
+        }
+    </script>
+</head>
+
+<body>
+    <div style="margin: auto;width: 100%;height: 100%;" class="egret-player"
+         data-entry-class="Main"
+         data-orientation="landscape"
+         data-scale-mode="fixedHeight"
+         data-frame-rate="30"
+         data-content-width="1206"
+         data-content-height="750"
+         data-show-paint-rect="false"
+         data-multi-fingered="2"
+         data-show-fps="false" data-show-log="false"
+         data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
+    </div>
+     <div id="divImage" style="background: #373737;text-align:center;z-index:99;position: absolute;display: none">
+        <div id="shareImage1" style="position:absolute;right:0%;color: #F7D60E;display:block;text-align:center;width: 100%;">
+            <span style="display:block;font-size: 21px;font-weight: bold ">长按图片发送给朋友</span><br/>
+            <img src="" alt="" id="shareImage" style="width: 100%;right:1%;top:0%;bottom: 1%;left: 1%">
+        </div>
+        <img src="./resource/assets/close.png" onclick="isHidden('divImage')" alt="" style="position:absolute;left:1%;top:1%;width: 40px;height: 40px">
+    </div>
+    <script>
+        ///这里添加点击 X 按钮关闭
+        function isHidden(idtext) {
+            var vDiv = document.getElementById(idtext);
+            vDiv.style.display = 'none';
+        }
+        function setDivOri(width,height){
+            var vDiv = document.getElementById('divImage');
+            vDiv.style["-o-transform"] = "rotate(90deg)";
+            vDiv.style["transform"] = "rotate(90deg)";
+            vDiv.style["-webkit-transform"] = "rotate(90deg)";
+            vDiv.style["-moz-transform"] = "rotate(90deg)";
+            vDiv.style["-ms-transform"] = "rotate(90deg)";
+
+            vDiv.style["height"] = width+"px";
+            vDiv.style["width"] = height+"px";
+            vDiv.style.background = '#373737';
+            vDiv.style.text = 'center';
+            vDiv.style.position = 'absolute';
+            vDiv.style["top"] = (-width+height)/2+"px";
+            vDiv.style["left"] = (width-height)/2+"px";
+        }
+    </script>
+<script>
+    function GetRequest() {   
+        var url = location.search; //获取url中"?"符后的字串   
+        var theRequest = new Object();   
+        if (url.indexOf("?") != -1) {   
+            var str = url.substr(1);   
+            strs = str.split("&");   
+            for(var i = 0; i < strs.length; i ++) {   
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);   
+            }   
+        }   
+        return theRequest;   
+    }   
+    var loadScript = function (list, callback) {
+        var loaded = 0;
+        var loadNext = function () {
+            loadSingleScript(list[loaded], function () {
+                loaded++;
+                if (loaded >= list.length) {
+                    callback();
+                }
+                else {
+                    loadNext();
+                }
+            })
+        };
+        loadNext();
+    };
+
+    var loadSingleScript = function (src, callback) {
+        var s = document.createElement('script');
+        s.async = false;
+        s.src = src;
+        s.addEventListener('load', function () {
+            s.parentNode.removeChild(s);
+            s.removeEventListener('load', arguments.callee, false);
+            callback();
+        }, false);
+        document.body.appendChild(s);
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './manifest.json?v=' + Math.random(), true);
+    xhr.addEventListener("load", function () {
+        var manifest = JSON.parse(xhr.response);
+        var list = manifest.initial.concat(manifest.game);
+        loadScript(list, function () {
+            /**
+             * {
+             * "renderMode":, //Engine rendering mode, "canvas" or "webgl"
+             * "audioType": 0 //Use the audio type, 0: default, 2: web audio, 3: audio
+             * "antialias": //Whether the anti-aliasing is enabled in WebGL mode, true: on, false: off, defaults to false
+             * "calculateCanvasScaleFactor": //a function return canvas scale factor
+             * }
+             **/
+            egret.runEgret({ renderMode: "webgl", audioType: 0, calculateCanvasScaleFactor:function(context) {
+                var backingStore = context.backingStorePixelRatio ||
+                    context.webkitBackingStorePixelRatio ||
+                    context.mozBackingStorePixelRatio ||
+                    context.msBackingStorePixelRatio ||
+                    context.oBackingStorePixelRatio ||
+                    context.backingStorePixelRatio || 1;
+                return (window.devicePixelRatio || 1) / backingStore;
+            }});
+        });
+    });
+    xhr.send(null);
+</script>
+</body>
+
+</html>

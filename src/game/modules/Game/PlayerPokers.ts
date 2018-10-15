@@ -13,6 +13,7 @@ module game {
 		public zongfen:number;
 		public zongfenbase:number;
 		public beishu:number=1;
+		public mp:boolean=false;
 		public result:ResultCard;
 		public bipai:ResultBP;
 		public init(){
@@ -26,6 +27,7 @@ module game {
 			this.beishu=1;
 			this.zongfen=0;
 			this.zongfenbase=0;
+			this.mp = false;
 			for(let i:number =0;i<13;i++){
 				let poker = this['m_pork'+i] as Pork;
 				poker.x = -26;
@@ -510,6 +512,70 @@ module game {
 			this.showResultScore(true);
 			
 		}
+		//更新马牌的分数
+		public updateMP(isme:boolean=false,scoretop:number=0,scoremid:number=0,scoredown:number=0):void
+		{
+			this.mp = true;
+			if(isme){
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					this.scoretop-=scoretop;
+					this.scoremid-=scoremid;
+					this.scoredown-=scoredown;
+					
+					this.zongfen-=(scoretop+scoremid+scoredown);
+				}else{
+					this.zongfen = this.scoretop+this.scoremid+this.scoredown;
+					this.scoretop-=scoretop;
+					this.scoremid-=scoremid;
+					this.scoredown-=scoredown;
+					
+					this.zongfen-=(scoretop+scoremid+scoredown);
+				}
+				
+			}else{
+				if(GameModel.ins.roomModel.rinfo.zz==0){
+					this.scoretop*=2;
+					this.scoremid*=2;
+					this.scoredown*=2;
+					this.zongfen*=2;
+				}else{
+					this.zongfen = this.scoretop+this.scoremid+this.scoredown;
+					this.scoretop*=2;
+					this.scoremid*=2;
+					this.scoredown*=2;
+					this.zongfen*=2;
+				}
+			}
+
+			let tstr:string=(this.scoretop).toString();
+			if(this.scoretop>0){
+				tstr="+"+tstr;
+				this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+			}else{
+				this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+			}
+
+			let mstr:string=(this.scoremid).toString();
+			if(this.scoremid>0){
+				mstr="+"+mstr;
+				this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+			}else{
+				this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+			}
+
+			let dstr:string=(this.scoredown).toString();
+			if(this.scoredown>0){
+				dstr="+"+dstr;
+				this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+			}else{
+				this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+			}
+			this.m_txt_scoretop.text = App.StringUtils.strParams(this.score_fanbei_top,[tstr]);
+			this.m_txt_score_mid.text = App.StringUtils.strParams(this.score_fanbei_mid,[mstr]);;
+			this.m_txt_score_down.text = App.StringUtils.strParams(this.score_fanbei_down,[dstr]);
+
+			this.showResultScore(true);
+		}
 		/**
 		 * 显示最下面的分数或者输赢状态
 		 * fanbei 是否翻倍
@@ -531,7 +597,7 @@ module game {
 						}
 					}else{
 						if(showfirst==true){//&&(this.scoretop+this.scoremid+this.scoredown)>0
-							if(this.beishu==1){
+							if(this.beishu==1&&this.mp==false){
 								this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
 								this.m_txt_score_result.text=this.istesu?"":"不翻倍";
 							}

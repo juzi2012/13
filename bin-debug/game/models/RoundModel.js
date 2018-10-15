@@ -89,6 +89,24 @@ var game;
             if (this.px > 0) {
                 this.tesuPaiTarArr = [];
             }
+            //标记马牌
+            this.mapaiTarArr = [];
+            if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                if (this.uid == game.GameModel.ins.uid) {
+                    for (var i = 0; i < this.rs.length; i++) {
+                        if (this.rs[i]['mp'] > 0) {
+                            this.mapaiTarArr.push(this.rs[i]['uid']);
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < this.rs.length; i++) {
+                    if (this.rs[i]['mp'] > 0) {
+                        this.mapaiTarArr.push(this.rs[i]['uid']);
+                    }
+                }
+            }
             for (var i = 0; i < this.rs.length; i++) {
                 var bp = this.rs[i];
                 var dq1 = new DaQiang();

@@ -91,6 +91,7 @@ module game {
 		public wins:Array<Win>;
 		public otherScores:Array<ZZOtherScore>;
 		public tesuPaiTarArr:Array<TeSuPaiTarget>;
+		public mapaiTarArr:Array<string>;
 		public initRS():void{
 			this.scoretop = 0;
 			this.scoremid = 0;
@@ -106,6 +107,24 @@ module game {
 			if(this.px>0){
 				this.tesuPaiTarArr = [];
 			}
+			//标记马牌
+			this.mapaiTarArr = [];
+			if(GameModel.ins.roomModel.rinfo.zz==0){
+				if(this.uid == GameModel.ins.uid){//算分模式下，只要记录我自己对比的牌里面的马牌个数
+					for(let i:number=0;i<this.rs.length;i++){
+						if(this.rs[i]['mp']>0){
+							this.mapaiTarArr.push(this.rs[i]['uid']);
+						}
+					}
+				}
+			}else{
+				for(let i:number=0;i<this.rs.length;i++){
+					if(this.rs[i]['mp']>0){
+						this.mapaiTarArr.push(this.rs[i]['uid']);
+					}
+				}
+			}
+
 			for(let i:number=0;i<this.rs.length;i++){
 				let bp:any = this.rs[i];
 				let dq1:DaQiang = new DaQiang();

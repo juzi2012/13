@@ -41,10 +41,63 @@ module game {
 			this.tabChange(null);
 			this.mContent.m_btn_buy.addClickListener(this.onBuyHandle,this);
 			this.mContent.m_btn_create.addClickListener(this.onCreateHandle,this);
+
+			this.mContent.m_btn_paytype0.addClickListener(this.countCard,this);
+			this.mContent.m_btn_paytype1.addClickListener(this.countCard,this);
+			this.mContent.m_btn_junum0.addClickListener(this.countCard,this);
+			this.mContent.m_btn_junum1.addClickListener(this.countCard,this);
+			this.mContent.m_btn_junum2.addClickListener(this.countCard,this);
+			
+			this.countCard();
 			super.preShow(data);
+		}
+		private countCard():void
+		{
+			let jn:number=6;
+			let pn:number=2;
+			switch(this.mContent.m_JuShuCtrl.selectedIndex){
+				case 0:
+					jn = 6;
+					break;
+				case 1:
+					jn = 12;
+					break;
+				case 2:
+					jn = 18;
+					break;
+			}
+			switch(this.mContent.m_NumCtrl.selectedIndex){
+				case 0:
+					pn = 2;
+					if(this.mContent.m_typeCtrl.selectedIndex==3){
+						pn=6;
+					}
+					break;
+				case 1:
+					pn = 3;
+					if(this.mContent.m_typeCtrl.selectedIndex==4){
+						pn=5;
+					}
+					break;
+				case 2:
+					pn = 4;
+					if(this.mContent.m_typeCtrl.selectedIndex==4){
+						pn=6;
+					}
+					break;
+				case 3:
+					pn = 5;
+					break;
+			}
+			if(this.mContent.m_payCtrl.selectedIndex==0){
+				this.mContent.m_btn_create.m_txt_cardnum.text = "X"+((jn/6)*pn).toString();//总房卡数=（局数/6）*玩家人数。局数=6/12/18。
+			}else{
+				this.mContent.m_btn_create.m_txt_cardnum.text = "X"+(jn/6).toString();// AA支付每人房卡数=（局数/6）。
+			}
 		}
 		public show(data?:any):void
 		{
+			
 			super.show(data);
 		}
 		private checkJiayiSe():void
@@ -58,6 +111,7 @@ module game {
 					this.mContent.m_huase.visible=false;
 				}
 			}
+			this.countCard();
 			
 		}
 		private tabChange(evt:Event):void
@@ -155,6 +209,7 @@ module game {
 			}
 			this.selectHuaSe=1;
 			
+			this.countCard();
 		}
 		private huaseAdd(evt:Event):void
 		{

@@ -16,6 +16,7 @@ var game;
             var _this = _super.call(this) || this;
             _this.offsite = 45;
             _this.beishu = 1;
+            _this.mp = false;
             return _this;
         }
         PlayerPokers.prototype.init = function () {
@@ -29,6 +30,7 @@ var game;
             this.beishu = 1;
             this.zongfen = 0;
             this.zongfenbase = 0;
+            this.mp = false;
             for (var i = 0; i < 13; i++) {
                 var poker = this['m_pork' + i];
                 poker.x = -26;
@@ -536,6 +538,73 @@ var game;
             // this.zongfen = this.zongfenbase*this.beishu;
             this.showResultScore(true);
         };
+        //更新马牌的分数
+        PlayerPokers.prototype.updateMP = function (isme, scoretop, scoremid, scoredown) {
+            if (isme === void 0) { isme = false; }
+            if (scoretop === void 0) { scoretop = 0; }
+            if (scoremid === void 0) { scoremid = 0; }
+            if (scoredown === void 0) { scoredown = 0; }
+            this.mp = true;
+            if (isme) {
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    this.scoretop -= scoretop;
+                    this.scoremid -= scoremid;
+                    this.scoredown -= scoredown;
+                    this.zongfen -= (scoretop + scoremid + scoredown);
+                }
+                else {
+                    this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                    this.scoretop -= scoretop;
+                    this.scoremid -= scoremid;
+                    this.scoredown -= scoredown;
+                    this.zongfen -= (scoretop + scoremid + scoredown);
+                }
+            }
+            else {
+                if (game.GameModel.ins.roomModel.rinfo.zz == 0) {
+                    this.scoretop *= 2;
+                    this.scoremid *= 2;
+                    this.scoredown *= 2;
+                    this.zongfen *= 2;
+                }
+                else {
+                    this.zongfen = this.scoretop + this.scoremid + this.scoredown;
+                    this.scoretop *= 2;
+                    this.scoremid *= 2;
+                    this.scoredown *= 2;
+                    this.zongfen *= 2;
+                }
+            }
+            var tstr = (this.scoretop).toString();
+            if (this.scoretop > 0) {
+                tstr = "+" + tstr;
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_scoretop.font = "ui://jow5n9bqx90y47";
+            }
+            var mstr = (this.scoremid).toString();
+            if (this.scoremid > 0) {
+                mstr = "+" + mstr;
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_mid.font = "ui://jow5n9bqx90y47";
+            }
+            var dstr = (this.scoredown).toString();
+            if (this.scoredown > 0) {
+                dstr = "+" + dstr;
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y46";
+            }
+            else {
+                this.m_txt_score_down.font = "ui://jow5n9bqx90y47";
+            }
+            this.m_txt_scoretop.text = App.StringUtils.strParams(this.score_fanbei_top, [tstr]);
+            this.m_txt_score_mid.text = App.StringUtils.strParams(this.score_fanbei_mid, [mstr]);
+            ;
+            this.m_txt_score_down.text = App.StringUtils.strParams(this.score_fanbei_down, [dstr]);
+            this.showResultScore(true);
+        };
         /**
          * 显示最下面的分数或者输赢状态
          * fanbei 是否翻倍
@@ -558,7 +627,7 @@ var game;
                     }
                     else {
                         if (showfirst == true) {
-                            if (this.beishu == 1) {
+                            if (this.beishu == 1 && this.mp == false) {
                                 this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
                                 this.m_txt_score_result.text = this.istesu ? "" : "不翻倍";
                             }

@@ -384,7 +384,13 @@ module game {
 		public static getTieZhiLiuDuiBan(cards:Array<PorkVO>):Array<PorkVO>
 		{
 			if(this.isLiuDuiBan(cards)!=null&&this.containTieZhi(cards)){
-				return cards;
+				let arr:any = PorkUtil.findTieZhi(cards);
+				let tarr:Array<PorkVO> = arr[0];
+				let narr:Array<PorkVO> = this.getRestCard1(tarr,cards);
+				tarr.push(this.getResetSingle(narr));
+				narr = this.getRestCard1(tarr,cards);
+				
+				return narr.concat(tarr);
 			}
 			return null;
 		}
@@ -503,7 +509,7 @@ module game {
 			//三种花色
 			if(colorSum.length == 3){
 				for(var i=0;i<colorSum.length;i++) {
-					if (colorSum[i] != 5 && colorSum[i] != 3){
+					if (colorSum[i] != 5){
 						if((colorSum[i]==2&&gAry.length>0)){
 							teShuCard[i].push(gAry.pop())
 						}else if((colorSum[i]==4&&gAry.length>0)){
@@ -514,10 +520,11 @@ module game {
 						}else if((colorSum[i]==3&&gAry.length>1)){
 							teShuCard[i].push(gAry.pop())
 							teShuCard[i].push(gAry.pop())
-						}else{
-							return null;
 						}
 					}
+				}
+				if(teShuCard[0].length+teShuCard[1].length+teShuCard[2].length<13){
+					return null;
 				}
 				teShuCard.sort(function(a,b){
 					return a.length - b.length;
@@ -1061,6 +1068,32 @@ module game {
 			
 			return false;
 		}
+		//当拿到的是两对或者是铁支等四张牌型的时候，获取剩下的一个单张牌，补齐5张
+		private static getResetSingle(ary:Array<PorkVO>):PorkVO{
+			let restAry:Array<PorkVO>=ary;
+			
+			for(let i:number=restAry.length-1;i>0;i--){
+				if(this.checkHasSameNum(restAry[i].point,restAry,1)==false){
+					return restAry[i];
+				}
+			}
+			return restAry[restAry.length-1];
+		}
+		//数组里面是否有重复的num的
+		private static checkHasSameNum(num:number,arr:Array<PorkVO>,min:number):boolean
+		{
+			let len:number=0
+			for(let i:number=0;i<arr.length;i++){
+				if(arr[i].point == num){
+					len+=1;
+				}
+			}
+			if(len>min){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}
 	export class CardPointsHelper{
 		public pointNumbers={};
@@ -1079,7 +1112,7 @@ module game {
 			}
 			return result;
 		}
-
+		
 	}
 	export class CardColorsHelper{
 		public colorNumber={};
@@ -1098,5 +1131,6 @@ module game {
 			}
 			return result;
 		}
+		
 	}
 }

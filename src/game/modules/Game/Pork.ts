@@ -23,7 +23,7 @@ module game {
 			}else{
 				this.m_img_joke.visible=false;
 			}
-			if(this.vo.showStr=="K"&&GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.rinfo.jm==1){
+			if(this.vo.showStr=="K"&&this.vo.type==3&&GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.rinfo.jm==1){
 				this.m_img_ma.visible=true;
 			}else{
 				this.m_img_ma.visible=false;
@@ -59,7 +59,7 @@ module game {
 			}else{
 				this.m_img_joke.visible=false;
 			}
-			if(this.vo.showStr=="K"&&GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.rinfo.jm==1){
+			if(this.vo.showStr=="K"&&this.vo.type==3&&GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.rinfo.jm==1){
 				this.m_img_ma.visible=true;
 			}else{
 				this.m_img_ma.visible=false;

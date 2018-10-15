@@ -427,6 +427,30 @@ module game {
 					head.pokers.showResultScore(false,true);
 				}
 			}
+
+			//更新马牌的分数
+			if(GameModel.ins.roomModel.rinfo.zz==0){
+				let bipai:ResultBP = GameModel.ins.roundModel.getResultBPByUid(GameModel.ins.uid);
+				if(bipai!=null&&bipai.mapaiTarArr.length>0){
+					let head:PlayerHead = this.getPlayerById(GameModel.ins.uid);
+					for(let i:number=0;i<bipai.mapaiTarArr.length;i++){
+						let head1:PlayerHead = this.getPlayerById(bipai.mapaiTarArr[i]);
+						head.pokers.updateMP(true,head1.pokers.scoretop,head1.pokers.scoremid,head1.pokers.scoredown);
+						head1.pokers.updateMP(false);
+					}
+				}
+			}else{
+				let bipai:ResultBP = GameModel.ins.roundModel.getResultBPByUid(GameModel.ins.roomModel.rinfo.zuid);
+				if(bipai!=null&&bipai.mapaiTarArr.length>0){
+					let head:PlayerHead = this.getPlayerById(GameModel.ins.roomModel.rinfo.zuid);
+					for(let i:number=0;i<bipai.mapaiTarArr.length;i++){
+						let head1:PlayerHead = this.getPlayerById(bipai.mapaiTarArr[i]);
+						head.pokers.updateMP(true,head1.pokers.scoretop,head1.pokers.scoremid,head1.pokers.scoredown);
+						head1.pokers.updateMP(false);
+					}
+				}
+			}
+
 			//更新总分数
 			this.upDateScore();
 			await this.sleep(1500);

@@ -15,6 +15,11 @@ module UI.CreateRoom {
 		public m_btn_type2:fairygui.GButton;
 		public m_btn_type3:fairygui.GButton;
 		public m_btn_type4:fairygui.GButton;
+		public m_btn_paytype0:fairygui.GButton;
+		public m_btn_paytype1:fairygui.GButton;
+		public m_btn_junum0:fairygui.GButton;
+		public m_btn_junum1:fairygui.GButton;
+		public m_btn_junum2:fairygui.GButton;
 		public m_check_2:fairygui.GButton;
 		public m_check_3:fairygui.GButton;
 		public m_check_4:fairygui.GButton;
@@ -22,7 +27,7 @@ module UI.CreateRoom {
 		public m_num1:fairygui.GTextField;
 		public m_num2:fairygui.GTextField;
 		public m_num3:fairygui.GTextField;
-		public m_btn_create:fairygui.GButton;
+		public m_btn_create:UI_ButtonCreate;
 		public m_btn_buy:fairygui.GButton;
 		public m_check_5:fairygui.GButton;
 		public m_num4:fairygui.GTextField;
@@ -60,6 +65,11 @@ module UI.CreateRoom {
 			this.m_btn_type2 = <fairygui.GButton><any>(this.getChildAt(6));
 			this.m_btn_type3 = <fairygui.GButton><any>(this.getChildAt(7));
 			this.m_btn_type4 = <fairygui.GButton><any>(this.getChildAt(8));
+			this.m_btn_paytype0 = <fairygui.GButton><any>(this.getChildAt(10));
+			this.m_btn_paytype1 = <fairygui.GButton><any>(this.getChildAt(11));
+			this.m_btn_junum0 = <fairygui.GButton><any>(this.getChildAt(12));
+			this.m_btn_junum1 = <fairygui.GButton><any>(this.getChildAt(13));
+			this.m_btn_junum2 = <fairygui.GButton><any>(this.getChildAt(14));
 			this.m_check_2 = <fairygui.GButton><any>(this.getChildAt(15));
 			this.m_check_3 = <fairygui.GButton><any>(this.getChildAt(16));
 			this.m_check_4 = <fairygui.GButton><any>(this.getChildAt(17));
@@ -67,7 +77,7 @@ module UI.CreateRoom {
 			this.m_num1 = <fairygui.GTextField><any>(this.getChildAt(28));
 			this.m_num2 = <fairygui.GTextField><any>(this.getChildAt(29));
 			this.m_num3 = <fairygui.GTextField><any>(this.getChildAt(30));
-			this.m_btn_create = <fairygui.GButton><any>(this.getChildAt(32));
+			this.m_btn_create = <UI_ButtonCreate><any>(this.getChildAt(32));
 			this.m_btn_buy = <fairygui.GButton><any>(this.getChildAt(33));
 			this.m_check_5 = <fairygui.GButton><any>(this.getChildAt(35));
 			this.m_num4 = <fairygui.GTextField><any>(this.getChildAt(36));
