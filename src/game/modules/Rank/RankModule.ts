@@ -18,7 +18,6 @@ module game {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80du5019";
 			
 			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/rank",{'uid':GameModel.ins.uid},this.onCallBack,this.onError,this);
-			
 		}
 		private onCallBack(evt:egret.Event):void
 		{

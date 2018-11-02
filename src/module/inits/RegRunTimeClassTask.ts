@@ -23,5 +23,6 @@ class RegRunTimeClassTask{
         fairygui.UIObjectFactory.setPackageItemExtension(UI.ZhanJi.UI_JieSanItem.URL, game.JieSanItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.MainUI.UI_HeadImage.URL, game.PlayerHeadImg);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.MainUI.UI_HeadImage1.URL, game.PlayerHeadImg1);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_UserInfoPosItem.URL, game.UserInfoLocationItem);
     }
 }

@@ -172,9 +172,10 @@ var game;
             else {
                 ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);
             }
-            getLocation();
             // GameModel.ins.createRoundTest();
             // ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK,[]);
+            //拿取地理位置
+            game.LocationModel.ins.getJsLocation();
         };
         LoadingModule.prototype.enterRoomCallBack = function (user) {
             if (user.uid == game.GameModel.ins.uid) {

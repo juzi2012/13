@@ -213,6 +213,22 @@ module game {
 			msg.Msg = subMsg;
 			App.Socket.send(msg);
 		}
+		//发送地理位置
+		public static sendLocation(str:string){
+			let msg:C2T_Msg=new C2T_Msg();
+			msg.Aid = MsgType.Chat;
+			let subMsg:C2T_Chat = new C2T_Chat();
+			subMsg.type=2;
+			subMsg.str = str;
+			subMsg.uid = GameModel.ins.uid;
+			subMsg.uname = GameModel.ins.uname;
+			let date:Date = new Date();
+			subMsg.times = date.getTime().toString();
+			subMsg.time = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
+			
+			msg.Msg = subMsg;
+			App.Socket.send(msg);
+		}
 		private static chatCallBack(msg:T2C_Chat):void
 		{
 			switch(msg.type){
@@ -222,7 +238,10 @@ module game {
 				break;
 				case 1:
 					App.MessageCenter.dispatch(MsgEnum.GAME_FLOWER,msg);
-				break
+				break;
+				case 2:
+					LocationModel.ins.setPos(msg);
+				break;
 			}
 		}
 		public static sendBeart():void

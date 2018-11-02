@@ -9,6 +9,7 @@ module UI.Game {
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_ChatYuSheItem.URL, UI_ChatYuSheItem);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_SecurityCheck.URL, UI_SecurityCheck);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_PlayerPokers.URL, UI_PlayerPokers);
+			fairygui.UIObjectFactory.setPackageItemExtension(UI_UserInfoPosItem.URL, UI_UserInfoPosItem);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_DissolveRoom.URL, UI_DissolveRoom);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_DissolveHead.URL, UI_DissolveHead);
 			fairygui.UIObjectFactory.setPackageItemExtension(UI_GameReplay.URL, UI_GameReplay);

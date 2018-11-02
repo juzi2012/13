@@ -23,8 +23,10 @@ var UI;
             };
             UI_Activity.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
+                this.m_c1 = this.getControllerAt(0);
                 this.m_panelBg = (this.getChildAt(0));
                 this.m_list = (this.getChildAt(5));
+                this.m_mcontent = (this.getChildAt(6));
             };
             UI_Activity.URL = "ui://eqi03f83nxr20";
             return UI_Activity;

@@ -33,6 +33,7 @@ var game;
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
             this.mContent.m_list.numItems = 5;
+            this.mContent.m_c1.selectedIndex = 1;
             _super.prototype.preShow.call(this, data);
         };
         MailModule.prototype.show = function (data) {

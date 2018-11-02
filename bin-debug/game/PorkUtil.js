@@ -315,6 +315,9 @@ var game;
          * 查找同花
          */
         PorkUtil.findTongHua = function (cards, length) {
+            // GameModel.ins.roomModel = new RoomModel();
+            // GameModel.ins.roomModel.rinfo = new RoomInfo();
+            // GameModel.ins.roomModel.rinfo.rp=3;
             if (length === void 0) { length = 5; }
             if (game.GameModel.ins.roomModel.rinfo.rp == 6) {
                 return [];

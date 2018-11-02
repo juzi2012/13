@@ -37,7 +37,22 @@ var game;
             this.mContent.m_txt_name.text = '昵称:' + this.user.name;
             this.mContent.m_txt_id.text = 'ID:' + this.user.uid;
             this.mContent.m_txt_score.text = '积分:' + this.user.sc.toString();
-            this.mContent.m_txt_pos.text = '';
+            var locaPostionVO = game.LocationModel.ins.getPosByUid(this.user.uid);
+            if (locaPostionVO) {
+                this.mContent.m_txt_pos.text = locaPostionVO.pos;
+            }
+            else {
+                this.mContent.m_txt_pos.text = "地址不确定";
+            }
+            this.other = [];
+            for (var i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
+                if (this.user.uid != game.GameModel.ins.roomModel.users[i].uid) {
+                    this.other.push(game.GameModel.ins.roomModel.users[i]);
+                }
+            }
+            this.mContent.m_list.itemRenderer = this.RenderListItem;
+            this.mContent.m_list.callbackThisObj = this;
+            this.mContent.m_list.numItems = this.other.length;
             _super.prototype.preShow.call(this, data);
         };
         UserInfoPanel.prototype.show = function (data) {
@@ -68,6 +83,10 @@ var game;
                 game.ServerEngine.sendFlower(this.user.uid + "|flower");
             }
             this.onClose();
+        };
+        UserInfoPanel.prototype.RenderListItem = function (index, _item) {
+            var item = _item;
+            item.setData(this.other[index], game.LocationModel.ins.getPosByUid(this.other[index].uid), this.user);
         };
         UserInfoPanel.prototype.onClose = function () {
             ModuleMgr.ins.closeModule(ModuleEnum.USERINFO);

@@ -15,6 +15,7 @@ var UI;
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_ChatYuSheItem.URL, Game.UI_ChatYuSheItem);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_SecurityCheck.URL, Game.UI_SecurityCheck);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_PlayerPokers.URL, Game.UI_PlayerPokers);
+                fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_UserInfoPosItem.URL, Game.UI_UserInfoPosItem);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_DissolveRoom.URL, Game.UI_DissolveRoom);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_DissolveHead.URL, Game.UI_DissolveHead);
                 fairygui.UIObjectFactory.setPackageItemExtension(Game.UI_GameReplay.URL, Game.UI_GameReplay);

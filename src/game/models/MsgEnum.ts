@@ -25,6 +25,8 @@ module game {
 
 		static GAME_CHAT:string="GAME_CHAT";//聊天
 		static GAME_FLOWER:string="GAME_FLOWER";//鲜花鸡蛋
+		static GAME_LOCATION:string="GAME_LOCATION";//位置信息
+
 
 		static STOP_PLAY_MUSIC:string="STOP_PLAY_MUSIC";//
 		static STOP_PLAY_SOUND:string="STOP_PLAY_SOUND";//

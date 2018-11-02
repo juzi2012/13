@@ -56,6 +56,5 @@ module game {
 			shareImage.src = renderTexture.toDataURL('image/jpeg');//把数据赋值给Image
 			divImage.style.display = "block";//显示DIV
 		}
-		
 	}
 }

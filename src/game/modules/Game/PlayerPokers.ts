@@ -574,7 +574,7 @@ module game {
 			this.m_txt_score_mid.text = App.StringUtils.strParams(this.score_fanbei_mid,[mstr]);;
 			this.m_txt_score_down.text = App.StringUtils.strParams(this.score_fanbei_down,[dstr]);
 
-			this.showResultScore(true);
+			this.showResultScore(false);
 		}
 		/**
 		 * 显示最下面的分数或者输赢状态
@@ -597,7 +597,7 @@ module game {
 						}
 					}else{
 						if(showfirst==true){//&&(this.scoretop+this.scoremid+this.scoredown)>0
-							if(this.beishu==1&&this.mp==false){
+							if(this.beishu==1){
 								this.m_txt_score_result.font = "ui://jow5n9bqx90y47";
 								this.m_txt_score_result.text=this.istesu?"":"不翻倍";
 							}

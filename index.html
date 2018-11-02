@@ -21,6 +21,7 @@
         }
     </style>
     <script type="text/javascript" src="https://alpha-api.fpwan.com/asset/js/fpclient.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=59c25421fe5edf8f5837e7839c6efa37"></script>
     <script type="text/javascript">
         function invit(msg){
             var obj = {};
@@ -81,8 +82,23 @@
             return url;
         }
 
-        function getLocation(){
-            fpclient.getLocation();
+        function getLocation(callBack){
+            fpclient.getLocation(function(res){
+                callBack(res);
+            });
+        }
+        // 百度地图API功能
+        function getBaiduPos(lat,lng,callBack1){
+            var geoc = new BMap.Geocoder();
+            var point = new BMap.Point(lng,lat);
+            try{
+                geoc.getLocation(point, function(rs){
+                    var addComp = rs.addressComponents;
+                    callBack1(rs);
+                    });        
+            }catch(err){
+                alert(err);
+            }
         }
     </script>
 </head>
@@ -104,7 +120,7 @@
             <span style="display:block;font-size: 21px;font-weight: bold ">长按图片发送给朋友</span><br/>
             <img src="" alt="" id="shareImage" style="width: 100%;right:1%;top:0%;bottom: 1%;left: 1%">
         </div>
-        <img src="./resource/assets/close.png" onclick="isHidden('divImage')" alt="" style="position:absolute;left:1%;top:1%;width: 40px;height: 40px">
+        <img src="./resource/assets/close.png" onclick="isHidden('divImage')" alt="" style="position:absolute;right:1%;top:1%;width: 40px;height: 40px">
     </div>
     <script>
         ///这里添加点击 X 按钮关闭
@@ -114,11 +130,11 @@
         }
         function setDivOri(width,height){
             var vDiv = document.getElementById('divImage');
-            vDiv.style["-o-transform"] = "rotate(90deg)";
-            vDiv.style["transform"] = "rotate(90deg)";
-            vDiv.style["-webkit-transform"] = "rotate(90deg)";
-            vDiv.style["-moz-transform"] = "rotate(90deg)";
-            vDiv.style["-ms-transform"] = "rotate(90deg)";
+            vDiv.style["-o-transform"] = "rotate(-90deg)";
+            vDiv.style["transform"] = "rotate(-90deg)";
+            vDiv.style["-webkit-transform"] = "rotate(-90deg)";
+            vDiv.style["-moz-transform"] = "rotate(-90deg)";
+            vDiv.style["-ms-transform"] = "rotate(-90deg)";
 
             vDiv.style["height"] = width+"px";
             vDiv.style["width"] = height+"px";

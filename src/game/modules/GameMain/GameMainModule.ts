@@ -34,6 +34,7 @@ module game {
 
 			this.preShowCpl();
 			App.SoundUtils.playSound("music_bg_home_mp3",1,0);
+			
 		}
 		
 		public show(data?:any):void
@@ -81,9 +82,6 @@ module game {
 		}
 		private onActivityClick():void
 		{
-			// let rt:egret.RenderTexture = new egret.RenderTexture();
-			// rt.drawToTexture(this.mContent.displayObject);
-			// rt.saveToFile("image/jpeg","/Users/WT");
 			ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
 		}
 		private onJoinRoom():void

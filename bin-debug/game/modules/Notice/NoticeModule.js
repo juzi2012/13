@@ -30,6 +30,7 @@ var game;
          */
         NoticeModule.prototype.preShow = function (data) {
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80j5faq";
+            this.mContent.m_c1.selectedIndex = 1;
             _super.prototype.preShow.call(this, data);
         };
         NoticeModule.prototype.show = function (data) {

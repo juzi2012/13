@@ -21,6 +21,9 @@ var ModuleMgr = (function () {
     ModuleMgr.prototype.getPopUpLayer = function () {
         return LayerCenter.Instance.getLayer(LayerEnum.POPUP);
     };
+    ModuleMgr.prototype.getTopLayer = function () {
+        return LayerCenter.Instance.getLayer(LayerEnum.TOP);
+    };
     ModuleMgr.prototype.regModule = function (config) {
         this.m_configLib[config.moduleId] = config;
     };
@@ -46,6 +49,7 @@ var ModuleMgr = (function () {
     };
     ModuleMgr.prototype.changeScene = function (nowScene, targetScene, data) {
         ModuleMgr.ins.getPopUpLayer().closeAll();
+        ModuleMgr.ins.closeModule(ModuleEnum.DISSOLVE_ROOM);
         ModuleMgr.ins.closeModule(nowScene);
         ModuleMgr.ins.showModule(targetScene, data);
     };

@@ -4,8 +4,9 @@ module UI.Notice {
 
 	export class UI_Notice extends fairygui.GComponent {
 
-		public m_tabCtl:fairygui.Controller;
+		public m_c1:fairygui.Controller;
 		public m_panelBg:fairygui.GComponent;
+		public m_mcontent:fairygui.GGroup;
 
 		public static URL:string = "ui://ecxcc9h9nxr24";
 
@@ -20,8 +21,9 @@ module UI.Notice {
 		protected constructFromXML(xml: any): void {
 			super.constructFromXML(xml);
 
-			this.m_tabCtl = this.getControllerAt(0);
+			this.m_c1 = this.getControllerAt(0);
 			this.m_panelBg = <fairygui.GComponent><any>(this.getChildAt(0));
+			this.m_mcontent = <fairygui.GGroup><any>(this.getChildAt(8));
 		}
 	}
 }

@@ -84,9 +84,6 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.RANK);
         };
         GameMainModule.prototype.onActivityClick = function () {
-            // let rt:egret.RenderTexture = new egret.RenderTexture();
-            // rt.drawToTexture(this.mContent.displayObject);
-            // rt.saveToFile("image/jpeg","/Users/WT");
             ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
         };
         GameMainModule.prototype.onJoinRoom = function () {

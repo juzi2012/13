@@ -153,7 +153,7 @@ module game {
 			fairygui.UIPackage.addPackage("TestPork");
 			// ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
 			ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
-
+			
 			
 			// ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
 			console.log("-----shareRoomId"+OptModel.ins.shareRoomId)
@@ -169,11 +169,11 @@ module game {
 			}else{
 				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
 			}
-			
-
-			getLocation();
 			// GameModel.ins.createRoundTest();
 			// ModuleMgr.ins.showModule(ModuleEnum.GAME_PUT_PORK,[]);
+
+			//拿取地理位置
+			LocationModel.ins.getJsLocation();
 		}
 		private enterRoomCallBack(user:User):void
 		{

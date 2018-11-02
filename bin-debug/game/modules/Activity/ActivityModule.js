@@ -30,6 +30,7 @@ var game;
          */
         ActivityModule.prototype.preShow = function (data) {
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80j5fak";
+            this.mContent.m_c1.selectedIndex = 1;
             _super.prototype.preShow.call(this, data);
         };
         ActivityModule.prototype.show = function (data) {

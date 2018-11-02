@@ -23,8 +23,10 @@ var UI;
             };
             UI_MailModule.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
+                this.m_c1 = this.getControllerAt(0);
                 this.m_panelBg = (this.getChildAt(0));
                 this.m_list = (this.getChildAt(1));
+                this.m_mcontent = (this.getChildAt(3));
             };
             UI_MailModule.URL = "ui://tebyebzgnl0p10";
             return UI_MailModule;

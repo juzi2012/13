@@ -24,6 +24,7 @@ module game {
 
 		private readyArr:Array<T2C_Ready>;
 		private cur:any;
+		private qiangContent:fairygui.GComponent;
 		/**
 		 * 预显示
 		 */
@@ -82,6 +83,7 @@ module game {
 
 			App.MessageCenter.addListener(MsgEnum.CHANGE_BG,this.changeBg,this);
 			App.MessageCenter.addListener(MsgEnum.GAME_FLOWER,this.flower,this);
+			App.MessageCenter.addListener(game.MsgEnum.GAME_LOCATION,this.upDateLocation,this);
 
 			this.mContent.m_txt_room.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
 			switch(GameModel.ins.roomModel.rinfo.rp){
@@ -130,6 +132,10 @@ module game {
 			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn&&GameModel.ins.uid==GameModel.ins.roomModel.fuid){
 				this.mContent.m_btn_invite.visible=true;
 			}
+			if(this.qiangContent==null){
+				this.qiangContent = new fairygui.GComponent();
+			}
+			this.mContent.addChild(this.qiangContent);
 		}
 		private setHead():void
 		{
@@ -164,6 +170,8 @@ module game {
 		private UserIn(user:User):void
 		{
 			if(this.getPlayerById(user.uid)!=null)return;
+			//有人进来就发送一次消息，来更新我在其他玩家中的位置信息
+			LocationModel.ins.sendPosChat();
 			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn&&GameModel.ins.uid==GameModel.ins.roomModel.fuid){
 				this.mContent.m_btn_invite.visible=true;
 			}else{
@@ -284,6 +292,9 @@ module game {
 				this.doReady(this.readyArr[i]);
 			}
 			this.readyArr=[];
+			if(this.qiangContent){
+				this.qiangContent.removeChildren();
+			}
 		}
 		private checkSingle():void
 		{
@@ -462,7 +473,7 @@ module game {
 		private daQiang(from:PlayerHead,to:PlayerHead):void
 		{
 			this.qiang = UI.Game.UI_DaQiang.createInstance() ;
-			this.mContent.addChild(this.qiang)
+			this.qiangContent.addChild(this.qiang)
 			this.qiang.x = from.x;
 			this.qiang.y = from.y;
 			this.changeRotation(from.x,from.y,to.x,to.y);
@@ -498,9 +509,10 @@ module game {
 		}
 		private daQiangComplete():void
 		{
-			if(this.qiang!=null){
-				App.DisplayUtils.removeFromParent(this.qiang.displayObject);
-				this.qiang=null;
+			if(this.qiang!=null&&this.qiangContent!=null){
+				this.qiangContent.removeChildren();
+				// App.DisplayUtils.removeFromParent(this.qiang.displayObject);
+				// this.qiang=null;
 			}
 		}
 		// private restartState:boolean=false;
@@ -557,6 +569,7 @@ module game {
 		private UserDiaoXianBack(msg:T2C_DiaoXian_Back):void
 		{
 			this.getPlayerById(msg.uid).setDiaoXian(false);
+			this.upDateLocation();
 		}
 		private UserAskForDismiss(msg:T2C_AskForDismiss):void
 		{
@@ -688,6 +701,10 @@ module game {
 		{
 			this.mContent.m_bg.url = this.bgAry[SettingModel.ins.bg];
 		}
+		private upDateLocation():void
+		{
+			LocationModel.ins.sendPosChat();
+		}
 		public preClose(data?: any): void {
 			this.wantToBreakHere=true;
 			App.SoundUtils.stopSoundByID("music_bg_game_mp3");
@@ -715,6 +732,7 @@ module game {
 			App.MessageCenter.removeListener(MsgEnum.CHANGE_BG,this.changeBg,this);
 			App.MessageCenter.removeListener(MsgEnum.GAME_CHAT,this.onReceiveChat,this);
 			App.MessageCenter.removeListener(MsgEnum.GAME_FLOWER,this.flower,this);
+			App.MessageCenter.removeListener(game.MsgEnum.GAME_LOCATION,this.upDateLocation,this);
 			this.preCloseCpl();
 		}
 	}

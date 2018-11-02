@@ -113,11 +113,13 @@ var game;
             if (this.mContent.m_typeCtrl.selectedIndex == 2) {
                 if (this.mContent.m_check_5.selected == true) {
                     this.mContent.m_checkbox_jiayise.selected = true;
+                    this.mContent.m_checkbox_jiayise.enabled = false;
                     this.mContent.m_huase.visible = true;
                 }
                 else {
-                    this.mContent.m_checkbox_jiayise.selected = false;
-                    this.mContent.m_huase.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = true;
+                    this.mContent.m_checkbox_jiayise.enabled = true;
+                    this.mContent.m_huase.visible = true;
                 }
             }
             this.countCard();

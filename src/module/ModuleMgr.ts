@@ -19,6 +19,10 @@ class ModuleMgr {
 	{
 		return LayerCenter.Instance.getLayer(LayerEnum.POPUP) as PopModuleLayer;
 	}
+	public getTopLayer():TopModuleLayer
+	{
+		return LayerCenter.Instance.getLayer(LayerEnum.TOP) as TopModuleLayer;
+	}
 	public regModule(config:ModuleConfigVo):void
 	{
 		this.m_configLib[config.moduleId] = config;
@@ -52,6 +56,7 @@ class ModuleMgr {
 	public changeScene(nowScene:ModuleEnum,targetScene:ModuleEnum,data?:any):void
 	{
 		ModuleMgr.ins.getPopUpLayer().closeAll();
+		ModuleMgr.ins.closeModule(ModuleEnum.DISSOLVE_ROOM);
 		ModuleMgr.ins.closeModule(nowScene);
 		ModuleMgr.ins.showModule(targetScene,data);
 	}

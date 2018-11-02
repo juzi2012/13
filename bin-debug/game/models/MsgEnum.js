@@ -27,6 +27,7 @@ var game;
         MsgEnum.GAME_ANSWER_FAILED = "GAME_ANSWER_FAILED"; //玩家解散失败
         MsgEnum.GAME_CHAT = "GAME_CHAT"; //聊天
         MsgEnum.GAME_FLOWER = "GAME_FLOWER"; //鲜花鸡蛋
+        MsgEnum.GAME_LOCATION = "GAME_LOCATION"; //位置信息
         MsgEnum.STOP_PLAY_MUSIC = "STOP_PLAY_MUSIC"; //
         MsgEnum.STOP_PLAY_SOUND = "STOP_PLAY_SOUND"; //
         MsgEnum.CHANGE_BG = "CHANGE_BG"; //

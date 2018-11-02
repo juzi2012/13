@@ -526,6 +526,11 @@ module game {
 				if(teShuCard[0].length+teShuCard[1].length+teShuCard[2].length<13){
 					return null;
 				}
+				for(let a:number=0;a<colorSum.length;a++){
+					if(colorSum[a]!=3&&colorSum[a]!=5){
+						return null;
+					}
+				}
 				teShuCard.sort(function(a,b){
 					return a.length - b.length;
 				});

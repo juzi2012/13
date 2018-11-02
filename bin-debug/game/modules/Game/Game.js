@@ -120,6 +120,7 @@ var game;
             App.MessageCenter.addListener(game.MsgEnum.STOP_PLAY_MUSIC, this.playMusic, this);
             App.MessageCenter.addListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
             App.MessageCenter.addListener(game.MsgEnum.GAME_FLOWER, this.flower, this);
+            App.MessageCenter.addListener(game.MsgEnum.GAME_LOCATION, this.upDateLocation, this);
             this.mContent.m_txt_room.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
             switch (game.GameModel.ins.roomModel.rinfo.rp) {
                 case 2:
@@ -167,6 +168,10 @@ var game;
             if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn && game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
                 this.mContent.m_btn_invite.visible = true;
             }
+            if (this.qiangContent == null) {
+                this.qiangContent = new fairygui.GComponent();
+            }
+            this.mContent.addChild(this.qiangContent);
         };
         Game.prototype.setHead = function () {
             this.head1 = this.mContent.m_head1;
@@ -195,6 +200,8 @@ var game;
         Game.prototype.UserIn = function (user) {
             if (this.getPlayerById(user.uid) != null)
                 return;
+            //有人进来就发送一次消息，来更新我在其他玩家中的位置信息
+            game.LocationModel.ins.sendPosChat();
             if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn && game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
                 this.mContent.m_btn_invite.visible = true;
             }
@@ -307,6 +314,7 @@ var game;
                 this.doReady(this.readyArr[i]);
             }
             this.readyArr = [];
+            this.qiangContent.removeChildren();
         };
         Game.prototype.checkSingle = function () {
             this.mContent.m_btn_continue.visible = true;
@@ -548,7 +556,7 @@ var game;
         };
         Game.prototype.daQiang = function (from, to) {
             this.qiang = UI.Game.UI_DaQiang.createInstance();
-            this.mContent.addChild(this.qiang);
+            this.qiangContent.addChild(this.qiang);
             this.qiang.x = from.x;
             this.qiang.y = from.y;
             this.changeRotation(from.x, from.y, to.x, to.y);
@@ -582,9 +590,10 @@ var game;
             }
         };
         Game.prototype.daQiangComplete = function () {
-            if (this.qiang != null) {
-                App.DisplayUtils.removeFromParent(this.qiang.displayObject);
-                this.qiang = null;
+            if (this.qiang != null && this.qiangContent != null) {
+                this.qiangContent.removeChildren();
+                // App.DisplayUtils.removeFromParent(this.qiang.displayObject);
+                // this.qiang=null;
             }
         };
         // private restartState:boolean=false;
@@ -631,6 +640,7 @@ var game;
         };
         Game.prototype.UserDiaoXianBack = function (msg) {
             this.getPlayerById(msg.uid).setDiaoXian(false);
+            this.upDateLocation();
         };
         Game.prototype.UserAskForDismiss = function (msg) {
             ModuleMgr.ins.showModule(ModuleEnum.DISSOLVE_ROOM, msg);
@@ -749,6 +759,9 @@ var game;
         Game.prototype.changeBg = function () {
             this.mContent.m_bg.url = this.bgAry[game.SettingModel.ins.bg];
         };
+        Game.prototype.upDateLocation = function () {
+            game.LocationModel.ins.sendPosChat();
+        };
         Game.prototype.preClose = function (data) {
             this.wantToBreakHere = true;
             App.SoundUtils.stopSoundByID("music_bg_game_mp3");
@@ -774,6 +787,7 @@ var game;
             App.MessageCenter.removeListener(game.MsgEnum.CHANGE_BG, this.changeBg, this);
             App.MessageCenter.removeListener(game.MsgEnum.GAME_CHAT, this.onReceiveChat, this);
             App.MessageCenter.removeListener(game.MsgEnum.GAME_FLOWER, this.flower, this);
+            App.MessageCenter.removeListener(game.MsgEnum.GAME_LOCATION, this.upDateLocation, this);
             this.preCloseCpl();
         };
         return Game;

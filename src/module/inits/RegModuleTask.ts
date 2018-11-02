@@ -35,7 +35,7 @@ class RegModuleTask{
         this.regModule(ModuleEnum.GAME_SINGLE_RESULT_PLAY, LayerEnum.POPUP, game.SingleResultPlayModule, []);
         this.regModule(ModuleEnum.GAME_ALL_RESULT_PLAY, LayerEnum.SCENE, game.AllResultPlayModule, []);
 
-        this.regModule(ModuleEnum.DISSOLVE_ROOM, LayerEnum.POPUP, game.DissolveRoomModule, []);
+        this.regModule(ModuleEnum.DISSOLVE_ROOM, LayerEnum.TOP, game.DissolveRoomModule, []);
         this.regModule(ModuleEnum.ALERT, LayerEnum.TOP, game.AlertModule, []);
         this.regModule(ModuleEnum.FLOAT, LayerEnum.TOP, game.FloatMsgModule, []);
         this.regModule(ModuleEnum.CHAT, LayerEnum.POPUP, game.ChatModule, []);

@@ -189,6 +189,21 @@ var game;
             msg.Msg = subMsg;
             App.Socket.send(msg);
         };
+        //发送地理位置
+        ServerEngine.sendLocation = function (str) {
+            var msg = new C2T_Msg();
+            msg.Aid = MsgType.Chat;
+            var subMsg = new C2T_Chat();
+            subMsg.type = 2;
+            subMsg.str = str;
+            subMsg.uid = game.GameModel.ins.uid;
+            subMsg.uname = game.GameModel.ins.uname;
+            var date = new Date();
+            subMsg.times = date.getTime().toString();
+            subMsg.time = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+            msg.Msg = subMsg;
+            App.Socket.send(msg);
+        };
         ServerEngine.chatCallBack = function (msg) {
             switch (msg.type) {
                 case 0:
@@ -197,6 +212,9 @@ var game;
                     break;
                 case 1:
                     App.MessageCenter.dispatch(game.MsgEnum.GAME_FLOWER, msg);
+                    break;
+                case 2:
+                    game.LocationModel.ins.setPos(msg);
                     break;
             }
         };

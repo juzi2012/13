@@ -23,8 +23,9 @@ var UI;
             };
             UI_Notice.prototype.constructFromXML = function (xml) {
                 _super.prototype.constructFromXML.call(this, xml);
-                this.m_tabCtl = this.getControllerAt(0);
+                this.m_c1 = this.getControllerAt(0);
                 this.m_panelBg = (this.getChildAt(0));
+                this.m_mcontent = (this.getChildAt(8));
             };
             UI_Notice.URL = "ui://ecxcc9h9nxr24";
             return UI_Notice;
