@@ -14,6 +14,7 @@ module game {
 			public time:string;
 			public token:string;
 			public sign:string;
+			public state:string;
 
 			public name:string;
 			public head:string;

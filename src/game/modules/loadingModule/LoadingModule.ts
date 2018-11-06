@@ -150,6 +150,7 @@ module game {
 			fairygui.UIPackage.addPackage("GameHelper");
 			fairygui.UIPackage.addPackage("Rank");
 			fairygui.UIPackage.addPackage("Result");
+			fairygui.UIPackage.addPackage("Charge");
 			fairygui.UIPackage.addPackage("TestPork");
 			// ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
 			ModuleMgr.ins.showModule(ModuleEnum.FLOAT);

@@ -36,5 +36,6 @@ var ModuleEnum;
     ModuleEnum[ModuleEnum["TESTPORK"] = 31] = "TESTPORK";
     ModuleEnum[ModuleEnum["BOFANGMA"] = 32] = "BOFANGMA";
     ModuleEnum[ModuleEnum["JIESANSORT"] = 33] = "JIESANSORT";
+    ModuleEnum[ModuleEnum["CHARGE"] = 34] = "CHARGE";
 })(ModuleEnum || (ModuleEnum = {}));
 //# sourceMappingURL=ModuleEnum.js.map

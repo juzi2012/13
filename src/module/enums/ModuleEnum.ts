@@ -35,4 +35,5 @@ enum ModuleEnum {
     TESTPORK,
     BOFANGMA,
     JIESANSORT,
+    CHARGE,
 }

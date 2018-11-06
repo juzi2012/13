@@ -54,6 +54,7 @@ var DebugPlatform = (function () {
             game.OptModel.ins.channelId = egret.getOption("channelId");
             game.OptModel.ins.time = egret.getOption("time");
             game.OptModel.ins.token = egret.getOption("token");
+            game.OptModel.ins.state = egret.getOption("state");
             game.OptModel.ins.sign = new md5().hex_md5("appId=" + game.OptModel.ins.appId + "channelId=" + game.OptModel.ins.channelId + "time=" + game.OptModel.ins.time + "token=" + game.OptModel.ins.token + "dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL"); //egret.getOption("sign");
             var parentUrl = getParentUrl();
             console.log("父级url----" + parentUrl);
@@ -64,6 +65,7 @@ var DebugPlatform = (function () {
             console.log(game.OptModel.ins.appId);
             console.log(game.OptModel.ins.channelId);
             console.log(game.OptModel.ins.sign);
+            console.log(game.OptModel.ins.state);
             console.log(game.OptModel.ins.time);
             console.log(game.OptModel.ins.token);
             console.log(game.OptModel.ins.shareRoomId);

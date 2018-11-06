@@ -314,7 +314,9 @@ var game;
                 this.doReady(this.readyArr[i]);
             }
             this.readyArr = [];
-            this.qiangContent.removeChildren();
+            if (this.qiangContent) {
+                this.qiangContent.removeChildren();
+            }
         };
         Game.prototype.checkSingle = function () {
             this.mContent.m_btn_continue.visible = true;

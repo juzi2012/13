@@ -33,11 +33,22 @@ var game;
         BuyCardModule.prototype.preShow = function (data) {
             this.mContent.m_btn_close.addClickListener(this.onCloseClick, this);
             this.mContent.m_txt_input.addEventListener(egret.TextEvent.CHANGE, this.inputHandle, this);
+            this.mContent.m_btn_buy.addClickListener(this.onBuyCard, this);
             this.mContent.m_txt_input.alpha = 0;
             _super.prototype.preShow.call(this, data);
         };
         BuyCardModule.prototype.show = function (data) {
             _super.prototype.show.call(this, data);
+        };
+        BuyCardModule.prototype.onBuyCard = function () {
+            // let appId:number = 600015;//"appOrderId1111111111";
+            // let goodsName:string = "获得50房卡";
+            // let money:number=30;
+            // let state:string = OptModel.ins.state;
+            // let userId:string=GameModel.ins.uid;
+            // let sign:string = new md5().hex_md5("appId="+appId+"goodsName="+goodsName+"money="+money+"state="+state+"userId="+userId+"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");
+            // showPay(appId,goodsName,money,state,userId,sign);
+            ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
         };
         BuyCardModule.prototype.inputHandle = function (evt) {
             this.code = this.mContent.m_txt_input.text; //this.code+(evt.currentTarget as egret.TextField).text

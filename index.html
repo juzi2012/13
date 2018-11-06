@@ -100,6 +100,18 @@
                 alert(err);
             }
         }
+
+        function showPay(appId,goodsName,money,state,userId,sign)
+        {
+            fpclient.pay({
+                appId:appId,
+                goodsName:goodsName,
+                money:money,
+                state:state,
+                userId:userId,
+                sign:sign
+            });
+        }
     </script>
 </head>
 

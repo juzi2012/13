@@ -25,6 +25,7 @@ class BindFGuiTask{
         UI.Game.GameBinder.bindAll();
         UI.GameHelper.GameHelperBinder.bindAll();
         UI.Result.ResultBinder.bindAll();
+        UI.Charge.ChargeBinder.bindAll();
         UI.TestPork.TestPorkBinder.bindAll();
         //------ auto end ------//
         
