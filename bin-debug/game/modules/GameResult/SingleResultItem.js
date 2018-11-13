@@ -41,6 +41,7 @@ var game;
             // this.m_head.url="http://www.touxiang.cn/uploads/20131110/10-010858_115.jpg";
             this.m_txt_name.text = this.juplayer.name;
             this.m_txt_id.text = "ID:" + this.juplayer.id;
+            this.m_head.setURL(this.juplayer.avatar);
             var score = this.juplayer.sc.toString();
             if (data.sc > 0) {
                 score = "+" + score;

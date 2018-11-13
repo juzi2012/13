@@ -94,7 +94,30 @@ module game {
 		}
 		private onBuyCard():void
 		{
-			ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+			this.checkShowBind();
+		}
+		//检查是否需要弹出兑换框
+		private checkShowBind():void
+		{
+			let url:string = "http://alpha-pay.fpwan.net/Game/Shisanzhang/BindWindow";
+			HttpAPI.HttpGET(url,{'userId':GameModel.ins.uid},this.onCallBack,this.onError,this);
+		}
+		private onCallBack(evt:egret.Event):void{
+			console.log(evt.target.response);
+			let callBackJson:any = JSON.parse(evt.target.response);
+			if(callBackJson.data==true){
+				ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+			}else{
+				this.onShowBuyCard();
+			}
+		}
+		private onShowBuyCard():void
+		{
+			let url:string = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1"
+			window.open(url,"_blank");
+		}
+		private onError(evt:egret.Event):void{
+			
 		}
 		private onQuan():void
 		{

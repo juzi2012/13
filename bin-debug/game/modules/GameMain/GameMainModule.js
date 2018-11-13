@@ -93,7 +93,28 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.CREATE_ROOM);
         };
         GameMainModule.prototype.onBuyCard = function () {
-            ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+            this.checkShowBind();
+        };
+        //检查是否需要弹出兑换框
+        GameMainModule.prototype.checkShowBind = function () {
+            var url = "http://alpha-pay.fpwan.net/Game/Shisanzhang/BindWindow";
+            HttpAPI.HttpGET(url, { 'userId': game.GameModel.ins.uid }, this.onCallBack, this.onError, this);
+        };
+        GameMainModule.prototype.onCallBack = function (evt) {
+            console.log(evt.target.response);
+            var callBackJson = JSON.parse(evt.target.response);
+            if (callBackJson.data == true) {
+                ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+            }
+            else {
+                this.onShowBuyCard();
+            }
+        };
+        GameMainModule.prototype.onShowBuyCard = function () {
+            var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
+            window.open(url, "_blank");
+        };
+        GameMainModule.prototype.onError = function (evt) {
         };
         GameMainModule.prototype.onQuan = function () {
             // AlertUtil.alert("牌友圈未开放，尽情期待");

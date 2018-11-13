@@ -38,15 +38,15 @@ var game;
             var money = 6;
             switch (this.step) {
                 case 0:
-                    goodsName = "获得10房卡";
+                    goodsName = "获得10张房卡";
                     money = 6;
                     break;
                 case 1:
-                    goodsName = "获得20房卡";
+                    goodsName = "获得20张房卡";
                     money = 12;
                     break;
                 case 2:
-                    goodsName = "获得50房卡";
+                    goodsName = "获得50张房卡";
                     money = 30;
                     break;
             }

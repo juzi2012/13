@@ -34,6 +34,7 @@ var game;
             this.mContent.m_btn_close.addClickListener(this.onCloseClick, this);
             this.mContent.m_txt_input.addEventListener(egret.TextEvent.CHANGE, this.inputHandle, this);
             this.mContent.m_btn_buy.addClickListener(this.onBuyCard, this);
+            this.mContent.m_btn_get.addClickListener(this.onBind, this);
             this.mContent.m_txt_input.alpha = 0;
             _super.prototype.preShow.call(this, data);
         };
@@ -48,7 +49,9 @@ var game;
             // let userId:string=GameModel.ins.uid;
             // let sign:string = new md5().hex_md5("appId="+appId+"goodsName="+goodsName+"money="+money+"state="+state+"userId="+userId+"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");
             // showPay(appId,goodsName,money,state,userId,sign);
-            ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
+            // ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
+            var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
+            window.open(url, "_blank");
         };
         BuyCardModule.prototype.inputHandle = function (evt) {
             this.code = this.mContent.m_txt_input.text; //this.code+(evt.currentTarget as egret.TextField).text
@@ -63,6 +66,27 @@ var game;
                     this.mContent['m_txt_input' + (i + 1)].text = "";
                 }
             }
+        };
+        BuyCardModule.prototype.onBind = function () {
+            if (this.code.length == 6) {
+                var url = "http://alpha-pay.fpwan.net/Game/Shisanzhang/IsBind";
+                HttpAPI.HttpGET(url, { 'userId': game.GameModel.ins.uid, agentId: this.code }, this.onCallBack, this.onError, this);
+            }
+            else if (this.code.length == 0) {
+                game.AlertUtil.floatMsg("请先输入邀请码");
+            }
+        };
+        BuyCardModule.prototype.onCallBack = function (evt) {
+            var callBackJson = JSON.parse(evt.target.response);
+            console.log(evt.target.response);
+            if (callBackJson.data == true) {
+                game.AlertUtil.floatMsg("绑定成功");
+            }
+            else {
+                game.AlertUtil.floatMsg(callBackJson['data']['message']);
+            }
+        };
+        BuyCardModule.prototype.onError = function (evt) {
         };
         return BuyCardModule;
     }(PopModuleView));

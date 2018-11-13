@@ -246,6 +246,9 @@ module game {
 		}
 		private FaPai():void
 		{
+			if(GameModel.ins.roomModel.rinfo.nnum==0){
+				GameModel.ins.roomModel.rinfo.nnum+=1;
+			}
 			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 			// 先播放开始特效,完了在开始发牌
 			this.mContent.m_img_start.visible=true;
@@ -621,7 +624,12 @@ module game {
 			shareData["shareRoomId"]=GameModel.ins.roomModel.rid;
 			shareData["totalNum"]=GameModel.ins.roomModel.rinfo.pn;
 			shareData["nowNum"]=GameModel.ins.roomModel.users.length;
-			shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"AA局";
+			let mapai_addcolor:string = '';
+			if(GameModel.ins.roomModel.rinfo.jm!=0){
+				mapai_addcolor=",加马牌";
+			}
+
+			shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费"+mapai_addcolor:"AA局"+mapai_addcolor;
 			shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?"坐庄模式":"算分模式";
 			shareData["juNum"]=GameModel.ins.roomModel.rinfo.snum;
 			shareData["avatar"]=GameModel.ins.avatar;

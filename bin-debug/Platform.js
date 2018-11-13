@@ -87,6 +87,7 @@ var DebugPlatform = (function () {
                 if (data['data'] != null) {
                     game.OptModel.ins.name = data['data']['nickname'];
                     game.OptModel.ins.head = data['data']['avatar'];
+                    game.GameModel.ins.card = Number(data['data']['fangka']);
                     resolve(data["data"]);
                 }
                 else {

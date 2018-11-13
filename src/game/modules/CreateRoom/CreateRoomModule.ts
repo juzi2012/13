@@ -244,8 +244,33 @@ module game {
 		}
 		private onBuyHandle():void
 		{
-			ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+			// ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+			this.checkShowBind();
 			ServerEngine.leaveRooom();
+		}
+		//检查是否需要弹出兑换框
+		private checkShowBind():void
+		{
+			let url:string = "http://alpha-pay.fpwan.net/Game/Shisanzhang/BindWindow";
+			HttpAPI.HttpGET(url,{'userId':GameModel.ins.uid},this.onCallBack,this.onError,this);
+		}
+		private onCallBack(evt:egret.Event):void{
+			console.log(evt.target.response);
+			let callBackJson:any = JSON.parse(evt.target.response);
+			if(callBackJson.data==true){
+				ModuleMgr.ins.showModule(ModuleEnum.BUY_CARD);
+			}else{
+				this.onShowBuyCard();
+			}
+		}
+		private onError():void
+		{
+
+		}
+		private onShowBuyCard():void
+		{
+			let url:string = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1"
+			window.open(url,"_blank");
 		}
 		private onCreateHandle():void
 		{
@@ -269,7 +294,7 @@ module game {
 			let fc:number=1;
 			// jp:加花色 int数组，不加花色留空) }花色对应值:0:方块 1:梅花2：红桃 3:黑桃
 			let jp:Array<number>=[];
-			fc = this.mContent.m_payCtrl.selectedIndex+1;
+			fc = this.mContent.m_payCtrl.selectedIndex==0?2:1;
 			zz = this.mContent.m_checkbox_zhuang.selected?1:0;
 			jm = this.mContent.m_checkbox_mapai.selected?1:0;
 			switch(this.mContent.m_JuShuCtrl.selectedIndex){
