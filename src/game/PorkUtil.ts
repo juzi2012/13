@@ -315,7 +315,24 @@ module game {
 					result.unshift(subCard);
 				}
 			}
+			let special = this.findShunZiSpecial(newCards);
+			if(special!=null){
+				result.push(special);
+			}
 			return result.length>0?result:this.findShunZiGuiPai(cards);
+		}
+		public static findShunZiSpecial(cardAry:Array<PorkVO>):Array<PorkVO>{
+			let pointArr:Array<number> = [2,3,4,5,14];
+			let result:Array<PorkVO> = [];
+			for(let i:number=0;i<cardAry.length;i++){
+				if(pointArr.indexOf(cardAry[i].point)!=-1){
+					result.push(cardAry[i]);
+				}
+			}
+			if(result.length==5){
+				return result;
+			}
+			return null;
 		}
 		/**
 		 * 查找同花
@@ -556,6 +573,19 @@ module game {
 						});
 						result.unshift(indexs);
 					}
+				}
+				let pointArr:Array<number> = [2,3,4,5,14];
+				if(length==3){
+					pointArr = [2,3,14];
+				}
+				let resultsp:Array<PorkVO> = [];
+				for(let i:number=0;i<cards.length;i++){
+					if(pointArr.indexOf(cards[i].point)!=-1){
+						resultsp.push(cards[i]);
+					}
+				}
+				if(result.length+j==length){
+					result.push(resultsp);
 				}
 			}
 			return result;
@@ -812,6 +842,9 @@ module game {
 			cardAry.sort((a,b)=>{
 				return a.point-b.point;
 			});
+			if(this.isSpecailShunZi(cardAry,minLength)){
+				return true;
+			}
 			let point0 = cardAry[0].point;
 			for(let i=1;i<cardAry.length;i++){
 				if(cardAry[i].point!=(point0+1)){
@@ -821,6 +854,19 @@ module game {
 			}
 			return true;
 		}
+		public static isSpecailShunZi(cardAry:Array<PorkVO>,minLength=5):boolean{
+			let pointArr:Array<number> = [2,3,4,5,14];
+			if(minLength==3){
+				pointArr = [2,3,14];
+			}
+			for(let i:number=0;i<cardAry.length;i++){
+				if(pointArr.indexOf(cardAry[i].point)==-1){
+					return false;
+				}
+			}
+			return true;
+		}
+		
 		public static isTongHua(cardAry:Array<PorkVO>,minLength=5):boolean
 		{
 			if(cardAry.length<minLength){
@@ -995,8 +1041,30 @@ module game {
 		}
 		public static checkTiezhi(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
 		{
-			let now:Array<PorkVO>=this.findPointByLength(nowArr,4)[0];
-			let other:Array<PorkVO>=this.findPointByLength(otherArr,4)[0];
+			let guiArr:Array<PorkVO> = [];
+			let normalArr:Array<PorkVO> = [];
+			for(let i:number=0;i<nowArr.length;i++){
+				if(nowArr[i].point==501||nowArr[i].point==502){
+					guiArr.push(nowArr[i]);
+				}else{
+					normalArr.push(nowArr[i]);
+				}
+				
+			}
+			let guiArr1:Array<PorkVO> = [];
+			let normalArr1:Array<PorkVO> = [];
+			for(let i:number=0;i<otherArr.length;i++){
+				if(otherArr[i].point==501||otherArr[i].point==502){
+					guiArr1.push(otherArr[i]);
+				}else{
+					normalArr1.push(otherArr[i]);
+				}
+				
+			}
+			let now:Array<PorkVO>=this.findPointByLength(normalArr,4-guiArr.length)[0];
+			let other:Array<PorkVO>=this.findPointByLength(normalArr1,4-guiArr1.length)[0];
+			now.concat(guiArr);
+			other.concat(guiArr1);
 			if(now[0].point>other[0].point){
 				return true;
 			}else if(now[0].point<other[0].point){
@@ -1012,14 +1080,14 @@ module game {
 			let otherSantiao:Array<PorkVO> = this.findSanTiao(otherArr);
 			let otherduizi:Array<PorkVO> = PorkUtilExtends.getRestCard1(otherSantiao,otherArr);
 
-			if(nowSantiao[0].point>otherSantiao[0].point){
+			if(nowSantiao[0][0].point>otherSantiao[0][0].point){
 				return true;
-			}else if(nowSantiao[0].point<otherSantiao[0].point){
+			}else if(nowSantiao[0][0].point<otherSantiao[0][0].point){
 				return false;
 			}else{
-				if(nowduizi[0].point>otherduizi[0].point){
+				if(nowduizi[0][0].point>otherduizi[0][0].point){
 					return true
-				}else if(nowduizi[0].point<otherduizi[0].point){
+				}else if(nowduizi[0][0].point<otherduizi[0][0].point){
 					return false;
 				}else{
 					return false;
@@ -1042,6 +1110,13 @@ module game {
 		}
 		public static checkShunzi(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
 		{
+			if(this.isSpecailShunZi(nowArr)&&this.isSpecailShunZi(otherArr)){
+				return true
+			}else if(this.isSpecailShunZi(nowArr)&&this.isSpecailShunZi(otherArr)==false){
+				return false;
+			}else if(this.isSpecailShunZi(nowArr)==false&&this.isSpecailShunZi(otherArr)){
+				return true;
+			}
 			if(nowArr[0].point>otherArr[0].point){
 				return true;
 			}else if(nowArr[0].point==otherArr[0].point){

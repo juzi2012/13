@@ -51,7 +51,8 @@ var game;
             // showPay(appId,goodsName,money,state,userId,sign);
             // ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
             var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
-            window.open(url, "_blank");
+            // window.open(url,"_blank");
+            top.location.href = url;
         };
         BuyCardModule.prototype.inputHandle = function (evt) {
             this.code = this.mContent.m_txt_input.text; //this.code+(evt.currentTarget as egret.TextField).text

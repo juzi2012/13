@@ -236,6 +236,10 @@ var game;
                 else {
                     this.selectHuaSe -= 1;
                 }
+                if (this.selectHuaSe == 0) {
+                    (evt.currentTarget).asButton.selected = true;
+                    this.selectHuaSe = 1;
+                }
                 if (this.maxHuaSe < this.selectHuaSe) {
                     (evt.currentTarget).asButton.selected = (evt.currentTarget).asButton.selected == true ? false : true;
                     this.selectHuaSe = this.maxHuaSe;
@@ -275,7 +279,8 @@ var game;
         };
         CreateRoomModule.prototype.onShowBuyCard = function () {
             var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
-            window.open(url, "_blank");
+            // window.open(url,"_blank");
+            top.location.href = url;
         };
         CreateRoomModule.prototype.onCreateHandle = function () {
             var arr = this.getRoomInfo();
@@ -348,6 +353,9 @@ var game;
             }
             if (this.mContent.m_typeCtrl.selectedIndex == 0 || this.mContent.m_typeCtrl.selectedIndex == 5 || (this.mContent.m_checkbox_jiayise.selected == false && this.mContent.m_typeCtrl.selectedIndex == 2)) {
                 jp = [];
+            }
+            if (this.mContent.m_typeCtrl.selectedIndex == 3 && jp.length == 1) {
+                jp.push(jp[0]);
             }
             return [ty, pn, jn, zz, jm, fc, jp];
         };

@@ -161,5 +161,14 @@ module game {
 				this.rounds.push(round);
 			}
 		}
+		public addData(value:Array<any>):void
+		{
+			for(let p:number = 0;p<value.length;p++){
+				let data:any = JSON.parse(value[p]['msg']);
+				let round:Round = new Round();
+				round.init(data);
+				this.rounds.push(round);
+			}
+		}
 	}
 }

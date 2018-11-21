@@ -40,7 +40,8 @@ module game {
 		
 			// ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
 			let url:string = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1"
-			window.open(url,"_blank");
+			// window.open(url,"_blank");
+			top.location.href=url;
 		}
 		private inputHandle(evt:egret.TextEvent):void
 		{

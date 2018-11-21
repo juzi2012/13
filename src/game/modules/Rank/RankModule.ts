@@ -16,9 +16,12 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80du5019";
-			
+			this.mContent.m_list.itemRenderer = this.RenderListItem;
+			this.mContent.m_list.callbackThisObj=this;
+			this.mContent.m_list.setVirtual();
 			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/rank",{'uid':GameModel.ins.uid},this.onCallBack,this.onError,this);
 		}
+		
 		private onCallBack(evt:egret.Event):void
 		{
 			this.preShowCpl();
@@ -26,9 +29,9 @@ module game {
 			
 			if(callBackJson.err==""){
 				this.result = callBackJson.data;
-				this.mContent.m_list.itemRenderer = this.RenderListItem;
-				this.mContent.m_list.callbackThisObj=this;
+				
 				this.mContent.m_list.numItems=this.result.length;
+				
 			}else{
 				console.log(callBackJson.err);
 			}

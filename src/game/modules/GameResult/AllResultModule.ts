@@ -17,7 +17,13 @@ module game {
 			this.mContent.m_btn_back.addClickListener(this.onBack,this);
 			this.mContent.m_btn_share.addClickListener(this.onShare,this);
 			this.mContent.m_txt_roomid.text="房间:"+GameModel.ins.roomModel.rid;
-			this.mContent.m_txt_info.text = GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"房费AA "+GameModel.ins.roomModel.rinfo.pn+"人 "+GameModel.ins.roomModel.rinfo.snum+"局 ";
+			let fufei:string = GameModel.ins.roomModel.rinfo.fc==2?"房主付费":"房费AA ";
+			let reshu:string = GameModel.ins.roomModel.rinfo.pn+"人 ";
+			let jushu:string = GameModel.ins.roomModel.rinfo.snum+"局 ";
+			console.log(fufei);
+			console.log(reshu);
+			console.log(jushu);
+			this.mContent.m_txt_info.text = fufei+reshu+jushu;
 
 			this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
 

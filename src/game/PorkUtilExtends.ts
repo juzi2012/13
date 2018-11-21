@@ -715,6 +715,30 @@ module game {
 					}
 				}
 			}
+			//为了防止123的牌型出现，把A放到pointAry的最前面，然后再执行一次
+			let pointAry1:Array<PorkVO> = [];
+			for(let i:number=0;i<pointAry.length;i++){
+				if(pointAry[i].point!=14){
+					pointAry1.push(pointAry[i]);
+				}
+				else{
+					pointAry1.unshift(pointAry[i]);
+				}
+			}
+			result = this.fenzu(pointAry1.concat([]),5,5)
+			if(result!=null){
+				return result;
+			}else{
+				result = this.fenzu(pointAry1.concat([]),5,3);
+				if(result!=null){
+					return result;
+				}else{
+					result = this.fenzu(pointAry1.concat([]),3,5);
+					if(result!=null){
+						return result;
+					}
+				}
+			}
 			return null;
 		}
 		//三尖刀

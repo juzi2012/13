@@ -15,8 +15,9 @@
 	"game": [
 		"bin-debug/module/Module.js",
 		"bin-debug/module/moduleBase/UILayer.js",
-		"bin-debug/ui/Game/UI_DissolveHead.js",
+		"bin-debug/ui/Game/UI_ChatItem.js",
 		"bin-debug/core/data/Callback.js",
+		"bin-debug/core/data/Dictionary.js",
 		"bin-debug/core/event/EventData.js",
 		"bin-debug/core/interfaces/ILoadingUI.js",
 		"bin-debug/core/websocket/msgs/ByteArrayMsg.js",
@@ -31,8 +32,8 @@
 		"bin-debug/module/moduleBase/UIModuleLayer.js",
 		"bin-debug/ui/Charge/UI_ChargeItem.js",
 		"bin-debug/core/base/BaseClass.js",
-		"bin-debug/ui/Game/UI_ChatItem.js",
-		"bin-debug/core/data/Dictionary.js",
+		"bin-debug/ui/Game/UI_ChatYuSheItem.js",
+		"bin-debug/ui/Game/UI_DissolveHead.js",
 		"bin-debug/ui/Game/UI_EmojiItem.js",
 		"bin-debug/ui/Game/UI_PlayerHead.js",
 		"bin-debug/ui/Game/UI_PlayerPokers.js",
@@ -48,7 +49,6 @@
 		"bin-debug/ui/ZhanJi/UI_JieSanItem.js",
 		"bin-debug/ui/ZhanJi/UI_ZhanJiDetailItem.js",
 		"bin-debug/ui/ZhanJi/UI_ZhanJiItem.js",
-		"bin-debug/ui/Game/UI_ChatYuSheItem.js",
 		"bin-debug/game/modules/Rank/RankItem.js",
 		"bin-debug/core/utils/Handler.js",
 		"bin-debug/core/utils/LocationProperty.js",
@@ -146,7 +146,7 @@
 		"bin-debug/game/modules/Mail/MailModule.js",
 		"bin-debug/game/modules/Notice/NoticeModule.js",
 		"bin-debug/game/modules/PreLoading/PreLoadingModule.js",
-		"bin-debug/utils/Utils.js",
+		"bin-debug/Main.js",
 		"bin-debug/game/modules/Rank/RankModule.js",
 		"bin-debug/game/modules/Setting/SettingModule.js",
 		"bin-debug/game/modules/ShuoMing/ShuoMingModule.js",
@@ -279,6 +279,6 @@
 		"bin-debug/core/utils/FrameDelay.js",
 		"bin-debug/core/utils/FrameExecutor.js",
 		"bin-debug/ui/ZhanJi/ZhanJiBinder.js",
-		"bin-debug/Main.js"
+		"bin-debug/utils/Utils.js"
 	]
 }

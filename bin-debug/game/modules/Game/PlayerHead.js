@@ -15,6 +15,7 @@ var game;
         function PlayerHead() {
             var _this = _super.call(this) || this;
             _this.isInit = false;
+            _this.clickCD = true;
             _this.addClickListener(_this.showInfo, _this);
             return _this;
         }
@@ -28,6 +29,7 @@ var game;
         PlayerHead.prototype.init = function () {
             this.isInit = false;
             this.user = null;
+            this.clickCD = true;
             this.m_ctrlState.selectedIndex = 4;
             this.visible = false;
             this.m_lixian.visible = false;
@@ -96,6 +98,12 @@ var game;
             this.m_img_finish.visible = false;
             this.m_img_special.visible = false;
             this.m_ctrlState.selectedIndex = 1;
+            if (this.m_ctrlPos.selectedIndex == 2) {
+                this.m_ctrlPos.selectedIndex = 0;
+            }
+            if (this.m_ctrlPos.selectedIndex == 3) {
+                this.m_ctrlPos.selectedIndex = 1;
+            }
             if (this.user) {
                 this.user.status = 1;
             }
@@ -109,10 +117,36 @@ var game;
             if (str.slice(0, 3) == "%%-" && str.slice(str.length - 3, str.length) == "-%%") {
                 this.m_chat_txt.text = "";
                 this.m_chat_txt_emoji.text = str.slice(3, str.length - 3);
+                this.m_chatbg1.visible = false;
+                this.m_chatbg2.visible = false;
             }
             else {
                 this.m_chat_txt.text = str;
                 this.m_chat_txt_emoji.text = "";
+                this.m_chatbg1.visible = true;
+                this.m_chatbg2.visible = true;
+                var index = 0;
+                switch (str) {
+                    case "快点吧，等的我都快疯了！":
+                        index = 1;
+                        break;
+                    case "你的牌那么好啊，兄弟！":
+                        index = 2;
+                        break;
+                    case "不要吵了，专心玩游戏吧。":
+                        index = 3;
+                        break;
+                    case "兄弟，不好意思啊，我先撤了。":
+                        index = 4;
+                        break;
+                    case "不要走，决战到天亮。":
+                        index = 5;
+                        break;
+                    case "唉，又被打枪了。":
+                        index = 6;
+                        break;
+                }
+                App.SoundUtils.playSound("sg_Man_Chat_" + (index).toString() + "_mp3", 0, 1);
             }
             this.m_chat.visible = true;
             TweenMax.to(this.m_chat, 0.5, { alpha: 1, onComplete: this.onHide, onCompleteParams: [this.m_chat] });
@@ -146,6 +180,12 @@ var game;
         PlayerHead.prototype.showResult = function (pos, result, istesu) {
             if (istesu === void 0) { istesu = false; }
             this.m_img_finish.visible = false;
+            if (this.m_ctrlPos.selectedIndex == 0) {
+                this.m_ctrlPos.selectedIndex = 2;
+            }
+            if (this.m_ctrlPos.selectedIndex == 1) {
+                this.m_ctrlPos.selectedIndex = 3;
+            }
             this.pokers.showResult(pos, result, istesu);
         };
         PlayerHead.prototype.showSpecialResult = function (result) {
@@ -169,9 +209,14 @@ var game;
             this.pokers.showQiangYan();
         };
         PlayerHead.prototype.showInfo = function () {
-            // if(this.user!=null&&this.user.uid!=GameModel.ins.uid){
-            ModuleMgr.ins.showModule(ModuleEnum.USERINFO, this.user);
-            // }
+            if (this.clickCD == true) {
+                this.clickCD = false;
+                TweenMax.delayedCall(1, this.resetCD, [this]);
+                ModuleMgr.ins.showModule(ModuleEnum.USERINFO, this.user);
+            }
+        };
+        PlayerHead.prototype.resetCD = function (main) {
+            main.clickCD = true;
         };
         PlayerHead.prototype.updateScore = function () {
             this.m_score.text = this.user.sc.toString();

@@ -66,6 +66,11 @@ class ModuleInfoVo extends egret.EventDispatcher {
 						break;
 				}
 			}
+		}else{//有时候会出现状态为关闭，实际没关掉的状态，在这里特殊处理下
+			if(this.state==ModuleConsts.STATE_CLOSE){
+				this.removeAllListeners();
+				this.preClose();
+			}
 		}	
 	}
 

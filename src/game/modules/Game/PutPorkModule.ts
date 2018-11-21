@@ -67,7 +67,7 @@ module game {
 			App.MessageCenter.addListener(MsgEnum.GAME_BAIPAI,this.BaiPaiCallBack,this);
 			let teshuVO:TeShuVO = PorkUtilExtends.isTeShuPai(GameModel.ins.roundModel.myCard);
 			if(teshuVO!=null&&teshuVO.type>0){
-				AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]"+PorkUtilExtends.getTeShuPai(teshuVO.type)+"[/COLOR]\n是否选择免摆？",new core.Handler(this,this.mianBai,[teshuVO]))
+				AlertUtil.alert("恭喜你获得特殊牌型\n[COLOR=#FF0000]"+PorkUtilExtends.getTeShuPai(teshuVO.type)+"[/COLOR]\n是否选择免摆？",new core.Handler(this,this.mianBai,[teshuVO]),0,-50);
 			}
 			this.topSelectAry = [];
 			this.midSelectAry = [];

@@ -13,7 +13,10 @@ var game;
     var TopModuleView = (function (_super) {
         __extends(TopModuleView, _super);
         function TopModuleView() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.showOffSiteX = 0;
+            _this.showOffSiteY = 0;
+            return _this;
         }
         /**
          * 初始化模块自适应
@@ -22,8 +25,8 @@ var game;
          */
         TopModuleView.prototype.initAutoSize = function (layer, isConfigVoAutoSize) {
             if (this.content && isConfigVoAutoSize) {
-                this.content.x = layer.width / 2 - this.content.width / 2;
-                this.content.y = layer.height / 2 - this.content.height / 2;
+                this.content.x = layer.width / 2 - this.content.width / 2 + this.showOffSiteX;
+                this.content.y = layer.height / 2 - this.content.height / 2 + this.showOffSiteY;
                 this.content.addRelation(layer, fairygui.RelationType.Center_Center);
             }
         };

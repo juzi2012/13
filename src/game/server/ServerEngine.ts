@@ -91,6 +91,7 @@ module game {
 
 		public static sendReady():void
 		{
+			GameModel.ins.roomModel.isNewStartOpen=true;
 			let readyMsg:C2T_Msg = new C2T_Msg();
 			readyMsg.Aid = MsgType.Ready;
 			App.Socket.send(readyMsg);
@@ -110,7 +111,6 @@ module game {
 		}
 		private static JieSuanSingleCallBack(msg:T2C_JieSuanSingle):void
 		{
-			GameModel.ins.roomModel.rinfo.nnum+=1;
 			GameModel.ins.roundModel.jieSuanSingle(msg);
 		}
 		private static JieSuanAllCallBack(msg:T2C_JieSuanAll):void

@@ -74,6 +74,13 @@ class Main extends egret.DisplayObjectContainer {
         }
     }
     private async runGame() {
+        // let txt:egret.TextField = new egret.TextField();
+        // txt.textAlign = egret.HorizontalAlign.CENTER;
+        // txt.textColor = 0xffffff;
+        // txt.text = "正在加载中...."
+        // this.addChild(txt);
+        // txt.x = App.StageUtils.getWidth()/2;
+        // txt.y = App.StageUtils.getHeight()/2;
         //预加载部分资源，主要是用来显示loading的部分素材
         await this.loadPreLoadResource1()
         fairygui.UIPackage.addPackage("PreLoading");

@@ -113,9 +113,23 @@ var Main = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
+                    // let txt:egret.TextField = new egret.TextField();
+                    // txt.textAlign = egret.HorizontalAlign.CENTER;
+                    // txt.textColor = 0xffffff;
+                    // txt.text = "正在加载中...."
+                    // this.addChild(txt);
+                    // txt.x = App.StageUtils.getWidth()/2;
+                    // txt.y = App.StageUtils.getHeight()/2;
                     //预加载部分资源，主要是用来显示loading的部分素材
                     return [4 /*yield*/, this.loadPreLoadResource1()];
                     case 1:
+                        // let txt:egret.TextField = new egret.TextField();
+                        // txt.textAlign = egret.HorizontalAlign.CENTER;
+                        // txt.textColor = 0xffffff;
+                        // txt.text = "正在加载中...."
+                        // this.addChild(txt);
+                        // txt.x = App.StageUtils.getWidth()/2;
+                        // txt.y = App.StageUtils.getHeight()/2;
                         //预加载部分资源，主要是用来显示loading的部分素材
                         _a.sent();
                         fairygui.UIPackage.addPackage("PreLoading");

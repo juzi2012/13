@@ -168,7 +168,7 @@ var game;
                 App.MessageCenter.addListener(game.MsgEnum.ENTER_ROOM_FAILD, this.enterRoomFaild, this);
             }
             else if (game.OptModel.ins.shareRePlayRoomId != null) {
-                HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/huifang", { 'uid': game.GameModel.ins.uid, 'id': game.OptModel.ins.shareRePlayRoomId }, this.onCallBack, this.onError, this);
+                HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/huifang", { 'uid': game.OptModel.ins.shareUserId, 'id': game.OptModel.ins.shareRePlayRoomId }, this.onCallBack, this.onError, this);
             }
             else {
                 ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);

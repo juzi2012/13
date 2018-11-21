@@ -4,7 +4,7 @@ module game {
 			
 		}
 		public rp:number;//房间类型
-		public fc:number;//"fc":1, //1 房主付 2均分
+		public fc:number;//"fc":1, //2 房主付 1均分
 		public friend:number;//"friend":0,//备用
 		public jm:number;//"jm":0,    //是否加马
 		public nnum:number;//"nnum":0,   //当前局数
@@ -13,6 +13,7 @@ module game {
 		public snum:number;//"snum":8,//总局数
 		public zuid:string=""; //庄家uid
 		public zz:number=0; //坐庄模式
+		public jp:Array<number>=[]; //是否是加一色	
 	}
 	export class User{
 		public constructor(){
@@ -69,7 +70,8 @@ module game {
 
 		public jieSuanAll:Array<JieSuanAllItem>;
 
-		public isSingleOpen:boolean=false;
+		//从牌局开始，到点击继续之前，这个纸都是flase
+		public isNewStartOpen:boolean=true;
 		public setRoomInfo(msg:T2C_Enter_Room):void
 		{
 			this.roundArr = [];
@@ -88,6 +90,7 @@ module game {
 			this.rinfo.safe = msg.rinfo.safe;
 			this.rinfo.snum = msg.rinfo.snum;
 			this.rinfo.zz = msg.rinfo.zz;
+			this.rinfo.jp = msg.rinfo.jp;
 			if(this.rinfo.zz==1){
 				this.rinfo.zuid = this.zuid; 
 			}
@@ -136,6 +139,7 @@ module game {
 			this.rinfo.snum = msg.rinfo.snum;
 			this.rinfo.zuid = msg.dealer;
 			this.rinfo.zz = msg.rinfo.zz;
+			this.rinfo.jp = msg.rinfo.jp;
 			this.reConnectState = msg.status;
 			if(this.users==null){
 				this.users = new Array<User>();

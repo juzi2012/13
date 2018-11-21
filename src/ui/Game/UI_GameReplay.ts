@@ -13,7 +13,6 @@ module UI.Game {
 		public m_head2:UI_PlayerHead;
 		public m_head6:UI_PlayerHead;
 		public m_head1:UI_PlayerHead;
-		public m_playerPoke6:UI_PlayerPokers;
 		public m_txt_fid:fairygui.GTextField;
 		public m_playcontrol:UI_ReplayBotton;
 		public m_txt_ju:fairygui.GTextField;
@@ -41,10 +40,9 @@ module UI.Game {
 			this.m_head2 = <UI_PlayerHead><any>(this.getChildAt(6));
 			this.m_head6 = <UI_PlayerHead><any>(this.getChildAt(7));
 			this.m_head1 = <UI_PlayerHead><any>(this.getChildAt(8));
-			this.m_playerPoke6 = <UI_PlayerPokers><any>(this.getChildAt(10));
-			this.m_txt_fid = <fairygui.GTextField><any>(this.getChildAt(11));
-			this.m_playcontrol = <UI_ReplayBotton><any>(this.getChildAt(12));
-			this.m_txt_ju = <fairygui.GTextField><any>(this.getChildAt(13));
+			this.m_txt_fid = <fairygui.GTextField><any>(this.getChildAt(10));
+			this.m_playcontrol = <UI_ReplayBotton><any>(this.getChildAt(11));
+			this.m_txt_ju = <fairygui.GTextField><any>(this.getChildAt(12));
 			this.m_t1 = this.getTransitionAt(0);
 		}
 	}

@@ -4,7 +4,9 @@ module game {
 			super();
 		}
 		public str:string;
-		public setData(value:string):void{
+		public index:number;
+		public setData(value:string,index:number):void{
+			this.index = index;
 			this.str = value;
 			this.m_txt_content.text = this.str;
 		}

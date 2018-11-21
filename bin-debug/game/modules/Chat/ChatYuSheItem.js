@@ -15,7 +15,8 @@ var game;
         function ChatYuSheItem() {
             return _super.call(this) || this;
         }
-        ChatYuSheItem.prototype.setData = function (value) {
+        ChatYuSheItem.prototype.setData = function (value, index) {
+            this.index = index;
             this.str = value;
             this.m_txt_content.text = this.str;
         };

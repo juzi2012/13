@@ -11,12 +11,12 @@ module game {
 			return this.content as UI.Game.UI_ChatModule;
 		}
 		private emstr:Array<string> = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u"];
-		private yushestr:Array<string> = ["赶紧的!!!打牌不是相面!",
-											"等等，人生的抉择~~",
-											"绝世好牌，等着掏钱吧~!",
-											"运气真差，随便都被打~",
-											"嘿，我就是枪神",
-											"别跑，战斗到底"];
+		private yushestr:Array<string> = ["快点吧，等的我都快疯了！",
+											"你的牌那么好啊，兄弟！",
+											"不要吵了，专心玩游戏吧。",
+											"兄弟，不好意思啊，我先撤了。",
+											"不要走，决战到天亮。",
+											"唉，又被打枪了。"];
 		/**
 		 * 预显示
 		 */
@@ -24,7 +24,6 @@ module game {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80g2wj1e";
 			super.preShow(data);
 			App.MessageCenter.addListener(MsgEnum.GAME_CHAT,this.onReceive,this)
-			this.mContent.m_ctrl.selectedIndex=0;
 			this.mContent.m_btn_record.addClickListener(this.changeTab,this);
 			this.mContent.m_btn_liaotian.addClickListener(this.changeTab,this);
 			this.mContent.m_btn_biaoq.addClickListener(this.changeTab,this);
@@ -44,6 +43,7 @@ module game {
 			this.mContent.m_list_emoji.numItems = 21;
 			this.mContent.m_list_emoji.addEventListener(fairygui.ItemEvent.CLICK, this.onClickItem, this);
 			
+			this.mContent.m_ctrl.selectedIndex=1;
 			super.preShow(data);
 		}
 		public show(data?:any):void
@@ -57,6 +57,7 @@ module game {
 		{
 			let item:ChatYuSheItem = evt.itemObject as ChatYuSheItem;
 			ServerEngine.sendChat(item.str);
+			
 			ModuleMgr.ins.closeModule(this.moduleId);
 		}
 		private onClickItem(evt:fairygui.ItemEvent):void
@@ -108,7 +109,7 @@ module game {
 		{
 			let str:string = this.yushestr[index];
 			let yusheItem:ChatYuSheItem = _item as ChatYuSheItem;
-			yusheItem.setData(str);
+			yusheItem.setData(str,index+1);
 		}
 		private EmojiRenderListItem(index:number,_item:fairygui.GObject):void
 		{

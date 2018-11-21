@@ -32,6 +32,7 @@ var game;
     })(CardType = game.CardType || (game.CardType = {}));
     var PorkVO = (function () {
         function PorkVO(value) {
+            this.otherpoint = 0;
             this.parse(value);
         }
         PorkVO.prototype.parse = function (value) {
@@ -58,6 +59,7 @@ var game;
                 }
                 else if (this.point == 14) {
                     this.showStr = "A";
+                    this.otherpoint = 1;
                 }
                 else {
                     this.showStr = this.point.toString();

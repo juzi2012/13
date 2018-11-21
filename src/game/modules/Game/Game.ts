@@ -55,7 +55,7 @@ module game {
 			this.mContent.m_img_start.visible=false;
 			this.mContent.m_qld.visible=false;
 			this.mContent.m_bg.url = this.bgAry[SettingModel.ins.bg];
-			this.preShowCpl();
+			
 			//根据当前牌局的人数显示头像的个数
 			this.mContent.m_playerNumCtrl.selectedPage = GameModel.ins.roomModel.rinfo.pn.toString()
 			this.setHead();
@@ -88,7 +88,7 @@ module game {
 			this.mContent.m_txt_room.text = "房间号:"+GameModel.ins.roomModel.rid.toString();
 			switch(GameModel.ins.roomModel.rinfo.rp){
 				case 2:
-				this.mContent.m_txt_roomtype.text = "方片十三水";
+				this.mContent.m_txt_roomtype.text = "十三水";
 				break;
 				case 3:
 				this.mContent.m_txt_roomtype.text = "加一色十三水";
@@ -136,6 +136,8 @@ module game {
 				this.qiangContent = new fairygui.GComponent();
 			}
 			this.mContent.addChild(this.qiangContent);
+
+			this.preShowCpl();
 		}
 		private setHead():void
 		{
@@ -172,7 +174,7 @@ module game {
 			if(this.getPlayerById(user.uid)!=null)return;
 			//有人进来就发送一次消息，来更新我在其他玩家中的位置信息
 			LocationModel.ins.sendPosChat();
-			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn&&GameModel.ins.uid==GameModel.ins.roomModel.fuid){
+			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn){
 				this.mContent.m_btn_invite.visible=true;
 			}else{
 				this.mContent.m_btn_invite.visible=false;
@@ -197,6 +199,11 @@ module game {
 				let playerHead:PlayerHead = this.getPlayerById(leaveMsg.uid);
 				if(playerHead!=null){
 					playerHead.init();
+					if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn){
+						this.mContent.m_btn_invite.visible=true;
+					}else{
+						this.mContent.m_btn_invite.visible=false;
+					}
 				}
 			}
 		}
@@ -222,7 +229,7 @@ module game {
 		}
 		private UserReady(msg:T2C_Ready):void
 		{
-			if(GameModel.ins.roomModel.isSingleOpen||this.mContent.m_btn_continue.visible==true){
+			if(GameModel.ins.roomModel.isNewStartOpen==false||this.mContent.m_btn_continue.visible==true){
 				this.readyArr.push(msg);
 			}else{
 				this.doReady(msg);
@@ -246,14 +253,13 @@ module game {
 		}
 		private FaPai():void
 		{
-			if(GameModel.ins.roomModel.rinfo.nnum==0){
-				GameModel.ins.roomModel.rinfo.nnum+=1;
-			}
+			GameModel.ins.roomModel.rinfo.nnum+=1;
 			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 			// 先播放开始特效,完了在开始发牌
 			this.mContent.m_img_start.visible=true;
 			this.mContent.m_t1.play(this.onStartEffectComplete,this);
 			App.SoundUtils.playSound("start_mp3",0,1);
+			GameModel.ins.roomModel.isNewStartOpen=false;
 		}
 		private onStartEffectComplete():void
 		{
@@ -335,7 +341,7 @@ module game {
 					let uid:string = cards[i].uid;
 					if(special_uid.indexOf(uid)<0){
 						let playerHead:PlayerHead = this.getPlayerById(uid);
-						if(special_uid.indexOf(GameModel.ins.uid)==-1){
+						if(special_uid.indexOf(GameModel.ins.uid)==-1&&(cards.length-special_uid.length!=1)){
 							playerHead.showResult(j,cards[i],false);
 						}else{
 							playerHead.showResult(j,cards[i],true);
@@ -614,7 +620,7 @@ module game {
 			}
 			this.mContent.m_sharetips.visible=true;
 			App.TimerManager.doTimer(3000,1,this.hideInvite,this)
-
+			this.doInviteJs();
 		}
 		private doInviteJs():void
 		{
@@ -624,13 +630,17 @@ module game {
 			shareData["shareRoomId"]=GameModel.ins.roomModel.rid;
 			shareData["totalNum"]=GameModel.ins.roomModel.rinfo.pn;
 			shareData["nowNum"]=GameModel.ins.roomModel.users.length;
+			shareData["type"] = this.mContent.m_txt_roomtype.text;
 			let mapai_addcolor:string = '';
 			if(GameModel.ins.roomModel.rinfo.jm!=0){
 				mapai_addcolor=",加马牌";
 			}
-
-			shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==1?"房主付费"+mapai_addcolor:"AA局"+mapai_addcolor;
-			shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?"坐庄模式":"算分模式";
+			if(GameModel.ins.roomModel.rinfo.jp!=null && GameModel.ins.roomModel.rinfo.jp.length>0){
+				mapai_addcolor+=",加一色";
+			}
+			let playType:string = this.mContent.m_txt_roomtype.text;
+			shareData["payModel"]=GameModel.ins.roomModel.rinfo.fc==2?"房主付费"+mapai_addcolor:"AA局"+mapai_addcolor;
+			shareData["model"]=GameModel.ins.roomModel.rinfo.zz==1?(playType+" 坐庄模式"):(playType+" 算分模式");
 			shareData["juNum"]=GameModel.ins.roomModel.rinfo.snum;
 			shareData["avatar"]=GameModel.ins.avatar;
 			WXUtil.ins.invit(shareData);

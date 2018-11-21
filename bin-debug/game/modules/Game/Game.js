@@ -94,7 +94,6 @@ var game;
             this.mContent.m_img_start.visible = false;
             this.mContent.m_qld.visible = false;
             this.mContent.m_bg.url = this.bgAry[game.SettingModel.ins.bg];
-            this.preShowCpl();
             //根据当前牌局的人数显示头像的个数
             this.mContent.m_playerNumCtrl.selectedPage = game.GameModel.ins.roomModel.rinfo.pn.toString();
             this.setHead();
@@ -124,7 +123,7 @@ var game;
             this.mContent.m_txt_room.text = "房间号:" + game.GameModel.ins.roomModel.rid.toString();
             switch (game.GameModel.ins.roomModel.rinfo.rp) {
                 case 2:
-                    this.mContent.m_txt_roomtype.text = "方片十三水";
+                    this.mContent.m_txt_roomtype.text = "十三水";
                     break;
                 case 3:
                     this.mContent.m_txt_roomtype.text = "加一色十三水";
@@ -172,6 +171,7 @@ var game;
                 this.qiangContent = new fairygui.GComponent();
             }
             this.mContent.addChild(this.qiangContent);
+            this.preShowCpl();
         };
         Game.prototype.setHead = function () {
             this.head1 = this.mContent.m_head1;
@@ -202,7 +202,7 @@ var game;
                 return;
             //有人进来就发送一次消息，来更新我在其他玩家中的位置信息
             game.LocationModel.ins.sendPosChat();
-            if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn && game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
+            if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn) {
                 this.mContent.m_btn_invite.visible = true;
             }
             else {
@@ -227,6 +227,12 @@ var game;
                 var playerHead = this.getPlayerById(leaveMsg.uid);
                 if (playerHead != null) {
                     playerHead.init();
+                    if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn) {
+                        this.mContent.m_btn_invite.visible = true;
+                    }
+                    else {
+                        this.mContent.m_btn_invite.visible = false;
+                    }
                 }
             }
         };
@@ -251,7 +257,7 @@ var game;
             }
         };
         Game.prototype.UserReady = function (msg) {
-            if (game.GameModel.ins.roomModel.isSingleOpen || this.mContent.m_btn_continue.visible == true) {
+            if (game.GameModel.ins.roomModel.isNewStartOpen == false || this.mContent.m_btn_continue.visible == true) {
                 this.readyArr.push(msg);
             }
             else {
@@ -272,14 +278,13 @@ var game;
             this.mContent.m_btn_ready.visible = false;
         };
         Game.prototype.FaPai = function () {
-            if (game.GameModel.ins.roomModel.rinfo.nnum == 0) {
-                game.GameModel.ins.roomModel.rinfo.nnum += 1;
-            }
+            game.GameModel.ins.roomModel.rinfo.nnum += 1;
             this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
             // 先播放开始特效,完了在开始发牌
             this.mContent.m_img_start.visible = true;
             this.mContent.m_t1.play(this.onStartEffectComplete, this);
             App.SoundUtils.playSound("start_mp3", 0, 1);
+            game.GameModel.ins.roomModel.isNewStartOpen = false;
         };
         Game.prototype.onStartEffectComplete = function () {
             this.mContent.m_img_start.visible = false;
@@ -369,7 +374,7 @@ var game;
                             uid = cards[i].uid;
                             if (!(special_uid.indexOf(uid) < 0)) return [3 /*break*/, 5];
                             playerHead = this.getPlayerById(uid);
-                            if (special_uid.indexOf(game.GameModel.ins.uid) == -1) {
+                            if (special_uid.indexOf(game.GameModel.ins.uid) == -1 && (cards.length - special_uid.length != 1)) {
                                 playerHead.showResult(j, cards[i], false);
                             }
                             else {
@@ -685,6 +690,7 @@ var game;
             }
             this.mContent.m_sharetips.visible = true;
             App.TimerManager.doTimer(3000, 1, this.hideInvite, this);
+            this.doInviteJs();
         };
         Game.prototype.doInviteJs = function () {
             var shareData = new Object();
@@ -693,12 +699,17 @@ var game;
             shareData["shareRoomId"] = game.GameModel.ins.roomModel.rid;
             shareData["totalNum"] = game.GameModel.ins.roomModel.rinfo.pn;
             shareData["nowNum"] = game.GameModel.ins.roomModel.users.length;
+            shareData["type"] = this.mContent.m_txt_roomtype.text;
             var mapai_addcolor = '';
             if (game.GameModel.ins.roomModel.rinfo.jm != 0) {
                 mapai_addcolor = ",加马牌";
             }
-            shareData["payModel"] = game.GameModel.ins.roomModel.rinfo.fc == 1 ? "房主付费" + mapai_addcolor : "AA局" + mapai_addcolor;
-            shareData["model"] = game.GameModel.ins.roomModel.rinfo.zz == 1 ? "坐庄模式" : "算分模式";
+            if (game.GameModel.ins.roomModel.rinfo.jp != null && game.GameModel.ins.roomModel.rinfo.jp.length > 0) {
+                mapai_addcolor += ",加一色";
+            }
+            var playType = this.mContent.m_txt_roomtype.text;
+            shareData["payModel"] = game.GameModel.ins.roomModel.rinfo.fc == 2 ? "房主付费" + mapai_addcolor : "AA局" + mapai_addcolor;
+            shareData["model"] = game.GameModel.ins.roomModel.rinfo.zz == 1 ? (playType + " 坐庄模式") : (playType + " 算分模式");
             shareData["juNum"] = game.GameModel.ins.roomModel.rinfo.snum;
             shareData["avatar"] = game.GameModel.ins.avatar;
             game.WXUtil.ins.invit(shareData);

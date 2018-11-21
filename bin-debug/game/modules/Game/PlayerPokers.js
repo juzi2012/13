@@ -116,6 +116,7 @@ var game;
         };
         PlayerPokers.prototype.showResult = function (pos, result, istesu) {
             if (istesu === void 0) { istesu = false; }
+            this.m_c1.selectedIndex = 1;
             this.istesu = istesu;
             this.result = result;
             this.bipai = game.GameModel.ins.roundModel.getResultBPByUid(result.uid);

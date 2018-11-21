@@ -49,21 +49,23 @@ var UILayer = (function (_super) {
             this.p_moduleList.push(infoVo);
             infoVo.layer = this;
             infoVo.preShowData = data;
-            infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
             infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
+            infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
         }
         else {
-            infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
             if (infoVo.module.content.parent) {
                 infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
+                infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
             }
             else {
+                infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
                 this.onModuleAddToStage(null);
             }
         }
         return infoVo;
     };
     UILayer.prototype.onModuleAddToStage = function (e) {
+        // console.log(111);
     };
     UILayer.prototype.isShow = function (moduleId) {
         var infoVo = this.getModuleInfoVo(moduleId);

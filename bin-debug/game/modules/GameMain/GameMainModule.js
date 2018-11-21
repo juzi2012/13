@@ -112,13 +112,13 @@ var game;
         };
         GameMainModule.prototype.onShowBuyCard = function () {
             var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
-            window.open(url, "_blank");
+            // window.open(url,"_blank");
+            top.location.href = url;
         };
         GameMainModule.prototype.onError = function (evt) {
         };
         GameMainModule.prototype.onQuan = function () {
-            // AlertUtil.alert("牌友圈未开放，尽情期待");
-            game.AlertUtil.floatMsg("牌友圈未开放，尽情期待");
+            game.AlertUtil.floatMsg("暂未开放，敬请期待");
         };
         GameMainModule.prototype.playMusic = function (data) {
             if (data == true) {

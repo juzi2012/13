@@ -34,6 +34,8 @@ var UI;
                 this.m_lixian = (this.getChildAt(9));
                 this.m_img_special = (this.getChildAt(10));
                 this.m_img_fz = (this.getChildAt(11));
+                this.m_chatbg1 = (this.getChildAt(12));
+                this.m_chatbg2 = (this.getChildAt(13));
                 this.m_chat_txt = (this.getChildAt(14));
                 this.m_chat_txt_emoji = (this.getChildAt(15));
                 this.m_chat = (this.getChildAt(16));

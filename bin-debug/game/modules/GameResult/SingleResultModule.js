@@ -39,13 +39,12 @@ var game;
                 return b.sc - a.sc;
             });
             this.mContent.m_list.numItems = this.cards.length;
-            this.mContent.m_txt_roominfo.text = game.GameModel.ins.roomModel.rinfo.fc == 1 ? "房主付费" : "房费AA " + game.GameModel.ins.roomModel.rinfo.pn + "人 " + game.GameModel.ins.roomModel.rinfo.nnum + "/" + game.GameModel.ins.roomModel.rinfo.snum + "局 ";
+            this.mContent.m_txt_roominfo.text = game.GameModel.ins.roomModel.rinfo.fc == 2 ? "房主付费" : "房费AA " + game.GameModel.ins.roomModel.rinfo.pn + "人 " + game.GameModel.ins.roomModel.rinfo.nnum + "/" + game.GameModel.ins.roomModel.rinfo.snum + "局 ";
             this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
             _super.prototype.preShow.call(this, data);
         };
         SingleResultModule.prototype.show = function (data) {
             _super.prototype.show.call(this, data);
-            game.GameModel.ins.roomModel.isSingleOpen = true;
         };
         SingleResultModule.prototype.onContinue = function () {
             if (game.GameModel.ins.roomModel.isAllFinish) {
@@ -67,7 +66,6 @@ var game;
         };
         SingleResultModule.prototype.preClose = function (data) {
             if (game.GameModel.ins.roomModel != null) {
-                game.GameModel.ins.roomModel.isSingleOpen = false;
             }
             this.preCloseCpl();
         };

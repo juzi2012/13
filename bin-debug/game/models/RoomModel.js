@@ -7,6 +7,7 @@ var game;
         function RoomInfo() {
             this.zuid = ""; //庄家uid
             this.zz = 0; //坐庄模式
+            this.jp = []; //是否是加一色	
         }
         return RoomInfo;
     }());
@@ -45,7 +46,8 @@ var game;
             this.isAllFinish = false; //是否所有的牌局都结束，为了方便弹出单局结算后弹出所有结算
             this.hasPlayedJu = 0;
             this.isReConnectInRoom = false; //是否是重新回到游戏界面
-            this.isSingleOpen = false;
+            //从牌局开始，到点击继续之前，这个纸都是flase
+            this.isNewStartOpen = true;
         }
         RoomModel.prototype.setRoomInfo = function (msg) {
             this.roundArr = [];
@@ -64,6 +66,7 @@ var game;
             this.rinfo.safe = msg.rinfo.safe;
             this.rinfo.snum = msg.rinfo.snum;
             this.rinfo.zz = msg.rinfo.zz;
+            this.rinfo.jp = msg.rinfo.jp;
             if (this.rinfo.zz == 1) {
                 this.rinfo.zuid = this.zuid;
             }
@@ -111,6 +114,7 @@ var game;
             this.rinfo.snum = msg.rinfo.snum;
             this.rinfo.zuid = msg.dealer;
             this.rinfo.zz = msg.rinfo.zz;
+            this.rinfo.jp = msg.rinfo.jp;
             this.reConnectState = msg.status;
             if (this.users == null) {
                 this.users = new Array();

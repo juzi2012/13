@@ -33,6 +33,7 @@ module game {
 		public type:number;
 		//大小
 		public point:number;
+		public otherpoint:number=0;
 		//显示的牌型
 		public showStr:string;
 		//显示的颜色
@@ -60,6 +61,7 @@ module game {
 					this.showStr="K";
 				}else if(this.point==14){
 					this.showStr="A";
+					this.otherpoint=1;
 				}else{
 					this.showStr = this.point.toString()
 				}

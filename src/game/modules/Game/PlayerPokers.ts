@@ -115,6 +115,7 @@ module game {
 		public istesu:boolean;
 		public showResult(pos:number,result:ResultCard,istesu:boolean=false):void
 		{
+			this.m_c1.selectedIndex = 1;
 			this.istesu = istesu;
 			this.result = result;
 			this.bipai = GameModel.ins.roundModel.getResultBPByUid(result.uid);

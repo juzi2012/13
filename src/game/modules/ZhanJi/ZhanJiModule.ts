@@ -1,5 +1,6 @@
 module game {
 	export class ZhanJiModule extends PopModuleView{
+		private curPage:number=1;
 		public constructor() {
 			super()
 		}
@@ -16,8 +17,20 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fap";
-			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':1},this.onCallBack,this.onError,this);
+			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBack,this.onError,this);
+			this.mContent.m_list.scrollPane.addEventListener(fairygui.ScrollPane.PULL_UP_RELEASE, this.onPullDownToRefresh, this);
+			this.mContent.m_list.setVirtual();
 			this.mContent.m_checkother.addClickListener(this.playerOther,this);
+		}
+		private onPullDownToRefresh(evt:egret.Event):void
+		{
+			var footer: fairygui.GComponent = this.mContent.m_list.scrollPane.footer.asCom;
+
+			// footer.getController("c1").selectedIndex = 1;
+			this.mContent.m_list.scrollPane.lockFooter(footer.sourceHeight);
+			
+			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBackAdd,this.onError,this);
+			
 		}
 		private playerOther():void
 		{
@@ -38,11 +51,22 @@ module game {
 			this.mContent.m_list.itemRenderer = this.RenderListItem;
 			this.mContent.m_list.callbackThisObj=this;
 			this.mContent.m_list.numItems=ZhanJiModel.ins.rounds.length;
-
+			this.curPage=2;
+		}
+		private onCallBackAdd(evt:egret.Event):void
+		{
+			let callBackJson:any = JSON.parse(evt.target.response);
+			if(callBackJson.err==""){
+				this.curPage+=1;
+				this.result = this.result.concat(callBackJson.data);
+				ZhanJiModel.ins.addData(callBackJson.data);
+				this.mContent.m_list.numItems+=callBackJson.data.length;
+			}
+			this.mContent.m_list.scrollPane.lockFooter(0);
 		}
 		private onError(evt:egret.Event):void
 		{
-
+			this.mContent.m_list.scrollPane.lockFooter(0);
 		}
 		public show(data?:any):void
 		{

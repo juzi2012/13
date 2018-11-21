@@ -64,6 +64,12 @@ var ModuleInfoVo = (function (_super) {
                 }
             }
         }
+        else {
+            if (this.state == ModuleConsts.STATE_CLOSE) {
+                this.removeAllListeners();
+                this.preClose();
+            }
+        }
     };
     ModuleInfoVo.prototype.startShow = function () {
         this.state = ModuleConsts.STATE_SHOW;

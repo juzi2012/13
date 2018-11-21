@@ -166,7 +166,7 @@ module game {
 				App.MessageCenter.addListener(MsgEnum.NEW_UESR_IN,this.enterRoomCallBack,this);
 				App.MessageCenter.addListener(MsgEnum.ENTER_ROOM_FAILD,this.enterRoomFaild,this);
 			}else if(OptModel.ins.shareRePlayRoomId!=null){
-				HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/huifang",{'uid':GameModel.ins.uid,'id':OptModel.ins.shareRePlayRoomId},this.onCallBack,this.onError,this);
+				HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/huifang",{'uid':OptModel.ins.shareUserId,'id':OptModel.ins.shareRePlayRoomId},this.onCallBack,this.onError,this);
 			}else{
 				ModuleMgr.ins.changeScene(ModuleEnum.LOADING,ModuleEnum.GAME_MAIN,[]);
 			}

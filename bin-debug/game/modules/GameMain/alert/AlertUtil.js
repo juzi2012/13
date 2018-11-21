@@ -6,8 +6,10 @@ var game;
     var AlertUtil = (function () {
         function AlertUtil() {
         }
-        AlertUtil.alert = function (content, $handleYes) {
-            ModuleMgr.ins.showModule(ModuleEnum.ALERT, new game.AlertMsgVO(content, $handleYes, null));
+        AlertUtil.alert = function (content, $handleYes, offsiteX, offsiteY) {
+            if (offsiteX === void 0) { offsiteX = 0; }
+            if (offsiteY === void 0) { offsiteY = 0; }
+            ModuleMgr.ins.showModule(ModuleEnum.ALERT, new game.AlertMsgVO(content, $handleYes, null, offsiteX, offsiteY));
         };
         AlertUtil.floatMsg = function (content) {
             App.MessageCenter.dispatch(game.MsgEnum.FLOAT_MSG, content);

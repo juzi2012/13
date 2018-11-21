@@ -17,6 +17,8 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			this.user = data as User;
+			this.mContent.m_btn_zadan.enabled=true;
+			this.mContent.m_btn_flower.enabled=true;
 			this.mContent.m_btn_close.addClickListener(this.onClose,this);
 			this.mContent.m_btn_zadan.addClickListener(this.onZaDan,this);
 			this.mContent.m_btn_flower.addClickListener(this.onFlower,this);
@@ -81,7 +83,7 @@ module game {
 		}
 		private onClose():void
 		{
-			ModuleMgr.ins.closeModule(ModuleEnum.USERINFO);
+			ModuleMgr.ins.closeModule(this.moduleId);
 		}
 	}
 }

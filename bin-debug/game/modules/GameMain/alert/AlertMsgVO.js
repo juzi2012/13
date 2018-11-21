@@ -4,10 +4,14 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var game;
 (function (game) {
     var AlertMsgVO = (function () {
-        function AlertMsgVO(content, handleYes, handleNo) {
+        function AlertMsgVO(content, handleYes, handleNo, offsiteX, offsiteY) {
+            if (offsiteX === void 0) { offsiteX = 0; }
+            if (offsiteY === void 0) { offsiteY = 0; }
             this.content = content;
             this.handleYes = handleYes;
             this.handleNo = handleNo;
+            this.offsiteX = offsiteX;
+            this.offsiteY = offsiteY;
         }
         return AlertMsgVO;
     }());

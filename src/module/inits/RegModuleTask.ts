@@ -72,6 +72,7 @@ class RegModuleTask{
                 break;
             case LayerEnum.TOP:
                 config.setIsAutoSize(true);
+                config.setShowCover(true);
                 break;
         }
         ModuleMgr.ins.regModule(config);

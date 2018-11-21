@@ -15,6 +15,8 @@ module UI.Game {
 		public m_lixian:fairygui.GTextField;
 		public m_img_special:fairygui.GImage;
 		public m_img_fz:fairygui.GLoader;
+		public m_chatbg1:fairygui.GImage;
+		public m_chatbg2:fairygui.GImage;
 		public m_chat_txt:fairygui.GTextField;
 		public m_chat_txt_emoji:fairygui.GTextField;
 		public m_chat:fairygui.GGroup;
@@ -48,6 +50,8 @@ module UI.Game {
 			this.m_lixian = <fairygui.GTextField><any>(this.getChildAt(9));
 			this.m_img_special = <fairygui.GImage><any>(this.getChildAt(10));
 			this.m_img_fz = <fairygui.GLoader><any>(this.getChildAt(11));
+			this.m_chatbg1 = <fairygui.GImage><any>(this.getChildAt(12));
+			this.m_chatbg2 = <fairygui.GImage><any>(this.getChildAt(13));
 			this.m_chat_txt = <fairygui.GTextField><any>(this.getChildAt(14));
 			this.m_chat_txt_emoji = <fairygui.GTextField><any>(this.getChildAt(15));
 			this.m_chat = <fairygui.GGroup><any>(this.getChildAt(16));

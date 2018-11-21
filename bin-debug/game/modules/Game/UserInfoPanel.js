@@ -30,6 +30,8 @@ var game;
          */
         UserInfoPanel.prototype.preShow = function (data) {
             this.user = data;
+            this.mContent.m_btn_zadan.enabled = true;
+            this.mContent.m_btn_flower.enabled = true;
             this.mContent.m_btn_close.addClickListener(this.onClose, this);
             this.mContent.m_btn_zadan.addClickListener(this.onZaDan, this);
             this.mContent.m_btn_flower.addClickListener(this.onFlower, this);
@@ -89,7 +91,7 @@ var game;
             item.setData(this.other[index], game.LocationModel.ins.getPosByUid(this.other[index].uid), this.user);
         };
         UserInfoPanel.prototype.onClose = function () {
-            ModuleMgr.ins.closeModule(ModuleEnum.USERINFO);
+            ModuleMgr.ins.closeModule(this.moduleId);
         };
         return UserInfoPanel;
     }(PopModuleView));

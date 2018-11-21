@@ -26,14 +26,13 @@ module game {
 			})
 			this.mContent.m_list.numItems=this.cards.length;
 
-			this.mContent.m_txt_roominfo.text = GameModel.ins.roomModel.rinfo.fc==1?"房主付费":"房费AA "+GameModel.ins.roomModel.rinfo.pn+"人 "+GameModel.ins.roomModel.rinfo.nnum+"/"+GameModel.ins.roomModel.rinfo.snum+"局 ";
+			this.mContent.m_txt_roominfo.text = GameModel.ins.roomModel.rinfo.fc==2?"房主付费":"房费AA "+GameModel.ins.roomModel.rinfo.pn+"人 "+GameModel.ins.roomModel.rinfo.nnum+"/"+GameModel.ins.roomModel.rinfo.snum+"局 ";
 			this.mContent.m_txt_time.text = Utils.timetrans(new Date().getTime());
 			super.preShow(data);
 		}
 		public show(data?:any):void
 		{
 			super.show(data);
-			GameModel.ins.roomModel.isSingleOpen=true;
 		}
 		private onContinue():void
 		{
@@ -57,7 +56,6 @@ module game {
 		}
 		public preClose(data?: any): void {
 			if(GameModel.ins.roomModel!=null){
-				GameModel.ins.roomModel.isSingleOpen=false;
 			}
 			this.preCloseCpl();
 		}

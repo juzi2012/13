@@ -12,8 +12,8 @@ var TopModuleLayer = (function (_super) {
     __extends(TopModuleLayer, _super);
     function TopModuleLayer() {
         var _this = _super.call(this) || this;
-        _this.cover = new egret.Sprite();
-        _this.cover.touchEnabled = true;
+        _this.cover = new fairygui.GGraph();
+        _this.cover.touchable = true;
         _this.drawCover();
         App.EventCenter.addListener(egret.Event.RESIZE, _this.onStageResize, _this);
         return _this;
@@ -29,13 +29,14 @@ var TopModuleLayer = (function (_super) {
     };
     TopModuleLayer.prototype.onModuleAddToStage = function (e) {
         this.updateConver();
+        _super.prototype.onModuleAddToStage.call(this);
     };
     TopModuleLayer.prototype.onCloseCpl = function (e) {
         _super.prototype.onCloseCpl.call(this, e);
         this.updateConver();
     };
     TopModuleLayer.prototype.updateConver = function () {
-        for (var i = this.p_moduleList.length - 1; i >= 0; i--) {
+        for (var i = this.p_moduleList.length - 1; i >= 1; i--) {
             if (this.p_moduleList[i].configVo.showCover) {
                 core.DisplayUtil.getInstance().addChildBelow(this.cover, this.p_moduleList[i].module.content);
                 return;

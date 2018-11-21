@@ -45,13 +45,15 @@ class UILayer extends fairygui.GComponent {
 			this.p_moduleList.push(infoVo);
 			infoVo.layer = this;
 			infoVo.preShowData = data;
-			infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
 			infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
-		}else{
 			infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
+		}else{
+			
 			if(infoVo.module.content.parent){
 				infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
+				infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
 			}else{
+				infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
 				this.onModuleAddToStage(null);
 			}
 		}
@@ -60,7 +62,7 @@ class UILayer extends fairygui.GComponent {
 
 	protected onModuleAddToStage(e?:egret.Event):void
 	{
-
+		// console.log(111);
 	}
 
 	public isShow(moduleId:number):boolean

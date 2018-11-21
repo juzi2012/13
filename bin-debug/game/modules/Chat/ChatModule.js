@@ -15,12 +15,12 @@ var game;
         function ChatModule() {
             var _this = _super.call(this) || this;
             _this.emstr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"];
-            _this.yushestr = ["赶紧的!!!打牌不是相面!",
-                "等等，人生的抉择~~",
-                "绝世好牌，等着掏钱吧~!",
-                "运气真差，随便都被打~",
-                "嘿，我就是枪神",
-                "别跑，战斗到底"];
+            _this.yushestr = ["快点吧，等的我都快疯了！",
+                "你的牌那么好啊，兄弟！",
+                "不要吵了，专心玩游戏吧。",
+                "兄弟，不好意思啊，我先撤了。",
+                "不要走，决战到天亮。",
+                "唉，又被打枪了。"];
             return _this;
         }
         ChatModule.prototype.initContent = function () {
@@ -40,7 +40,6 @@ var game;
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80g2wj1e";
             _super.prototype.preShow.call(this, data);
             App.MessageCenter.addListener(game.MsgEnum.GAME_CHAT, this.onReceive, this);
-            this.mContent.m_ctrl.selectedIndex = 0;
             this.mContent.m_btn_record.addClickListener(this.changeTab, this);
             this.mContent.m_btn_liaotian.addClickListener(this.changeTab, this);
             this.mContent.m_btn_biaoq.addClickListener(this.changeTab, this);
@@ -56,6 +55,7 @@ var game;
             this.mContent.m_list_emoji.callbackThisObj = this;
             this.mContent.m_list_emoji.numItems = 21;
             this.mContent.m_list_emoji.addEventListener(fairygui.ItemEvent.CLICK, this.onClickItem, this);
+            this.mContent.m_ctrl.selectedIndex = 1;
             _super.prototype.preShow.call(this, data);
         };
         ChatModule.prototype.show = function (data) {
@@ -112,7 +112,7 @@ var game;
         ChatModule.prototype.YuSheRenderListItem = function (index, _item) {
             var str = this.yushestr[index];
             var yusheItem = _item;
-            yusheItem.setData(str);
+            yusheItem.setData(str, index + 1);
         };
         ChatModule.prototype.EmojiRenderListItem = function (index, _item) {
             var str = this.emstr[index];

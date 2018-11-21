@@ -309,7 +309,24 @@ var game;
                     result.unshift(subCard);
                 }
             }
+            var special = this.findShunZiSpecial(newCards);
+            if (special != null) {
+                result.push(special);
+            }
             return result.length > 0 ? result : this.findShunZiGuiPai(cards);
+        };
+        PorkUtil.findShunZiSpecial = function (cardAry) {
+            var pointArr = [2, 3, 4, 5, 14];
+            var result = [];
+            for (var i = 0; i < cardAry.length; i++) {
+                if (pointArr.indexOf(cardAry[i].point) != -1) {
+                    result.push(cardAry[i]);
+                }
+            }
+            if (result.length == 5) {
+                return result;
+            }
+            return null;
         };
         /**
          * 查找同花
@@ -554,6 +571,19 @@ var game;
                 var subCards, bool;
                 for (var start = 0; (start + num) <= cards.length; ++start) {
                     _loop_1(start);
+                }
+                var pointArr = [2, 3, 4, 5, 14];
+                if (length == 3) {
+                    pointArr = [2, 3, 14];
+                }
+                var resultsp = [];
+                for (var i = 0; i < cards.length; i++) {
+                    if (pointArr.indexOf(cards[i].point) != -1) {
+                        resultsp.push(cards[i]);
+                    }
+                }
+                if (result.length + j == length) {
+                    result.push(resultsp);
                 }
             }
             return result;
@@ -814,12 +844,28 @@ var game;
             cardAry.sort(function (a, b) {
                 return a.point - b.point;
             });
+            if (this.isSpecailShunZi(cardAry, minLength)) {
+                return true;
+            }
             var point0 = cardAry[0].point;
             for (var i = 1; i < cardAry.length; i++) {
                 if (cardAry[i].point != (point0 + 1)) {
                     return false;
                 }
                 point0 += 1;
+            }
+            return true;
+        };
+        PorkUtil.isSpecailShunZi = function (cardAry, minLength) {
+            if (minLength === void 0) { minLength = 5; }
+            var pointArr = [2, 3, 4, 5, 14];
+            if (minLength == 3) {
+                pointArr = [2, 3, 14];
+            }
+            for (var i = 0; i < cardAry.length; i++) {
+                if (pointArr.indexOf(cardAry[i].point) == -1) {
+                    return false;
+                }
             }
             return true;
         };
@@ -996,8 +1042,30 @@ var game;
             }
         };
         PorkUtil.checkTiezhi = function (nowArr, otherArr) {
-            var now = this.findPointByLength(nowArr, 4)[0];
-            var other = this.findPointByLength(otherArr, 4)[0];
+            var guiArr = [];
+            var normalArr = [];
+            for (var i = 0; i < nowArr.length; i++) {
+                if (nowArr[i].point == 501 || nowArr[i].point == 502) {
+                    guiArr.push(nowArr[i]);
+                }
+                else {
+                    normalArr.push(nowArr[i]);
+                }
+            }
+            var guiArr1 = [];
+            var normalArr1 = [];
+            for (var i = 0; i < otherArr.length; i++) {
+                if (otherArr[i].point == 501 || otherArr[i].point == 502) {
+                    guiArr1.push(otherArr[i]);
+                }
+                else {
+                    normalArr1.push(otherArr[i]);
+                }
+            }
+            var now = this.findPointByLength(normalArr, 4 - guiArr.length)[0];
+            var other = this.findPointByLength(normalArr1, 4 - guiArr1.length)[0];
+            now.concat(guiArr);
+            other.concat(guiArr1);
             if (now[0].point > other[0].point) {
                 return true;
             }
@@ -1011,17 +1079,17 @@ var game;
             var nowduizi = game.PorkUtilExtends.getRestCard1(nowSantiao, nowArr);
             var otherSantiao = this.findSanTiao(otherArr);
             var otherduizi = game.PorkUtilExtends.getRestCard1(otherSantiao, otherArr);
-            if (nowSantiao[0].point > otherSantiao[0].point) {
+            if (nowSantiao[0][0].point > otherSantiao[0][0].point) {
                 return true;
             }
-            else if (nowSantiao[0].point < otherSantiao[0].point) {
+            else if (nowSantiao[0][0].point < otherSantiao[0][0].point) {
                 return false;
             }
             else {
-                if (nowduizi[0].point > otherduizi[0].point) {
+                if (nowduizi[0][0].point > otherduizi[0][0].point) {
                     return true;
                 }
-                else if (nowduizi[0].point < otherduizi[0].point) {
+                else if (nowduizi[0][0].point < otherduizi[0][0].point) {
                     return false;
                 }
                 else {
@@ -1045,6 +1113,15 @@ var game;
             return false;
         };
         PorkUtil.checkShunzi = function (nowArr, otherArr) {
+            if (this.isSpecailShunZi(nowArr) && this.isSpecailShunZi(otherArr)) {
+                return true;
+            }
+            else if (this.isSpecailShunZi(nowArr) && this.isSpecailShunZi(otherArr) == false) {
+                return false;
+            }
+            else if (this.isSpecailShunZi(nowArr) == false && this.isSpecailShunZi(otherArr)) {
+                return true;
+            }
             if (nowArr[0].point > otherArr[0].point) {
                 return true;
             }

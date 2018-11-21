@@ -146,6 +146,14 @@ var game;
                 this.rounds.push(round);
             }
         };
+        ZhanJiModel.prototype.addData = function (value) {
+            for (var p = 0; p < value.length; p++) {
+                var data = JSON.parse(value[p]['msg']);
+                var round = new Round();
+                round.init(data);
+                this.rounds.push(round);
+            }
+        };
         return ZhanJiModel;
     }());
     game.ZhanJiModel = ZhanJiModel;

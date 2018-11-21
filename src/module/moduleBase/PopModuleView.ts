@@ -3,7 +3,6 @@ abstract class PopModuleView extends Module {
 	public moduleFadeInType:number;
 	public moduleFadeOutType:number;
 	private static TWEEN_DURATION:number = 200;
-
 	public constructor() {
 		super();
 	}

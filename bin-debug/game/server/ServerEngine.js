@@ -84,6 +84,7 @@ var game;
             App.Socket.send(leaveRoomMsg);
         };
         ServerEngine.sendReady = function () {
+            game.GameModel.ins.roomModel.isNewStartOpen = true;
             var readyMsg = new C2T_Msg();
             readyMsg.Aid = MsgType.Ready;
             App.Socket.send(readyMsg);
@@ -99,7 +100,6 @@ var game;
             App.MessageCenter.dispatch(game.MsgEnum.GAME_RESTART);
         };
         ServerEngine.JieSuanSingleCallBack = function (msg) {
-            game.GameModel.ins.roomModel.rinfo.nnum += 1;
             game.GameModel.ins.roundModel.jieSuanSingle(msg);
         };
         ServerEngine.JieSuanAllCallBack = function (msg) {
