@@ -1,6 +1,26 @@
 module game {
 	export class GameModel {
+    	public key:string;
+		public HttpSerever:string;
+    	public SocketServer:string;
+    	public SocketPort:string;
 		public constructor() {
+			if(App.GlobalData.IsDebug==0){
+				this.key = App.GlobalData.key;
+				this.HttpSerever = App.GlobalData.HttpSerever;
+				this.SocketServer = App.GlobalData.SocketServerDebug;
+				this.SocketPort =  App.GlobalData.SocketPortDebug;
+			}else if(App.GlobalData.IsDebug==1){
+				this.key = App.GlobalData.key;
+				this.HttpSerever = App.GlobalData.HttpSerever;
+				this.SocketServer = App.GlobalData.SocketServer;
+				this.SocketPort =  App.GlobalData.SocketPort;
+			}else if(App.GlobalData.IsDebug==2){
+				this.key = App.GlobalData.keyOffical;
+				this.HttpSerever = App.GlobalData.HttpSereverOffical;
+				this.SocketServer = App.GlobalData.SocketServerOffical;
+				this.SocketPort =  App.GlobalData.SocketPortOffical;
+			}
 		}
 		private static _ins:GameModel;
 		public static get ins() : GameModel {

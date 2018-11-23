@@ -128,6 +128,9 @@ var game;
                     user.gps = msg.users[i].gps;
                     user.name = msg.users[i].name;
                     user.status = msg.users[i].rd;
+                    if (this.reConnectState == 2 && user.status == 1) {
+                        user.status = 0;
+                    }
                     user.tid = msg.users[i].pos; //座位号
                     user.uid = msg.users[i].uid;
                     user.bp = msg.users[i].bp; //摆牌
@@ -241,15 +244,9 @@ var game;
         RoomModel.prototype.getTidByUid = function (uid) {
             for (var i = 0; i < this.users.length; i++) {
                 if (this.users[i].uid == uid) {
-                    if (this.fuid == uid) {
-                        return 0;
-                    }
-                    else {
-                        return this.users[i].tid;
-                    }
+                    return this.users[i].tid;
                 }
             }
-            return 1;
         };
         return RoomModel;
     }());

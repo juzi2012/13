@@ -5,7 +5,7 @@ module game {
 		}
 		public setURL(url:string):void
 		{
-			if(App.GlobalData.IsDebug==false){
+			if(App.GlobalData.IsDebug!=0){
 				RES.getResByUrl(url,this.loaded,this,RES.ResourceItem.TYPE_IMAGE);
 			}
 		}

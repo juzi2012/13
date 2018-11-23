@@ -97,6 +97,7 @@ var game;
             //根据当前牌局的人数显示头像的个数
             this.mContent.m_playerNumCtrl.selectedPage = game.GameModel.ins.roomModel.rinfo.pn.toString();
             this.setHead();
+            this.setHeadTid();
             //初始化当前人物头像
             for (var i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
                 this.UserIn(game.GameModel.ins.roomModel.users[i]);
@@ -193,6 +194,15 @@ var game;
             this.curHeadAry = this.headAry[this.mContent.m_playerNumCtrl.selectedIndex];
             this.wantToBreakHere = false;
         };
+        //根据我进来的座位号，设置头像的座位号
+        Game.prototype.setHeadTid = function () {
+            var myTid = game.GameModel.ins.roomModel.getTidByUid(game.GameModel.ins.uid);
+            var len = this.curHeadAry.length;
+            for (var i = 0; i < len; i++) {
+                this.curHeadAry[i].tid = (myTid + i) > len ? (myTid - (len - i)) : (myTid + i);
+            }
+            console.log(111);
+        };
         Game.prototype.show = function (data) {
             this.doInviteJs();
             _super.prototype.show.call(this, data);
@@ -209,7 +219,7 @@ var game;
                 this.mContent.m_btn_invite.visible = false;
             }
             for (var i = 0; i < this.curHeadAry.length; i++) {
-                if (this.curHeadAry[i].isInit == false) {
+                if (this.curHeadAry[i].tid == user.tid) {
                     this.curHeadAry[i].setData(user);
                     if (user.uid == game.GameModel.ins.uid && user.status == 1) {
                         this.mContent.m_btn_ready.visible = false;

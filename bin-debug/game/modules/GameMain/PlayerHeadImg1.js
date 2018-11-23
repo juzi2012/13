@@ -16,7 +16,7 @@ var game;
             return _super.call(this) || this;
         }
         PlayerHeadImg1.prototype.setURL = function (url) {
-            if (App.GlobalData.IsDebug == false) {
+            if (App.GlobalData.IsDebug != 0) {
                 RES.getResByUrl(url, this.loaded, this, RES.ResourceItem.TYPE_IMAGE);
             }
         };

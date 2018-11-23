@@ -17,7 +17,7 @@ module game {
 		 */
 		public preShow(data?: any): void {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fap";
-			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBack,this.onError,this);
+			HttpAPI.HttpGET("http://"+game.GameModel.ins.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBack,this.onError,this);
 			this.mContent.m_list.scrollPane.addEventListener(fairygui.ScrollPane.PULL_UP_RELEASE, this.onPullDownToRefresh, this);
 			this.mContent.m_list.setVirtual();
 			this.mContent.m_checkother.addClickListener(this.playerOther,this);
@@ -29,7 +29,7 @@ module game {
 			// footer.getController("c1").selectedIndex = 1;
 			this.mContent.m_list.scrollPane.lockFooter(footer.sourceHeight);
 			
-			HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBackAdd,this.onError,this);
+			HttpAPI.HttpGET("http://"+game.GameModel.ins.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBackAdd,this.onError,this);
 			
 		}
 		private playerOther():void

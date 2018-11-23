@@ -171,7 +171,7 @@ class App {
 		//实例化ProtoBuf和Socket请求
         // App.ProtoFile = dcodeIO.ProtoBuf.loadProto(RES.getRes(App.GlobalData.ProtoFile));
         // App.ProtoConfig = RES.getRes(App.GlobalData.ProtoConfig);
-        App.Socket.initServer(App.GlobalData.SocketServer, App.GlobalData.SocketPort,new ws.UTFMsgByJson());
+        App.Socket.initServer(game.GameModel.ins.SocketServer, game.GameModel.ins.SocketPort,new ws.UTFMsgByJson());
 
 		///初始化enterframe事件
 		core.FrameEventCenter.getInstance().init(stage);

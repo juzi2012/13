@@ -46,7 +46,7 @@ module game {
 			if(this.code.length<6){
 				AlertUtil.floatMsg("回放码不正确，请重新输入.");
 			}else{
-				HttpAPI.HttpGET("http://"+App.GlobalData.SocketServer+":8883/huifang",{'uid':GameModel.ins.uid,'id':this.code},this.onCallBack,this.onError,this);
+				HttpAPI.HttpGET("http://"+game.GameModel.ins.SocketServer+":8883/huifang",{'uid':GameModel.ins.uid,'id':this.code},this.onCallBack,this.onError,this);
 			}
 		}
 		private onCallBack(evt:egret.Event):void

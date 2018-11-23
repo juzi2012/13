@@ -140,7 +140,7 @@ var Main = (function (_super) {
                         return [4 /*yield*/, RES.getResAsync("description_json")];
                     case 3:
                         result = _a.sent();
-                        if (!(App.GlobalData.IsDebug == false)) return [3 /*break*/, 6];
+                        if (!(App.GlobalData.IsDebug != 0)) return [3 /*break*/, 6];
                         return [4 /*yield*/, platform.login()];
                     case 4:
                         _a.sent();

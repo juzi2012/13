@@ -16,6 +16,7 @@ var game;
             var _this = _super.call(this) || this;
             _this.isInit = false;
             _this.clickCD = true;
+            _this.tid = 0;
             _this.addClickListener(_this.showInfo, _this);
             return _this;
         }

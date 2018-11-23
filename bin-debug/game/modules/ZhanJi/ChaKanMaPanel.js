@@ -59,7 +59,7 @@ var game;
                 game.AlertUtil.floatMsg("回放码不正确，请重新输入.");
             }
             else {
-                HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/huifang", { 'uid': game.GameModel.ins.uid, 'id': this.code }, this.onCallBack, this.onError, this);
+                HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/huifang", { 'uid': game.GameModel.ins.uid, 'id': this.code }, this.onCallBack, this.onError, this);
             }
         };
         ChaKanMaPanel.prototype.onCallBack = function (evt) {

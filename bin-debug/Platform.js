@@ -55,7 +55,7 @@ var DebugPlatform = (function () {
             game.OptModel.ins.time = egret.getOption("time");
             game.OptModel.ins.token = egret.getOption("token");
             game.OptModel.ins.state = egret.getOption("state");
-            game.OptModel.ins.sign = new md5().hex_md5("appId=" + game.OptModel.ins.appId + "channelId=" + game.OptModel.ins.channelId + "time=" + game.OptModel.ins.time + "token=" + game.OptModel.ins.token + "dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL"); //egret.getOption("sign");
+            game.OptModel.ins.sign = new md5().hex_md5("appId=" + game.OptModel.ins.appId + "channelId=" + game.OptModel.ins.channelId + "time=" + game.OptModel.ins.time + "token=" + game.OptModel.ins.token + game.GameModel.ins.key); //egret.getOption("sign");
             var parentUrl = getParentUrl();
             console.log("父级url----" + parentUrl);
             game.OptModel.ins.shareRoomId = core.LocationProperty.getPara("shareRoomId", parentUrl);
@@ -69,7 +69,7 @@ var DebugPlatform = (function () {
             console.log(game.OptModel.ins.time);
             console.log(game.OptModel.ins.token);
             console.log(game.OptModel.ins.shareRoomId);
-            var urls = App.GlobalData.HttpSerever;
+            var urls = game.GameModel.ins.HttpSerever;
             var urlreq = new egret.URLRequest();
             var urlvar = new egret.URLVariables();
             urlvar.variables = { 'appId': game.OptModel.ins.appId, 'channelId': game.OptModel.ins.channelId,

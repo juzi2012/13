@@ -61,7 +61,7 @@ var game;
             // 	var bmp = new egret.Bitmap(data);
             // 	this.mContent.displayListContainer.addChild(bmp);
             // }, this, RES.ResourceItem.TYPE_IMAGE);
-            if (App.GlobalData.IsDebug == false) {
+            if (App.GlobalData.IsDebug != 0) {
                 App.Socket.addCmdListener(MsgType.Login, core.Handler.create(this, this.loginCallBack));
                 var loginMsg = new C2T_Login();
                 loginMsg.Msg.name = game.OptModel.ins.name; //App.MathUtils.random(1,1000);
@@ -168,7 +168,7 @@ var game;
                 App.MessageCenter.addListener(game.MsgEnum.ENTER_ROOM_FAILD, this.enterRoomFaild, this);
             }
             else if (game.OptModel.ins.shareRePlayRoomId != null) {
-                HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/huifang", { 'uid': game.OptModel.ins.shareUserId, 'id': game.OptModel.ins.shareRePlayRoomId }, this.onCallBack, this.onError, this);
+                HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/huifang", { 'uid': game.OptModel.ins.shareUserId, 'id': game.OptModel.ins.shareRePlayRoomId }, this.onCallBack, this.onError, this);
             }
             else {
                 ModuleMgr.ins.changeScene(ModuleEnum.LOADING, ModuleEnum.GAME_MAIN, []);

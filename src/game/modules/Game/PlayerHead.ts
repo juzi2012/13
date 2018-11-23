@@ -8,6 +8,7 @@ module game {
 		public user:User;
 		public juPlayer:JuPlayer;
 		public clickCD:boolean=true;
+		public tid:number=0;
 		public get pokers():PlayerPokers
 		{
 			return this.m_pokers as PlayerPokers;

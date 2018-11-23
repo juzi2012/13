@@ -53,7 +53,7 @@ var game;
             var appId = 600015; //"appOrderId1111111111";
             var state = game.OptModel.ins.state;
             var userId = game.GameModel.ins.uid;
-            var sign = new md5().hex_md5("appId=" + appId + "goodsName=" + goodsName + "money=" + money + "state=" + state + "userId=" + userId + "dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");
+            var sign = new md5().hex_md5("appId=" + appId + "goodsName=" + goodsName + "money=" + money + "state=" + state + "userId=" + userId + game.GameModel.ins.key);
             showPay(appId, goodsName, money, state, userId, sign);
         };
         return ChargeItem;

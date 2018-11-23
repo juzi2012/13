@@ -10,6 +10,24 @@ var game;
             this.card = 0;
             this.gold = 0;
             this.avatar = "";
+            if (App.GlobalData.IsDebug == 0) {
+                this.key = App.GlobalData.key;
+                this.HttpSerever = App.GlobalData.HttpSerever;
+                this.SocketServer = App.GlobalData.SocketServerDebug;
+                this.SocketPort = App.GlobalData.SocketPortDebug;
+            }
+            else if (App.GlobalData.IsDebug == 1) {
+                this.key = App.GlobalData.key;
+                this.HttpSerever = App.GlobalData.HttpSerever;
+                this.SocketServer = App.GlobalData.SocketServer;
+                this.SocketPort = App.GlobalData.SocketPort;
+            }
+            else if (App.GlobalData.IsDebug == 2) {
+                this.key = App.GlobalData.keyOffical;
+                this.HttpSerever = App.GlobalData.HttpSereverOffical;
+                this.SocketServer = App.GlobalData.SocketServerOffical;
+                this.SocketPort = App.GlobalData.SocketPortOffical;
+            }
         }
         Object.defineProperty(GameModel, "ins", {
             get: function () {

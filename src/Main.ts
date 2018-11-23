@@ -87,7 +87,7 @@ class Main extends egret.DisplayObjectContainer {
         this.startEngine();
         await this.loadPreLoadResource()
         const result = await RES.getResAsync("description_json")
-        if(App.GlobalData.IsDebug==false){
+        if(App.GlobalData.IsDebug!=0){
             await platform.login();
             const userInfo = await platform.getUserInfo();
             console.log(userInfo);

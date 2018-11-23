@@ -33,7 +33,7 @@ var game;
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
             this.mContent.m_list.setVirtual();
-            HttpAPI.HttpGET("http://" + App.GlobalData.SocketServer + ":8883/rank", { 'uid': game.GameModel.ins.uid }, this.onCallBack, this.onError, this);
+            HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/rank", { 'uid': game.GameModel.ins.uid }, this.onCallBack, this.onError, this);
         };
         RankModule.prototype.onCallBack = function (evt) {
             this.preShowCpl();

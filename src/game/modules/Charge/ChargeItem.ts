@@ -45,7 +45,7 @@ module game {
 			let state:string = OptModel.ins.state;
 			let userId:string=GameModel.ins.uid;
 
-			let sign:string = new md5().hex_md5("appId="+appId+"goodsName="+goodsName+"money="+money+"state="+state+"userId="+userId+"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");
+			let sign:string = new md5().hex_md5("appId="+appId+"goodsName="+goodsName+"money="+money+"state="+state+"userId="+userId+game.GameModel.ins.key);
 			showPay(appId,goodsName,money,state,userId,sign);
 		}
 		

@@ -59,6 +59,7 @@ module game {
 			//根据当前牌局的人数显示头像的个数
 			this.mContent.m_playerNumCtrl.selectedPage = GameModel.ins.roomModel.rinfo.pn.toString()
 			this.setHead();
+			this.setHeadTid();
 			//初始化当前人物头像
 			for(let i:number=0;i<GameModel.ins.roomModel.users.length;i++){
 				this.UserIn(GameModel.ins.roomModel.users[i]);
@@ -160,9 +161,20 @@ module game {
 			}
 			this.headAry = [[this.head1,this.head4],[this.head1,this.head3,this.head5],[this.head1,this.head3,this.head4,this.head5],[this.head1,this.head2,this.head3,this.head5,this.head6],[this.head1,this.head2,this.head3,this.head4,this.head5,this.head6]];
 			this.curHeadAry = this.headAry[this.mContent.m_playerNumCtrl.selectedIndex];
-
+			
 			this.wantToBreakHere=false;		
 		}
+		//根据我进来的座位号，设置头像的座位号
+		private setHeadTid():void
+		{
+			let myTid:number=GameModel.ins.roomModel.getTidByUid(GameModel.ins.uid);
+			let len:number = this.curHeadAry.length;
+			for(let i:number=0;i<len;i++){
+				this.curHeadAry[i].tid = (myTid+i)>len?(myTid-(len-i)):(myTid+i);
+			}
+			console.log(111);
+		}
+
 		public show(data?:any):void
 		{
 			this.doInviteJs();
@@ -172,6 +184,7 @@ module game {
 		private UserIn(user:User):void
 		{
 			if(this.getPlayerById(user.uid)!=null)return;
+			
 			//有人进来就发送一次消息，来更新我在其他玩家中的位置信息
 			LocationModel.ins.sendPosChat();
 			if(GameModel.ins.roomModel.users.length<GameModel.ins.roomModel.rinfo.pn){
@@ -180,7 +193,7 @@ module game {
 				this.mContent.m_btn_invite.visible=false;
 			}
 			for(let i:number=0;i<this.curHeadAry.length;i++){
-				if(this.curHeadAry[i].isInit==false){
+				if(this.curHeadAry[i].tid==user.tid){
 					this.curHeadAry[i].setData(user);
 					if(user.uid == GameModel.ins.uid && user.status==1){
 						this.mContent.m_btn_ready.visible=false;
@@ -190,7 +203,6 @@ module game {
 				}
 			}
 		}
-
 		private UserOut(leaveMsg:T2C_Leave_Room):void
 		{
 			if(leaveMsg.uid==GameModel.ins.uid){//如果是我自己，直接退出场景
