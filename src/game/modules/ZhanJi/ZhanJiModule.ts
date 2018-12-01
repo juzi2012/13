@@ -16,6 +16,7 @@ module game {
 		 * 预显示
 		 */
 		public preShow(data?: any): void {
+			this.preShowCpl();
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fap";
 			HttpAPI.HttpGET("http://"+game.GameModel.ins.SocketServer+":8883/zhanji",{'uid':GameModel.ins.uid,'page':this.curPage},this.onCallBack,this.onError,this);
 			this.mContent.m_list.scrollPane.addEventListener(fairygui.ScrollPane.PULL_UP_RELEASE, this.onPullDownToRefresh, this);
@@ -38,7 +39,7 @@ module game {
 		}
 		private onCallBack(evt:egret.Event):void
 		{
-			this.preShowCpl();
+			
 			let callBackJson:any = JSON.parse(evt.target.response);
 			if(callBackJson.err==""){
 				this.result = callBackJson.data;

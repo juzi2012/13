@@ -91,6 +91,7 @@ module game {
 
 		public static sendReady():void
 		{
+			console.log("发送开始");
 			GameModel.ins.roomModel.isNewStartOpen=true;
 			let readyMsg:C2T_Msg = new C2T_Msg();
 			readyMsg.Aid = MsgType.Ready;

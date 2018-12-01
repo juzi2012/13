@@ -39,7 +39,7 @@ module game {
 			// showPay(appId,goodsName,money,state,userId,sign);
 		
 			// ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
-			let url:string = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1"
+			let url:string = GameModel.ins.BuySerever+"&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl="+GameModel.ins.BuySereverRedirect;
 			// window.open(url,"_blank");
 			top.location.href=url;
 		}
@@ -60,7 +60,7 @@ module game {
 		private onBind():void
 		{
 			if(this.code.length==6){
-				let url:string = "http://alpha-pay.fpwan.net/Game/Shisanzhang/IsBind";
+				let url:string = GameModel.ins.BindServer;
 				HttpAPI.HttpGET(url,{'userId':GameModel.ins.uid,agentId:this.code},this.onCallBack,this.onError,this);
 			}else if(this.code.length==0){
 				AlertUtil.floatMsg("请先输入邀请码");
@@ -69,8 +69,11 @@ module game {
 		private onCallBack(evt:egret.Event):void{
 			let callBackJson:any = JSON.parse(evt.target.response);
 			console.log(evt.target.response);
-			if(callBackJson.data==true){
+			if(Number(callBackJson['data']['code'])==0){
 				AlertUtil.floatMsg("绑定成功");
+				ModuleMgr.ins.closeModule(this.moduleId);
+				GameModel.ins.card = Number(callBackJson['data']['fangka']);
+				App.MessageCenter.dispatch(MsgEnum.UPDATE_MYINFO,null);
 			}else{
 				AlertUtil.floatMsg(callBackJson['data']['message']);
 			}

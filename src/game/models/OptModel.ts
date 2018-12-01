@@ -24,6 +24,13 @@ module game {
 
 			public shareRePlayRoomId:string;//是否是分享回放的
 			
+			//不同的平台不同的客服号
+			public kefu:string;
+
+			public setKeFu():void{
+				let kefuConfig:any = RES.getRes("kefuconfig_json");
+				this.kefu = kefuConfig[this.channelId.toString()];
+			}
 			
     }
 }

@@ -84,6 +84,7 @@ var game;
             App.Socket.send(leaveRoomMsg);
         };
         ServerEngine.sendReady = function () {
+            console.log("发送开始");
             game.GameModel.ins.roomModel.isNewStartOpen = true;
             var readyMsg = new C2T_Msg();
             readyMsg.Aid = MsgType.Ready;

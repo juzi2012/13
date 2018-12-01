@@ -254,9 +254,9 @@ module game {
 							let playerHead:PlayerHead = this.getPlayerById(uid);
 							playerHead.showResultPlay(j,players[i]);
 						})
-						t = t+1;
 					}
 				}
+				t = t+1;
 			}
 			
 			TweenMax.delayedCall(t+2,()=>{

@@ -17,11 +17,12 @@ module game {
 			(this.mContent.m_panelBg as UI.Base.UI_PopModuleBg).m_title.url = "ui://i36kne80j5fam";
 			this.mContent.m_btn_ok.addClickListener(this.onCloseClick,this);
 			this.mContent.m_btn_copy.addClickListener(this.onCopy,this);
+			this.mContent.m_txt_kefu.text = "客服微信："+OptModel.ins.kefu;
 			super.preShow(data);
 		}
 		private onCopy():void
 		{
-			let cb:boolean = new Clipboard().setText("baise168168");
+			let cb:boolean = new Clipboard().setText(OptModel.ins.kefu);
 			if(cb){
 				AlertUtil.floatMsg("复制成功");
 			}else{

@@ -39,6 +39,7 @@ class PopModuleLayer extends UILayer {
 		if(config == null){
 			return;
 		}
+		
 		var infoVo:ModuleInfoVo = new ModuleInfoVo(config);
 		this.p_moduleList.push(infoVo);
 		infoVo.preShowData = data;

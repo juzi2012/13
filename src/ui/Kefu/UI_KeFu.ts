@@ -7,6 +7,7 @@ module UI.Kefu {
 		public m_panelBg:fairygui.GComponent;
 		public m_btn_copy:fairygui.GButton;
 		public m_btn_ok:fairygui.GButton;
+		public m_txt_kefu:fairygui.GTextField;
 
 		public static URL:string = "ui://j0afz4iznl0p1";
 
@@ -24,6 +25,7 @@ module UI.Kefu {
 			this.m_panelBg = <fairygui.GComponent><any>(this.getChildAt(0));
 			this.m_btn_copy = <fairygui.GButton><any>(this.getChildAt(3));
 			this.m_btn_ok = <fairygui.GButton><any>(this.getChildAt(4));
+			this.m_txt_kefu = <fairygui.GTextField><any>(this.getChildAt(8));
 		}
 	}
 }

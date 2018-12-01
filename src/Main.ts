@@ -53,7 +53,6 @@ class Main extends egret.DisplayObjectContainer {
         // }
         // this.doTest();
 
-        // 118.24.105.180
         
         this.runGame().catch(e => {
             console.log(e);

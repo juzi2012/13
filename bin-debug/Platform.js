@@ -55,6 +55,8 @@ var DebugPlatform = (function () {
             game.OptModel.ins.time = egret.getOption("time");
             game.OptModel.ins.token = egret.getOption("token");
             game.OptModel.ins.state = egret.getOption("state");
+            game.OptModel.ins.setKeFu();
+            game.GameModel.ins.init();
             game.OptModel.ins.sign = new md5().hex_md5("appId=" + game.OptModel.ins.appId + "channelId=" + game.OptModel.ins.channelId + "time=" + game.OptModel.ins.time + "token=" + game.OptModel.ins.token + game.GameModel.ins.key); //egret.getOption("sign");
             var parentUrl = getParentUrl();
             console.log("父级url----" + parentUrl);

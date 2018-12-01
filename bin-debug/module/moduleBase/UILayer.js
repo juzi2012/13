@@ -53,13 +53,15 @@ var UILayer = (function (_super) {
             infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
         }
         else {
-            if (infoVo.module.content.parent) {
-                infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
-                infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
-            }
-            else {
-                infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
-                this.onModuleAddToStage(null);
+            if (infoVo.isShow == false) {
+                if (infoVo.module.content.parent) {
+                    infoVo.addEventListener(ModuleConsts.MODULE_ADD_TO_STAGE, this.onModuleAddToStage, this);
+                    infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
+                }
+                else {
+                    infoVo.changeModuleState(ModuleConsts.STATE_SHOW);
+                    this.onModuleAddToStage(null);
+                }
             }
         }
         return infoVo;

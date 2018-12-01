@@ -16,6 +16,10 @@ var game;
             enumerable: true,
             configurable: true
         });
+        OptModel.prototype.setKeFu = function () {
+            var kefuConfig = RES.getRes("kefuconfig_json");
+            this.kefu = kefuConfig[this.channelId.toString()];
+        };
         return OptModel;
     }());
     game.OptModel = OptModel;

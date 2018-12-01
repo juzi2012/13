@@ -90,7 +90,6 @@ var Main = (function (_super) {
         //     egret.ticker.resume();
         // }
         // this.doTest();
-        // 118.24.105.180
         this.runGame().catch(function (e) {
             console.log(e);
         });

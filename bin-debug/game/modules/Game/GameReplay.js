@@ -242,12 +242,12 @@ var game;
                             var playerHead = _this.getPlayerById(uid);
                             playerHead.showResultPlay(j, players[i]);
                         });
-                        t = t + 1;
                     }
                 };
                 for (var i = 0; i < players.length; i++) {
                     _loop_2(i);
                 }
+                t = t + 1;
             };
             for (var j = 0; j < 3; j++) {
                 _loop_1(j);

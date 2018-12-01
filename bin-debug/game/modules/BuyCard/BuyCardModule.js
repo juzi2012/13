@@ -50,7 +50,7 @@ var game;
             // let sign:string = new md5().hex_md5("appId="+appId+"goodsName="+goodsName+"money="+money+"state="+state+"userId="+userId+"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL");
             // showPay(appId,goodsName,money,state,userId,sign);
             // ModuleMgr.ins.showModule(ModuleEnum.CHARGE);
-            var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
+            var url = game.GameModel.ins.BuySerever + "&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=" + game.GameModel.ins.BuySereverRedirect;
             // window.open(url,"_blank");
             top.location.href = url;
         };
@@ -70,7 +70,7 @@ var game;
         };
         BuyCardModule.prototype.onBind = function () {
             if (this.code.length == 6) {
-                var url = "http://alpha-pay.fpwan.net/Game/Shisanzhang/IsBind";
+                var url = game.GameModel.ins.BindServer;
                 HttpAPI.HttpGET(url, { 'userId': game.GameModel.ins.uid, agentId: this.code }, this.onCallBack, this.onError, this);
             }
             else if (this.code.length == 0) {
@@ -80,8 +80,11 @@ var game;
         BuyCardModule.prototype.onCallBack = function (evt) {
             var callBackJson = JSON.parse(evt.target.response);
             console.log(evt.target.response);
-            if (callBackJson.data == true) {
+            if (Number(callBackJson['data']['code']) == 0) {
                 game.AlertUtil.floatMsg("绑定成功");
+                ModuleMgr.ins.closeModule(this.moduleId);
+                game.GameModel.ins.card = Number(callBackJson['data']['fangka']);
+                App.MessageCenter.dispatch(game.MsgEnum.UPDATE_MYINFO, null);
             }
             else {
                 game.AlertUtil.floatMsg(callBackJson['data']['message']);

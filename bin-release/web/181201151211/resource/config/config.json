@@ -1,0 +1,23 @@
+{
+    "IsDebug":2,
+    "SocketServerDebug":"121.40.23.6",
+    "SocketPortDebug":"40013",
+    "HttpSerever":"https://alpha-api.fpwan.com/Game/UserMoney",
+    "BuySerever":"https://alpha-pay.fpwan.net/Pay/Index?channelId=@param0",
+    "BuySereverRedirect":"https%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D@param0%26appId%3D600015%26test%3D1",
+    "BindServer":"https://alpha-api.fpwan.com/Game/Shisanzhang/IsBind",
+    "CheckBindServer":"https://alpha-api.fpwan.com/Game/Shisanzhang/BindWindow",
+    "key":"dq9FR5gBTPdhuVtsdmCbhiKM4ByjGL",
+    "SocketServer":"118.24.105.180",
+    "SocketPort":"40013",
+    "ProtoFile":"simple_proto",
+    "ProtoConfig":"simple_config",
+    "SocketServerOffical":"47.110.53.238",
+    "SocketPortOffical":"40013",
+    "HttpSereverOffical":"https://api.fpwan.com/Game/UserMoney",
+    "BuySereverOffical":"https://pay.fpwan.net/Pay/Index?channelId=@param0",
+    "BindServerOffical":"https://api.fpwan.com/Game/Shisanzhang/IsBind",
+    "CheckBindServerOffical":"https://api.fpwan.com/Game/Shisanzhang/BindWindow",
+    "BuySereverRedirectOffical":"https%3A%2F%2Fhall.fpwan.com%2FgamePlay.html%3FchannelId%3D@param0%26appId%3D600015%26test%3D1",
+    "keyOffical":"EkUCEdgQKVR31M5M7l385JLBayc34srY"
+}

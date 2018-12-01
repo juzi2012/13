@@ -376,34 +376,30 @@ var game;
                             j = 0;
                             _a.label = 2;
                         case 2:
-                            if (!(j < 3)) return [3 /*break*/, 7];
-                            i = 0;
-                            _a.label = 3;
-                        case 3:
-                            if (!(i < cards.length)) return [3 /*break*/, 6];
-                            uid = cards[i].uid;
-                            if (!(special_uid.indexOf(uid) < 0)) return [3 /*break*/, 5];
-                            playerHead = this.getPlayerById(uid);
-                            if (special_uid.indexOf(game.GameModel.ins.uid) == -1 && (cards.length - special_uid.length != 1)) {
-                                playerHead.showResult(j, cards[i], false);
-                            }
-                            else {
-                                playerHead.showResult(j, cards[i], true);
+                            if (!(j < 3)) return [3 /*break*/, 5];
+                            for (i = 0; i < cards.length; i++) {
+                                uid = cards[i].uid;
+                                if (special_uid.indexOf(uid) < 0) {
+                                    playerHead = this.getPlayerById(uid);
+                                    if (special_uid.indexOf(game.GameModel.ins.uid) == -1 && (cards.length - special_uid.length != 1)) {
+                                        playerHead.showResult(j, cards[i], false);
+                                    }
+                                    else {
+                                        playerHead.showResult(j, cards[i], true);
+                                    }
+                                }
                             }
                             return [4 /*yield*/, this.sleep(1200)];
-                        case 4:
+                        case 3:
                             _a.sent();
-                            _a.label = 5;
-                        case 5:
-                            i++;
-                            return [3 /*break*/, 3];
-                        case 6:
+                            _a.label = 4;
+                        case 4:
                             j++;
                             return [3 /*break*/, 2];
-                        case 7: return [4 /*yield*/, this.sleep(1000)];
-                        case 8:
+                        case 5: return [4 /*yield*/, this.sleep(1000)];
+                        case 6:
                             _a.sent();
-                            if (!(special_uid.length > 0)) return [3 /*break*/, 10];
+                            if (!(special_uid.length > 0)) return [3 /*break*/, 8];
                             for (c = 0; c < special_uid.length; c++) {
                                 playerHead = this.getPlayerById(special_uid[c]);
                                 for (i = 0; i < cards.length; i++) {
@@ -420,85 +416,85 @@ var game;
                                 }
                             }
                             return [4 /*yield*/, this.sleep(500)];
-                        case 9:
+                        case 7:
                             _a.sent();
+                            _a.label = 8;
+                        case 8:
+                            i = 0;
+                            _a.label = 9;
+                        case 9:
+                            if (!(i < bipai.length)) return [3 /*break*/, 26];
+                            a = 0;
                             _a.label = 10;
                         case 10:
-                            i = 0;
+                            if (!(a < bipai[i].dq.length)) return [3 /*break*/, 25];
+                            if (!(game.GameModel.ins.roomModel.rinfo.zz == 1)) return [3 /*break*/, 15];
+                            j = 0;
                             _a.label = 11;
                         case 11:
-                            if (!(i < bipai.length)) return [3 /*break*/, 28];
-                            a = 0;
-                            _a.label = 12;
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 14];
+                            from = this.getPlayerById(bipai[i].dq[a].uid);
+                            to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
+                            from.pokers.showFanBei(from.user.uid, to.user.uid);
+                            to.pokers.showFanBei(to.user.uid, from.user.uid);
+                            this.daQiang(from, to);
+                            return [4 /*yield*/, this.sleep(2500)];
                         case 12:
-                            if (!(a < bipai[i].dq.length)) return [3 /*break*/, 27];
-                            if (!(game.GameModel.ins.roomModel.rinfo.zz == 1)) return [3 /*break*/, 17];
-                            j = 0;
+                            _a.sent();
                             _a.label = 13;
                         case 13:
-                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 16];
+                            j++;
+                            return [3 /*break*/, 11];
+                        case 14: return [3 /*break*/, 24];
+                        case 15:
+                            if (!(bipai[i].dq[a].uid == game.GameModel.ins.uid)) return [3 /*break*/, 20];
+                            j = 0;
+                            _a.label = 16;
+                        case 16:
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 19];
                             from = this.getPlayerById(bipai[i].dq[a].uid);
                             to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
                             from.pokers.showFanBei(from.user.uid, to.user.uid);
                             to.pokers.showFanBei(to.user.uid, from.user.uid);
                             this.daQiang(from, to);
                             return [4 /*yield*/, this.sleep(2500)];
-                        case 14:
-                            _a.sent();
-                            _a.label = 15;
-                        case 15:
-                            j++;
-                            return [3 /*break*/, 13];
-                        case 16: return [3 /*break*/, 26];
                         case 17:
-                            if (!(bipai[i].dq[a].uid == game.GameModel.ins.uid)) return [3 /*break*/, 22];
-                            j = 0;
+                            _a.sent();
                             _a.label = 18;
                         case 18:
-                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 21];
+                            j++;
+                            return [3 /*break*/, 16];
+                        case 19: return [3 /*break*/, 24];
+                        case 20:
+                            j = 0;
+                            _a.label = 21;
+                        case 21:
+                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 24];
+                            if (!(bipai[i].dq[a].tarIds[j] == game.GameModel.ins.uid)) return [3 /*break*/, 23];
                             from = this.getPlayerById(bipai[i].dq[a].uid);
                             to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
                             from.pokers.showFanBei(from.user.uid, to.user.uid);
                             to.pokers.showFanBei(to.user.uid, from.user.uid);
                             this.daQiang(from, to);
                             return [4 /*yield*/, this.sleep(2500)];
-                        case 19:
-                            _a.sent();
-                            _a.label = 20;
-                        case 20:
-                            j++;
-                            return [3 /*break*/, 18];
-                        case 21: return [3 /*break*/, 26];
                         case 22:
-                            j = 0;
+                            _a.sent();
                             _a.label = 23;
                         case 23:
-                            if (!(j < bipai[i].dq[a].tarIds.length)) return [3 /*break*/, 26];
-                            if (!(bipai[i].dq[a].tarIds[j] == game.GameModel.ins.uid)) return [3 /*break*/, 25];
-                            from = this.getPlayerById(bipai[i].dq[a].uid);
-                            to = this.getPlayerById(bipai[i].dq[a].tarIds[j]);
-                            from.pokers.showFanBei(from.user.uid, to.user.uid);
-                            to.pokers.showFanBei(to.user.uid, from.user.uid);
-                            this.daQiang(from, to);
-                            return [4 /*yield*/, this.sleep(2500)];
-                        case 24:
-                            _a.sent();
-                            _a.label = 25;
-                        case 25:
                             j++;
-                            return [3 /*break*/, 23];
-                        case 26:
+                            return [3 /*break*/, 21];
+                        case 24:
                             a++;
-                            return [3 /*break*/, 12];
-                        case 27:
+                            return [3 /*break*/, 10];
+                        case 25:
                             i++;
-                            return [3 /*break*/, 11];
-                        case 28:
+                            return [3 /*break*/, 9];
+                        case 26:
                             i = 0;
-                            _a.label = 29;
-                        case 29:
-                            if (!(i < bipai.length)) return [3 /*break*/, 32];
-                            if (!(bipai[i].ql > 0)) return [3 /*break*/, 31];
+                            _a.label = 27;
+                        case 27:
+                            if (!(i < bipai.length)) return [3 /*break*/, 30];
+                            if (!(bipai[i].ql > 0)) return [3 /*break*/, 29];
                             this.mContent.m_qld.visible = true;
                             this.mContent.m_t3.play(this.qldComplete, this);
                             if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
@@ -524,13 +520,13 @@ var game;
                                 }
                             }
                             return [4 /*yield*/, this.sleep(3000)];
-                        case 30:
+                        case 28:
                             _a.sent();
-                            _a.label = 31;
-                        case 31:
+                            _a.label = 29;
+                        case 29:
                             i++;
-                            return [3 /*break*/, 29];
-                        case 32:
+                            return [3 /*break*/, 27];
+                        case 30:
                             //上面的大枪、全垒打结束后最后更新一次是否翻倍的数据
                             for (i = 0; i < game.GameModel.ins.roomModel.users.length; i++) {
                                 if (special_uid.indexOf(game.GameModel.ins.roomModel.users[i].uid) < 0) {
@@ -564,7 +560,7 @@ var game;
                             //更新总分数
                             this.upDateScore();
                             return [4 /*yield*/, this.sleep(1500)];
-                        case 33:
+                        case 31:
                             _a.sent();
                             return [2 /*return*/];
                     }

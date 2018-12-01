@@ -358,9 +358,9 @@ module game {
 						}else{
 							playerHead.showResult(j,cards[i],true);
 						}
-						await this.sleep(1200);
 					}
 				}
+				await this.sleep(1200);
 			}
 			await this.sleep(1000);
 			

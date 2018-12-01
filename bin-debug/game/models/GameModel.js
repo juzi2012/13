@@ -15,20 +15,43 @@ var game;
                 this.HttpSerever = App.GlobalData.HttpSerever;
                 this.SocketServer = App.GlobalData.SocketServerDebug;
                 this.SocketPort = App.GlobalData.SocketPortDebug;
+                this.BindServer = App.GlobalData.BindServer;
+                this.CheckBindServer = App.GlobalData.CheckBindServer;
             }
             else if (App.GlobalData.IsDebug == 1) {
                 this.key = App.GlobalData.key;
                 this.HttpSerever = App.GlobalData.HttpSerever;
                 this.SocketServer = App.GlobalData.SocketServer;
                 this.SocketPort = App.GlobalData.SocketPort;
+                this.BindServer = App.GlobalData.BindServer;
+                this.CheckBindServer = App.GlobalData.CheckBindServer;
             }
             else if (App.GlobalData.IsDebug == 2) {
                 this.key = App.GlobalData.keyOffical;
                 this.HttpSerever = App.GlobalData.HttpSereverOffical;
                 this.SocketServer = App.GlobalData.SocketServerOffical;
                 this.SocketPort = App.GlobalData.SocketPortOffical;
+                this.BindServer = App.GlobalData.BindServerOffical;
+                this.CheckBindServer = App.GlobalData.CheckBindServerOffical;
             }
         }
+        GameModel.prototype.init = function () {
+            var channel = game.OptModel.ins.channelId;
+            console.log("------" + channel);
+            if (App.GlobalData.IsDebug == 0) {
+                this.BuySerever = App.StringUtils.strParams(App.GlobalData.BuySerever, [channel]);
+                this.BuySereverRedirect = App.StringUtils.strParams(App.GlobalData.BuySereverRedirect, [channel]);
+            }
+            else if (App.GlobalData.IsDebug == 1) {
+                this.BuySerever = App.StringUtils.strParams(App.GlobalData.BuySerever, [channel]);
+                this.BuySereverRedirect = App.StringUtils.strParams(App.GlobalData.BuySereverRedirect, [channel]);
+            }
+            else if (App.GlobalData.IsDebug == 2) {
+                this.BuySerever = App.StringUtils.strParams(App.GlobalData.BuySereverOffical, [channel]);
+                this.BuySereverRedirect = App.StringUtils.strParams(App.GlobalData.BuySereverRedirectOffical, [channel]);
+            }
+            console.log("Byserver" + this.BuySerever);
+        };
         Object.defineProperty(GameModel, "ins", {
             get: function () {
                 if (this._ins == null) {

@@ -31,6 +31,7 @@ var game;
          * 预显示
          */
         ZhanJiModule.prototype.preShow = function (data) {
+            this.preShowCpl();
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80j5fap";
             HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/zhanji", { 'uid': game.GameModel.ins.uid, 'page': this.curPage }, this.onCallBack, this.onError, this);
             this.mContent.m_list.scrollPane.addEventListener(fairygui.ScrollPane.PULL_UP_RELEASE, this.onPullDownToRefresh, this);
@@ -47,7 +48,6 @@ var game;
             ModuleMgr.ins.showModule(ModuleEnum.BOFANGMA);
         };
         ZhanJiModule.prototype.onCallBack = function (evt) {
-            this.preShowCpl();
             var callBackJson = JSON.parse(evt.target.response);
             if (callBackJson.err == "") {
                 this.result = callBackJson.data;

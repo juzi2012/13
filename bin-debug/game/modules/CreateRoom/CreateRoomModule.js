@@ -262,7 +262,7 @@ var game;
         };
         //检查是否需要弹出兑换框
         CreateRoomModule.prototype.checkShowBind = function () {
-            var url = "http://alpha-pay.fpwan.net/Game/Shisanzhang/BindWindow";
+            var url = game.GameModel.ins.CheckBindServer; //"http://alpha-pay.fpwan.net/Game/Shisanzhang/BindWindow";
             HttpAPI.HttpGET(url, { 'userId': game.GameModel.ins.uid }, this.onCallBack, this.onError, this);
         };
         CreateRoomModule.prototype.onCallBack = function (evt) {
@@ -278,7 +278,7 @@ var game;
         CreateRoomModule.prototype.onError = function () {
         };
         CreateRoomModule.prototype.onShowBuyCard = function () {
-            var url = "http://alpha-pay.fpwan.net/Pay/Index?channelId=1045&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=http%3A%2F%2Falpha-hall.fpwan.com%2FgamePlay.html%3FchannelId%3D1045%26appId%3D600015%26test%3D1";
+            var url = game.GameModel.ins.BuySerever + "userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=" + game.GameModel.ins.BuySereverRedirect;
             // window.open(url,"_blank");
             top.location.href = url;
         };

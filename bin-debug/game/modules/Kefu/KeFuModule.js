@@ -32,10 +32,11 @@ var game;
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80j5fam";
             this.mContent.m_btn_ok.addClickListener(this.onCloseClick, this);
             this.mContent.m_btn_copy.addClickListener(this.onCopy, this);
+            this.mContent.m_txt_kefu.text = "客服微信：" + game.OptModel.ins.kefu;
             _super.prototype.preShow.call(this, data);
         };
         KeFuModule.prototype.onCopy = function () {
-            var cb = new game.Clipboard().setText("baise168168");
+            var cb = new game.Clipboard().setText(game.OptModel.ins.kefu);
             if (cb) {
                 game.AlertUtil.floatMsg("复制成功");
             }

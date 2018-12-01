@@ -26,6 +26,7 @@ var UI;
                 this.m_panelBg = (this.getChildAt(0));
                 this.m_btn_copy = (this.getChildAt(3));
                 this.m_btn_ok = (this.getChildAt(4));
+                this.m_txt_kefu = (this.getChildAt(8));
             };
             UI_KeFu.URL = "ui://j0afz4iznl0p1";
             return UI_KeFu;
