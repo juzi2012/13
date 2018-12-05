@@ -255,7 +255,6 @@ module game {
 			let heart:C2T_Heart = new C2T_Heart();
 			heart.Aid = 1;
 			App.Socket.send(heart);
-			console.log("heart");
 		}
 	}
 }

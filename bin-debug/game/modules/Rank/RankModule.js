@@ -33,8 +33,8 @@ var game;
             this.mContent.m_panelBg.m_title.url = "ui://i36kne80du5019";
             this.mContent.m_list.itemRenderer = this.RenderListItem;
             this.mContent.m_list.callbackThisObj = this;
-            this.mContent.m_list.setVirtual();
-            HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/rank", { 'uid': game.GameModel.ins.uid }, this.onCallBack, this.onError, this);
+            // this.mContent.m_list.setVirtual();
+            HttpAPI.HttpGET("http://" + game.GameModel.ins.SocketServer + ":8883/rank", { 'uid': game.GameModel.ins.uid, 'chid': game.OptModel.ins.channelId }, this.onCallBack, this.onError, this);
         };
         RankModule.prototype.onCallBack = function (evt) {
             var callBackJson = JSON.parse(evt.target.response);

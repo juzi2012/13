@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "Base_fui,Base@atlas0_png,Activity_fui,AddRoom_fui,AddRoom@atlas0_png,BuyCard_fui,CreateRoom_fui,Kefu_fui,Mail_fui,MainUI_fui,Notice_fui,Rank_fui,ZhanJi_fui,ZhanJi@atlas0_png,Notice@atlas0_png,MainUI@atlas0_png,Mail@atlas0_png,Kefu@atlas0_png,CreateRoom@atlas0_png,BuyCard@atlas0_png,Activity@atlas0_png,Setting_fui,Setting@atlas0_png,ShuoMing_fui,ShuoMing@atlas0_png,Game_fui,Game@atlas0_png,Bg1_fui,Bg1@atlas0_jpg,Bg2_fui,Bg3_fui,Bg3@atlas0_jpg,PutPorkBg_fui,PutPorkBg@atlas0_png,Result_fui,Result@atlas0_png,GameHelper_fui,Rank@atlas0_png,MainBg_fui,MainBg@atlas0_png,Bg4_fui,Bg4@atlas0_jpg,music_bg_game_mp3,music_bg_home_mp3,over_mp3,showCard_mp3,start_mp3,win_mp3,deal_mp3,sg_common0_mp3,sg_common1_mp3,sg_common2_mp3,sg_common3_mp3,sg_common4_mp3,sg_common5_mp3,sg_common6_mp3,sg_common7_mp3,sg_common8_mp3,TestPork_fui,Bg2@atlas0_png,Charge@atlas0_png,Charge_fui,sg_Man_Chat_6_mp3,sg_Man_Chat_5_mp3,sg_Man_Chat_4_mp3,sg_Man_Chat_3_mp3,sg_Man_Chat_2_mp3,sg_Man_Chat_1_mp3",
+			"keys": "Base_fui,Base@atlas0_png,Activity_fui,AddRoom_fui,AddRoom@atlas0_png,BuyCard_fui,CreateRoom_fui,Kefu_fui,Mail_fui,MainUI_fui,Notice_fui,Rank_fui,ZhanJi_fui,ZhanJi@atlas0_png,Notice@atlas0_png,MainUI@atlas0_png,Mail@atlas0_png,Kefu@atlas0_png,CreateRoom@atlas0_png,BuyCard@atlas0_png,Activity@atlas0_png,Setting_fui,Setting@atlas0_png,ShuoMing_fui,ShuoMing@atlas0_png,Game_fui,Game@atlas0_png,Bg1_fui,Bg1@atlas0_jpg,Bg2_fui,Bg3_fui,Bg3@atlas0_jpg,PutPorkBg_fui,PutPorkBg@atlas0_png,Result_fui,Result@atlas0_png,GameHelper_fui,Rank@atlas0_png,MainBg_fui,MainBg@atlas0_png,Bg4_fui,Bg4@atlas0_jpg,music_bg_game_mp3,music_bg_home_mp3,over_mp3,showCard_mp3,start_mp3,win_mp3,deal_mp3,sg_common0_mp3,sg_common1_mp3,sg_common2_mp3,sg_common3_mp3,sg_common4_mp3,sg_common5_mp3,sg_common6_mp3,sg_common7_mp3,sg_common8_mp3,TestPork_fui,Bg2@atlas0_png,Charge@atlas0_png,Charge_fui,sg_Man_Chat_6_mp3,sg_Man_Chat_5_mp3,sg_Man_Chat_4_mp3,sg_Man_Chat_3_mp3,sg_Man_Chat_2_mp3,sg_Man_Chat_1_mp3,dalei_mp3,ddq_mp3",
 			"name": "game"
 		},
 		{
@@ -390,9 +390,24 @@
 			"name": "sg_Man_Chat_6_mp3"
 		},
 		{
-			"name": "kefuconfig_json",
+			"url": "config/kefuconfig.json",
 			"type": "json",
-			"url": "config/kefuconfig.json"
+			"name": "kefuconfig_json"
+		},
+		{
+			"url": "assets/sound/dalei.mp3",
+			"type": "sound",
+			"name": "dalei_mp3"
+		},
+		{
+			"url": "assets/sound/ddq.mp3",
+			"type": "sound",
+			"name": "ddq_mp3"
+		},
+		{
+			"url": "assets/ui/Game.zip",
+			"type": "bin",
+			"name": "Game_zip"
 		}
 	]
 }

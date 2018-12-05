@@ -389,7 +389,7 @@ var game;
                                     }
                                 }
                             }
-                            return [4 /*yield*/, this.sleep(1200)];
+                            return [4 /*yield*/, this.sleep(2000)];
                         case 3:
                             _a.sent();
                             _a.label = 4;
@@ -496,6 +496,7 @@ var game;
                             if (!(i < bipai.length)) return [3 /*break*/, 30];
                             if (!(bipai[i].ql > 0)) return [3 /*break*/, 29];
                             this.mContent.m_qld.visible = true;
+                            App.SoundUtils.playSound("dalei_mp3", 0, 1);
                             this.mContent.m_t3.play(this.qldComplete, this);
                             if (game.GameModel.ins.roomModel.rinfo.zz == 1) {
                                 this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
@@ -571,6 +572,7 @@ var game;
             this.mContent.m_qld.visible = false;
         };
         Game.prototype.daQiang = function (from, to) {
+            App.SoundUtils.playSound("ddq_mp3", 0, 1);
             this.qiang = UI.Game.UI_DaQiang.createInstance();
             this.qiangContent.addChild(this.qiang);
             this.qiang.x = from.x;

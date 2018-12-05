@@ -6,6 +6,7 @@ import { UglifyPlugin, IncrementCompilePlugin, CompilePlugin, ManifestPlugin, Ex
 import { WxgamePlugin } from './wxgame/wxgame';
 import { BricksPlugin } from './bricks/bricks';
 import { CustomPlugin } from './myplugin';
+import { ResPlugin } from './resPlugin';
 
 const config: ResourceManagerConfig = {
 
@@ -47,6 +48,7 @@ const config: ResourceManagerConfig = {
                             { from: "**/*.js", to: "[path][name]_[hash].[ext]" }
                         ]
                     }),
+                    new ResPlugin(),
                     new ManifestPlugin({ output: "manifest.json" })
                 ]
             }
@@ -77,7 +79,8 @@ const config: ResourceManagerConfig = {
             "mp3": "sound",
             "zip": "zip",
             "sheet": "sheet",
-            "exml": "text"
+            "exml": "text",
+            "fui":"ba"
         }
         let type = typeMap[ext];
         if (type == "json") {

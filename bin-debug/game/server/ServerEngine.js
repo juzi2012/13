@@ -227,7 +227,6 @@ var game;
             var heart = new C2T_Heart();
             heart.Aid = 1;
             App.Socket.send(heart);
-            console.log("heart");
         };
         return ServerEngine;
     }());

@@ -61,20 +61,33 @@ var ws;
             this.mainSocket.connect(this._host, this._port);
             Log.trace("WebSocket connecting: " + this._host + ":" + this._port);
             this._connectCount = 0;
-            this._setTimeoutIndex = setInterval(this.reconnect(this), 3000);
+            App.TimerManager.doTimer(3000, 5, this.reconnect, this, this.reConnectFailedCplHandle, this);
+            // this._setTimeoutIndex = setInterval(this.reconnect, 3000);
         };
-        ServerSocket.prototype.reconnect = function (caller) {
-            caller._connectCount++;
-            if (caller._connectCount <= 5) {
-                console.error("websocket连接 --> " + caller._connectCount + " 次！");
-                this.mainSocket.connect(caller.host, caller.port);
+        ServerSocket.prototype.reconnect = function () {
+            if (this.connected == true) {
+                console.log("已经连接了");
+                return;
             }
-            else {
-                console.error("服务器连接失败！ --> " + caller._host + ":" + caller._port);
-                if (caller._setTimeoutIndex)
-                    clearInterval(caller._setTimeoutIndex);
-                caller.dispatchEvent(new ws.WebSocketEvent(ws.WebSocketEvent.CONNECT_ERR));
-            }
+            this.mainSocket.connect(this._host, this._port);
+            // this._connectCount++;
+            // if(this._connectCount <= 5)
+            // {
+            // 	console.error("websocket连接 --> " + this._connectCount + " 次！")
+            // 	this.mainSocket.connect(this._host, this._port);
+            // }
+            // else
+            // {
+            // 	console.error("服务器连接失败！ --> " + this._host + ":" + this._port);
+            // 	App.TimerManager.remove(this.reconnect,this);
+            // 	game.AlertUtil.alert("服务器连接断开，请刷新游戏!");
+            // }
+        };
+        ServerSocket.prototype.reConnectFailedCplHandle = function () {
+            game.AlertUtil.alert("服务器连接断开，请刷新游戏!", core.Handler.create(this, this.showRefresh));
+        };
+        ServerSocket.prototype.showRefresh = function () {
+            refreshPage();
         };
         /**
          * socket连接成功
@@ -82,8 +95,7 @@ var ws;
         ServerSocket.prototype.onSocketConnected = function () {
             this.mainSocket.removeEventListener(egret.Event.CONNECT, this.onSocketConnected, this);
             this.addListeners();
-            if (this._setTimeoutIndex)
-                clearInterval(this._setTimeoutIndex);
+            App.TimerManager.remove(this.reconnect, this);
             console.log(this._host + ":" + this._port + " 服务器连接上了");
             this.connected = true;
             this._connectSuccessHandle.run();
@@ -179,8 +191,11 @@ var ws;
         };
         ServerSocket.prototype.onSocketClose = function () {
             console.log("websocket --> 断开连接了！");
-            // game.AlertUtil.alert("服务器断开连接，请重新打开游戏")
             this.connected = false;
+            this.reConnectFailedCplHandle();
+            // if(App.TimerManager.isExists(this.reconnect,this)==false){
+            // 	App.TimerManager.doTimer(3000,5,this.reconnect,this,this.reConnectFailedCplHandle,this);
+            // }
         };
         ServerSocket.prototype.onSocketError = function () {
             console.error("websocket --> 连接错误了！");
@@ -195,7 +210,12 @@ var ws;
          *
          */
         ServerSocket.prototype.send = function (msg) {
-            this._msg.send(this.mainSocket, msg);
+            if (this.connected) {
+                this._msg.send(this.mainSocket, msg);
+            }
+            else {
+                this.reConnectFailedCplHandle();
+            }
         };
         return ServerSocket;
     }(core.BaseClass));

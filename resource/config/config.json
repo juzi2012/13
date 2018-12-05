@@ -1,5 +1,5 @@
 {
-    "IsDebug":0,
+    "IsDebug":2,
     "SocketServerDebug":"121.40.23.6",
     "SocketPortDebug":"40013",
     "HttpSerever":"https://alpha-api.fpwan.com/Game/UserMoney",

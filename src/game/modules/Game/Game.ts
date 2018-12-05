@@ -360,7 +360,7 @@ module game {
 						}
 					}
 				}
-				await this.sleep(1200);
+				await this.sleep(2000);
 			}
 			await this.sleep(1000);
 			
@@ -426,6 +426,7 @@ module game {
 			for(let i:number=0;i<bipai.length;i++){
 				if(bipai[i].ql>0){
 					this.mContent.m_qld.visible=true;
+					App.SoundUtils.playSound("dalei_mp3",0,1);
 					this.mContent.m_t3.play(this.qldComplete,this);
 					if(GameModel.ins.roomModel.rinfo.zz==1){
 						this.getPlayerById(bipai[i].qlTar.uid).pokers.UpDateULD(bipai[i]);
@@ -493,6 +494,7 @@ module game {
 		}
 		private daQiang(from:PlayerHead,to:PlayerHead):void
 		{
+			App.SoundUtils.playSound("ddq_mp3",0,1);
 			this.qiang = UI.Game.UI_DaQiang.createInstance() ;
 			this.qiangContent.addChild(this.qiang)
 			this.qiang.x = from.x;

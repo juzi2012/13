@@ -35,8 +35,8 @@ module ws {
                 socket.writeUTF(obj);
                 socket.flush();
             }else{
-                console.log("socket 未连接");
-                game.AlertUtil.floatMsg("网络连接已经断开，请刷新重新进入游戏")
+                console.log("网络连接已经断开，请刷新重新进入游戏");
+                // game.AlertUtil.floatMsg("网络连接已经断开，请刷新重新进入游戏")
             }
         }
 
