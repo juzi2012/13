@@ -11,6 +11,7 @@ var UI;
             }
             CreateRoomBinder.bindAll = function () {
                 fairygui.UIObjectFactory.setPackageItemExtension(CreateRoom.UI_ButtonCreate.URL, CreateRoom.UI_ButtonCreate);
+                fairygui.UIObjectFactory.setPackageItemExtension(CreateRoom.UI_GameShuoMing.URL, CreateRoom.UI_GameShuoMing);
                 fairygui.UIObjectFactory.setPackageItemExtension(CreateRoom.UI_CreateRoom.URL, CreateRoom.UI_CreateRoom);
             };
             return CreateRoomBinder;

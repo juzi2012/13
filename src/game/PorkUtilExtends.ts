@@ -211,14 +211,20 @@ module game {
 			}).sort(function (n1, n2) {
 				return n1 - n2;
 			});
-			for(var i=0;i<number.length-1;i++) {
+			let total:number=0;
+			for(var i=0;i<number.length;i++) {
 				if(number[i] != number[i+1] - 1){
 					if(gAry.length>0){
 						gAry.pop();
 					}else{
 						return null;
 					}
+				}else{
+					total+=1;
 				}
+			}
+			if(total<13){
+				return null
 			}
 			return cards;
 		};
@@ -786,85 +792,135 @@ module game {
 		//分组553||535||355
 		public static fenzu(pointAry:Array<PorkVO>,num1:number,num2:number):Array<PorkVO>
 		{
+			pointAry = pointAry.concat([]);
 			let result:Array<PorkVO> = [];
 			let arr1:Array<PorkVO> = [];
 			let arr2:Array<PorkVO> = [];
 			let arr3:Array<PorkVO> = [];
-			for(let i:number=0;i<pointAry.length-1;i++){
+			let gAry:Array<PorkVO> = PorkUtil.filtGuiPai(pointAry);
+			let pointAryTemp = this.getRestCard(gAry,pointAry);
+			pointAry = this.filterSamePoint(pointAryTemp);
+			let step1=1;
+			for(let i:number=0;i<pointAry.length;i++){
 				if(i == 0){
 					arr1.push(pointAry[0]);
+				}else{
+					// if(pointAry[i+1].point - pointAry[i].point == 0){
+					// 	continue;
+					// }
+					if(pointAry[i].point==pointAry[i-1].point+step1){
+						arr1.push(pointAry[i]);
+						step1=1;
+					}else{
+						if(gAry.length>0){
+							step1+=1;
+							i-=1;
+							arr1.push(gAry.pop());
+						}else{
+							continue;
+						}
+					}
 				}
-				if(pointAry[i+1].point - pointAry[i].point == 0){
-					continue;
-				}
-				arr1.push(pointAry[i+1]);
+				
 				if(arr1.length == num1){
 					//取第一组是顺子
-					if(PorkUtil.isShunZi(arr1,num1)){
+					// if(PorkUtil.isShunZi(arr1,num1)){
 						//这5个是顺子,从数组中移除
 						for(let i:number=0;i<arr1.length;i++){
-							for(let j:number=0;j<pointAry.length;j++){
-								if(pointAry[j] == arr1[i]){
+							for(let j:number=0;j<pointAryTemp.length;j++){
+								if(pointAryTemp[j] == arr1[i]){
 									//两个数一样的只删除一个
-									if(pointAry[j] == pointAry[j+1]){
+									if(pointAryTemp[j] == pointAryTemp[j+1]){
 										continue;
 									}
-									pointAry.splice(j,1);    //从number中移除
+									pointAryTemp.splice(j,1);    //从number中移除
 								}
 							}
 						}
 						console.log("删除第一组后的number");
-						console.log(pointAry);
+						pointAry = this.filterSamePoint(pointAryTemp);
 						//接下来取第二组
-						for(let i:number=0;i<pointAry.length-1;i++){
+						let step2 = 1;
+						for(let i:number=0;i<pointAry.length;i++){
 							if(i == 0){
 								arr2.push(pointAry[0]);
+							}else{
+								// if(pointAry[i+1].point - pointAry[i].point == 0){
+								// 	continue;
+								// }
+								if(pointAry[i].point==pointAry[i-1].point+step2){
+									arr2.push(pointAry[i]);
+									step2=1;
+								}else{
+									if(gAry.length>0){
+										step2 +=1;
+										i-=1;
+										arr2.push(gAry.pop());
+									}else{
+										continue;
+									}
+								}
 							}
-							if(pointAry[i+1].point - pointAry[i].point == 0){
-								continue;
-							}
-							arr2.push(pointAry[i+1]);
 							if(arr2.length == num2) {
 								//取第二组是顺子
-								if (PorkUtil.isShunZi(arr2,num2)) {
+								// if (PorkUtil.isShunZi(arr2,num2)) {
 									for(let i:number=0;i<arr2.length;i++){
-										for(let j:number=0;j<pointAry.length;j++){
-											if(pointAry[j] == arr2[i]){
+										for(let j:number=0;j<pointAryTemp.length;j++){
+											if(pointAryTemp[j] == arr2[i]){
 												//两个数一样的只删除一个
-												if(pointAry[j] == pointAry[j+1]){
+												if(pointAryTemp[j] == pointAryTemp[j+1]){
 													continue;
 												}
-												pointAry.splice(j,1);    //从number中移除
+												pointAryTemp.splice(j,1);    //从number中移除
 											}
 										}
 									}
 									console.log("删除第二组后的number");
-									console.log(pointAry);
-									arr3 = pointAry;
-									//接下来就是剩下的了
-									if(PorkUtil.isShunZi(arr3,13-num1-num2)){
-										//第三组也是顺子
-										let ar:Array<any>= [arr1,arr2,arr3];
-										ar.sort((a,b)=>{
-											return a.length-b.length;
-										});
-										for(let a:number=0;a<ar.length;a++){
-											for(let b:number=0;b<ar[a].length;b++){
-												result.push(ar[a][b]);
+									let step3:number=1;
+									pointAry = this.filterSamePoint(pointAryTemp);
+									//接下来取第三组
+									for(let a:number=0;a<pointAry.length;a++){
+										if(a == 0){
+											arr3.push(pointAry[0]);
+										}else{
+											// if(pointAry[i+1].point - pointAry[i].point == 0){
+											// 	continue;
+											// }
+											if(pointAry[a].point==pointAry[a-1].point+step3){
+												arr3.push(pointAry[a]);
+												step3=1;
+											}else{
+												if(gAry.length>0){
+													step3+=1;
+													a-=1;
+													arr3.push(gAry.pop());
+												}else{
+													continue;
+												}
 											}
 										}
-										return result;
-									}
-									//第三组不是顺子
-									return null;
+										if(arr3.length == 13-num1-num2) {
+											let ar:Array<any>= [arr1,arr2,arr3];
+											ar.sort((a,b)=>{
+												return a.length-b.length;
+											});
+											for(let a:number=0;a<ar.length;a++){
+												for(let b:number=0;b<ar[a].length;b++){
+													result.push(ar[a][b]);
+												}
+											}
+											return result;
+										}
 								}
-								//第二组不是顺子
-								return null;
-							}
+								//第三组不是顺子
+								// return null;
+							// }
 						}
+						//第二组不是顺子
+						// return null;
 					}
 					//第一组不是顺子
-					return null;
+					// return null;
 				}
 			}
 			//如果取不到num1个数
@@ -874,6 +930,7 @@ module game {
 			if(arr2.length < num2){
 				return null;
 			}
+			return null;
 		}
 		//判断5张或者3张是否顺子
 		public static isShunZi1 = function(arr){
@@ -1122,6 +1179,17 @@ module game {
 			}else{
 				return false;
 			}
+		}
+		///过滤到相同点数的牌
+		private static filterSamePoint(arr:Array<PorkVO>):Array<PorkVO>
+		{
+			let result:Array<PorkVO> = new Array<PorkVO>();
+			for(let i:number=0;i<arr.length;i++){
+				if(this.checkHasSameNum(arr[i].point,result,0)==false){
+					result.push(arr[i]);
+				}
+			}
+			return result;
 		}
 	}
 	export class CardPointsHelper{

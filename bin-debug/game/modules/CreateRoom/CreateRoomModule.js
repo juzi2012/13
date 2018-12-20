@@ -40,7 +40,7 @@ var game;
             this.mContent.m_btn_type2.addClickListener(this.tabChange, this);
             this.mContent.m_btn_type3.addClickListener(this.tabChange, this);
             this.mContent.m_btn_type4.addClickListener(this.tabChange, this);
-            // this.mContent.m_btn_type5.addClickListener(this.tabChange,this);
+            this.mContent.m_btn_type5.addClickListener(this.tabChange, this);
             this.mContent.m_check_5.addClickListener(this.checkJiayiSe, this);
             this.mContent.m_check_4.addClickListener(this.checkJiayiSe, this);
             this.mContent.m_check_3.addClickListener(this.checkJiayiSe, this);
@@ -59,6 +59,7 @@ var game;
             this.mContent.m_btn_junum0.addClickListener(this.countCard, this);
             this.mContent.m_btn_junum1.addClickListener(this.countCard, this);
             this.mContent.m_btn_junum2.addClickListener(this.countCard, this);
+            this.mContent.m_btn_shuoming.addClickListener(this.showShuoMing, this);
             this.countCard();
             _super.prototype.preShow.call(this, data);
         };
@@ -139,6 +140,7 @@ var game;
                     this.maxHuaSe = 0;
                     this.mContent.m_jiama.visible = true;
                     this.mContent.m_jiayise.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = false;
                     break;
                 case 1:
                     this.type = 3;
@@ -151,6 +153,7 @@ var game;
                     this.maxHuaSe = 1;
                     this.mContent.m_jiama.visible = true;
                     this.mContent.m_jiayise.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = false;
                     break;
                 case 2:
                     this.type = 4;
@@ -176,6 +179,7 @@ var game;
                     this.maxHuaSe = 2;
                     this.mContent.m_jiama.visible = true;
                     this.mContent.m_jiayise.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = false;
                     break;
                 case 4:
                     this.type = 6;
@@ -188,17 +192,20 @@ var game;
                     this.maxHuaSe = 1;
                     this.mContent.m_jiama.visible = false;
                     this.mContent.m_jiayise.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = false;
                     break;
                 case 5:
-                    this.type = 1;
+                    this.type = 7;
                     this.mContent.m_payCtrl.selectedIndex = 1;
                     this.mContent.m_JuShuCtrl.selectedIndex = 0;
                     this.mContent.m_NumCtrl.selectedIndex = 2;
                     this.mContent.m_NumCtrl1.selectedIndex = 0;
                     this.mContent.m_checkbox_zhuang.selected = false;
-                    this.mContent.m_jiama.visible = false;
+                    this.mContent.m_checkbox_mapai.selected = false;
                     this.maxHuaSe = 0;
+                    this.mContent.m_jiama.visible = false;
                     this.mContent.m_jiayise.visible = false;
+                    this.mContent.m_checkbox_jiayise.selected = false;
                     break;
             }
             for (var i = 1; i < 5; i++) {
@@ -285,7 +292,7 @@ var game;
         CreateRoomModule.prototype.onCreateHandle = function () {
             var arr = this.getRoomInfo();
             // ServerEngine.createRoom(ty,pn,jn,zz,jm,fc,core.Handler.create(this,this.createRoomCallBack));
-            game.ServerEngine.createRoom(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], core.Handler.create(this, this.createRoomCallBack));
+            game.ServerEngine.createRoom(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], core.Handler.create(this, this.createRoomCallBack));
         };
         CreateRoomModule.prototype.getRoomInfo = function () {
             // ty:2(玩法id),
@@ -302,6 +309,8 @@ var game;
             var fc = 1;
             // jp:加花色 int数组，不加花色留空) }花色对应值:0:方块 1:梅花2：红桃 3:黑桃
             var jp = [];
+            //th 1 先比大小，2 先比花色
+            var th = 0;
             fc = this.mContent.m_payCtrl.selectedIndex == 0 ? 2 : 1;
             zz = this.mContent.m_checkbox_zhuang.selected ? 1 : 0;
             jm = this.mContent.m_checkbox_mapai.selected ? 1 : 0;
@@ -357,7 +366,16 @@ var game;
             if (this.mContent.m_typeCtrl.selectedIndex == 3 && jp.length == 1) {
                 jp.push(jp[0]);
             }
-            return [ty, pn, jn, zz, jm, fc, jp];
+            if (this.mContent.m_typeCtrl.selectedIndex == 5) {
+                ty = 7;
+            }
+            if (this.mContent.m_tonghuaType.selectedIndex == 0) {
+                th = 1;
+            }
+            else {
+                th = 2;
+            }
+            return [ty, pn, jn, zz, jm, fc, jp, th];
         };
         CreateRoomModule.prototype.createRoomCallBack = function (msg) {
             App.Socket.removeCmdListener(MsgType.CreateRoom, this.createRoomCallBack);
@@ -369,6 +387,9 @@ var game;
                 App.MessageCenter.removeListener(game.MsgEnum.NEW_UESR_IN, this.enterRoomCallBack, this);
                 ModuleMgr.ins.changeScene(ModuleEnum.GAME_MAIN, ModuleEnum.GAME);
             }
+        };
+        CreateRoomModule.prototype.showShuoMing = function () {
+            ModuleMgr.ins.showModule(ModuleEnum.ModelShuoMing, this.mContent.m_typeCtrl.selectedIndex);
         };
         return CreateRoomModule;
     }(PopModuleView));

@@ -103,6 +103,9 @@ module game {
 				case 6:
 				this.mContent.m_txt_roomtype.text = "纯一色十三水";
 				break;
+				case 7:
+				this.mContent.m_txt_roomtype.text = "摆十三张";
+				break;
 			}
 			this.mContent.m_txt_jushu.text = "局数:"+GameModel.ins.roomModel.rinfo.nnum.toString()+"/"+GameModel.ins.roomModel.rinfo.snum.toString()+" "+GameModel.ins.roomModel.rinfo.pn.toString()+"人";
 

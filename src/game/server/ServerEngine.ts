@@ -42,7 +42,7 @@ module game {
 			
 			App.MessageCenter.dispatch(MsgEnum.UPDATE_MYINFO,msg);
 		}
-		public static createRoom(ty:number,pn:number,jn:number,zz:number,jm:number,fc:number,jp:Array<number>,handle:core.Handler):void
+		public static createRoom(ty:number,pn:number,jn:number,zz:number,jm:number,fc:number,jp:Array<number>,th:number,handle:core.Handler):void
 		{
 			App.Socket.addCmdListener(MsgType.CreateRoom,handle)
 			let createRoomMsg:C2T_Msg = new C2T_Msg();
@@ -55,6 +55,7 @@ module game {
 			msg.jm = jm;
 			msg.fc = fc;
 			msg.jp = jp;
+			msg.th = th;
 			createRoomMsg.Msg = msg;
 			App.Socket.send(createRoomMsg);
 		}

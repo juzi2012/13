@@ -157,6 +157,11 @@ var game;
             // ModuleMgr.ins.closeModule(ModuleEnum.LOADING);
             ModuleMgr.ins.showModule(ModuleEnum.FLOAT);
             // ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
+            // let roomModel = new RoomModel();
+            // roomModel.rinfo = new RoomInfo();
+            // roomModel.rinfo.rp=1;
+            // roomModel.rinfo.rp==7;
+            // GameModel.ins.roomModel = roomModel;
             console.log("-----shareRoomId" + game.OptModel.ins.shareRoomId);
             console.log("-----shareRePlayRoomId" + game.OptModel.ins.shareRePlayRoomId);
             if (game.GameModel.ins.roomModel != null && game.GameModel.ins.roomModel.isReConnectInRoom) {

@@ -138,6 +138,9 @@ var game;
                 case 6:
                     this.mContent.m_txt_roomtype.text = "纯一色十三水";
                     break;
+                case 7:
+                    this.mContent.m_txt_roomtype.text = "摆十三张";
+                    break;
             }
             this.mContent.m_txt_jushu.text = "局数:" + game.GameModel.ins.roomModel.rinfo.nnum.toString() + "/" + game.GameModel.ins.roomModel.rinfo.snum.toString() + " " + game.GameModel.ins.roomModel.rinfo.pn.toString() + "人";
             //如果是断线重连进来的，则会判断是否是已经开局

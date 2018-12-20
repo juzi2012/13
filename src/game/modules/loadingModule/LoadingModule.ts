@@ -157,6 +157,12 @@ module game {
 			
 			
 			// ModuleMgr.ins.showModule(ModuleEnum.TESTPORK);
+			// let roomModel = new RoomModel();
+			// roomModel.rinfo = new RoomInfo();
+			// roomModel.rinfo.rp=1;
+			// roomModel.rinfo.rp==7;
+			// GameModel.ins.roomModel = roomModel;
+
 			console.log("-----shareRoomId"+OptModel.ins.shareRoomId)
 			console.log("-----shareRePlayRoomId"+OptModel.ins.shareRePlayRoomId)
 			if(GameModel.ins.roomModel!=null&&GameModel.ins.roomModel.isReConnectInRoom){

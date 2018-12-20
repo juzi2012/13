@@ -202,7 +202,8 @@ var game;
             }).sort(function (n1, n2) {
                 return n1 - n2;
             });
-            for (var i = 0; i < number.length - 1; i++) {
+            var total = 0;
+            for (var i = 0; i < number.length; i++) {
                 if (number[i] != number[i + 1] - 1) {
                     if (gAry.length > 0) {
                         gAry.pop();
@@ -211,6 +212,12 @@ var game;
                         return null;
                     }
                 }
+                else {
+                    total += 1;
+                }
+            }
+            if (total < 13) {
+                return null;
             }
             return cards;
         };
@@ -696,85 +703,143 @@ var game;
         ;
         //分组553||535||355
         PorkUtilExtends.fenzu = function (pointAry, num1, num2) {
+            pointAry = pointAry.concat([]);
             var result = [];
             var arr1 = [];
             var arr2 = [];
             var arr3 = [];
-            for (var i = 0; i < pointAry.length - 1; i++) {
+            var gAry = game.PorkUtil.filtGuiPai(pointAry);
+            var pointAryTemp = this.getRestCard(gAry, pointAry);
+            pointAry = this.filterSamePoint(pointAryTemp);
+            var step1 = 1;
+            for (var i = 0; i < pointAry.length; i++) {
                 if (i == 0) {
                     arr1.push(pointAry[0]);
                 }
-                if (pointAry[i + 1].point - pointAry[i].point == 0) {
-                    continue;
+                else {
+                    // if(pointAry[i+1].point - pointAry[i].point == 0){
+                    // 	continue;
+                    // }
+                    if (pointAry[i].point == pointAry[i - 1].point + step1) {
+                        arr1.push(pointAry[i]);
+                        step1 = 1;
+                    }
+                    else {
+                        if (gAry.length > 0) {
+                            step1 += 1;
+                            i -= 1;
+                            arr1.push(gAry.pop());
+                        }
+                        else {
+                            continue;
+                        }
+                    }
                 }
-                arr1.push(pointAry[i + 1]);
                 if (arr1.length == num1) {
                     //取第一组是顺子
-                    if (game.PorkUtil.isShunZi(arr1, num1)) {
-                        //这5个是顺子,从数组中移除
-                        for (var i_1 = 0; i_1 < arr1.length; i_1++) {
-                            for (var j = 0; j < pointAry.length; j++) {
-                                if (pointAry[j] == arr1[i_1]) {
-                                    //两个数一样的只删除一个
-                                    if (pointAry[j] == pointAry[j + 1]) {
-                                        continue;
-                                    }
-                                    pointAry.splice(j, 1); //从number中移除
+                    // if(PorkUtil.isShunZi(arr1,num1)){
+                    //这5个是顺子,从数组中移除
+                    for (var i_1 = 0; i_1 < arr1.length; i_1++) {
+                        for (var j = 0; j < pointAryTemp.length; j++) {
+                            if (pointAryTemp[j] == arr1[i_1]) {
+                                //两个数一样的只删除一个
+                                if (pointAryTemp[j] == pointAryTemp[j + 1]) {
+                                    continue;
                                 }
-                            }
-                        }
-                        console.log("删除第一组后的number");
-                        console.log(pointAry);
-                        //接下来取第二组
-                        for (var i_2 = 0; i_2 < pointAry.length - 1; i_2++) {
-                            if (i_2 == 0) {
-                                arr2.push(pointAry[0]);
-                            }
-                            if (pointAry[i_2 + 1].point - pointAry[i_2].point == 0) {
-                                continue;
-                            }
-                            arr2.push(pointAry[i_2 + 1]);
-                            if (arr2.length == num2) {
-                                //取第二组是顺子
-                                if (game.PorkUtil.isShunZi(arr2, num2)) {
-                                    for (var i_3 = 0; i_3 < arr2.length; i_3++) {
-                                        for (var j = 0; j < pointAry.length; j++) {
-                                            if (pointAry[j] == arr2[i_3]) {
-                                                //两个数一样的只删除一个
-                                                if (pointAry[j] == pointAry[j + 1]) {
-                                                    continue;
-                                                }
-                                                pointAry.splice(j, 1); //从number中移除
-                                            }
-                                        }
-                                    }
-                                    console.log("删除第二组后的number");
-                                    console.log(pointAry);
-                                    arr3 = pointAry;
-                                    //接下来就是剩下的了
-                                    if (game.PorkUtil.isShunZi(arr3, 13 - num1 - num2)) {
-                                        //第三组也是顺子
-                                        var ar = [arr1, arr2, arr3];
-                                        ar.sort(function (a, b) {
-                                            return a.length - b.length;
-                                        });
-                                        for (var a = 0; a < ar.length; a++) {
-                                            for (var b = 0; b < ar[a].length; b++) {
-                                                result.push(ar[a][b]);
-                                            }
-                                        }
-                                        return result;
-                                    }
-                                    //第三组不是顺子
-                                    return null;
-                                }
-                                //第二组不是顺子
-                                return null;
+                                pointAryTemp.splice(j, 1); //从number中移除
                             }
                         }
                     }
+                    console.log("删除第一组后的number");
+                    pointAry = this.filterSamePoint(pointAryTemp);
+                    //接下来取第二组
+                    var step2 = 1;
+                    for (var i_2 = 0; i_2 < pointAry.length; i_2++) {
+                        if (i_2 == 0) {
+                            arr2.push(pointAry[0]);
+                        }
+                        else {
+                            // if(pointAry[i+1].point - pointAry[i].point == 0){
+                            // 	continue;
+                            // }
+                            if (pointAry[i_2].point == pointAry[i_2 - 1].point + step2) {
+                                arr2.push(pointAry[i_2]);
+                                step2 = 1;
+                            }
+                            else {
+                                if (gAry.length > 0) {
+                                    step2 += 1;
+                                    i_2 -= 1;
+                                    arr2.push(gAry.pop());
+                                }
+                                else {
+                                    continue;
+                                }
+                            }
+                        }
+                        if (arr2.length == num2) {
+                            //取第二组是顺子
+                            // if (PorkUtil.isShunZi(arr2,num2)) {
+                            for (var i_3 = 0; i_3 < arr2.length; i_3++) {
+                                for (var j = 0; j < pointAryTemp.length; j++) {
+                                    if (pointAryTemp[j] == arr2[i_3]) {
+                                        //两个数一样的只删除一个
+                                        if (pointAryTemp[j] == pointAryTemp[j + 1]) {
+                                            continue;
+                                        }
+                                        pointAryTemp.splice(j, 1); //从number中移除
+                                    }
+                                }
+                            }
+                            console.log("删除第二组后的number");
+                            var step3 = 1;
+                            pointAry = this.filterSamePoint(pointAryTemp);
+                            //接下来取第三组
+                            for (var a = 0; a < pointAry.length; a++) {
+                                if (a == 0) {
+                                    arr3.push(pointAry[0]);
+                                }
+                                else {
+                                    // if(pointAry[i+1].point - pointAry[i].point == 0){
+                                    // 	continue;
+                                    // }
+                                    if (pointAry[a].point == pointAry[a - 1].point + step3) {
+                                        arr3.push(pointAry[a]);
+                                        step3 = 1;
+                                    }
+                                    else {
+                                        if (gAry.length > 0) {
+                                            step3 += 1;
+                                            a -= 1;
+                                            arr3.push(gAry.pop());
+                                        }
+                                        else {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                if (arr3.length == 13 - num1 - num2) {
+                                    var ar = [arr1, arr2, arr3];
+                                    ar.sort(function (a, b) {
+                                        return a.length - b.length;
+                                    });
+                                    for (var a_1 = 0; a_1 < ar.length; a_1++) {
+                                        for (var b = 0; b < ar[a_1].length; b++) {
+                                            result.push(ar[a_1][b]);
+                                        }
+                                    }
+                                    return result;
+                                }
+                            }
+                            //第三组不是顺子
+                            // return null;
+                            // }
+                        }
+                        //第二组不是顺子
+                        // return null;
+                    }
                     //第一组不是顺子
-                    return null;
+                    // return null;
                 }
             }
             //如果取不到num1个数
@@ -784,6 +849,7 @@ var game;
             if (arr2.length < num2) {
                 return null;
             }
+            return null;
         };
         // 判断是否包含铁支
         // 四张同样点数的牌
@@ -1026,6 +1092,16 @@ var game;
             else {
                 return false;
             }
+        };
+        ///过滤到相同点数的牌
+        PorkUtilExtends.filterSamePoint = function (arr) {
+            var result = new Array();
+            for (var i = 0; i < arr.length; i++) {
+                if (this.checkHasSameNum(arr[i].point, result, 0) == false) {
+                    result.push(arr[i]);
+                }
+            }
+            return result;
         };
         // 三顺子
         /*public static getSanShunZi(_cards:Array<PorkVO>):Array<PorkVO>

@@ -82,6 +82,11 @@ module game {
 			// }
 			return 0;
 		}
+
+		public static isNewType():boolean{
+			return GameModel.ins.roomModel.rinfo.rp==7;
+			// return true;
+		}
 		/**
 		 * 是否包含对子
 		 */
@@ -990,7 +995,7 @@ module game {
 				this.SortCard(nowArr);
 				this.SortCard(otherArr);
 				if(paixing1==1){
-					return this.checkWulong(nowArr,otherArr);
+					return this.checkWulong(nowArr,otherArr,true)==1;
 				}else if(paixing1==2){
 					return this.checkDuizi(nowArr,otherArr);
 				}else if(paixing1==3){
@@ -1036,7 +1041,12 @@ module game {
 			}else if(nowArr[0].point==otherArr[0].point){
 				return false;
 			}else{
-				return false;
+				if(this.isNewType()){
+					return this.CheckTypeBigger(nowArr,otherArr);
+				}else
+				{
+					return false;
+				}
 			}
 		}
 		public static checkTiezhi(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
@@ -1069,6 +1079,10 @@ module game {
 				return true;
 			}else if(now[0].point<other[0].point){
 				return false;
+			}else{
+				if(this.isNewType()){
+					return this.CheckTypeBigger(normalArr,normalArr1);
+				}
 			}
 			return false;
 		}
@@ -1090,20 +1104,60 @@ module game {
 				}else if(nowduizi[0][0].point<otherduizi[0][0].point){
 					return false;
 				}else{
-					return false;
+					if(this.isNewType()){
+						return this.CheckTypeBigger(nowArr,otherArr);
+					}else{
+						return false;
+					}
 				}
 			}
 			// return false;
 		}
 		public static checkTonghua(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
 		{
-			for(let i:number=0;i<nowArr.length;i++){
-				if(nowArr[i].point>otherArr[i].point){
-					return true
-				}else if(nowArr[i].point<otherArr[i].point){
-					return false;
+			if(this.isNewType()){
+				if(GameModel.ins.roomModel.rinfo.th==2){
+					if(nowArr[0].type>otherArr[0].type){
+						return true;
+					}else if(nowArr[0].type<otherArr[0].type){
+						return false;
+					}else{
+						for(let a:number=0;a<nowArr.length;a++){
+							if(nowArr[a].point>otherArr[a].point){
+								return true
+							}else if(nowArr[a].point<otherArr[a].point){
+								return false;
+							}else{
+								continue;
+							}
+						}
+					}
 				}else{
-					continue;
+					for(let b:number=0;b<nowArr.length;b++){
+						if(nowArr[b].point>otherArr[b].point){
+							return true
+						}else if(nowArr[b].point<otherArr[b].point){
+							return false;
+						}else{
+							if(nowArr[0].type>otherArr[0].type){
+								return true;
+							}else if(nowArr[0].type<otherArr[0].type){
+								return false;
+							}else{
+								continue;
+							}
+						}
+					}
+				}
+			}else{
+				for(let i:number=0;i<nowArr.length;i++){
+					if(nowArr[i].point>otherArr[i].point){
+						return true
+					}else if(nowArr[i].point<otherArr[i].point){
+						return false;
+					}else{
+						continue;
+					}
 				}
 			}
 			return false;
@@ -1120,8 +1174,8 @@ module game {
 			if(nowArr[0].point>otherArr[0].point){
 				return true;
 			}else if(nowArr[0].point==otherArr[0].point){
-				if(nowArr[0].type>=otherArr[0].type){
-					return true
+				if(this.isNewType()){
+					return this.CheckTypeBigger(nowArr,otherArr);
 				}else{
 					return false;
 				}
@@ -1137,7 +1191,17 @@ module game {
 			if(nowPt>otherPt){
 				return true;
 			}else if(nowPt==otherPt){
-				return this.checkWulong(PorkUtilExtends.getRestCard1(nowsantiao,nowArr),PorkUtilExtends.getRestCard1(othersantiao,otherArr));
+				let aa:number = this.checkWulong(PorkUtilExtends.getRestCard1(nowsantiao,nowArr),PorkUtilExtends.getRestCard1(othersantiao,otherArr),false);
+				if(this.isNewType()){
+					if(aa==0){
+						return this.CheckTypeBigger(nowArr,otherArr);
+					}else{
+						return aa==1;
+					}
+					
+				}else{
+					return aa==1;
+				}
 			}
 			return false;
 		}
@@ -1184,7 +1248,11 @@ module game {
 					}else if(w1<w2){
 						return false;
 					}else{
-						return true;
+						if(this.isNewType()){
+							return this.CheckTypeBigger(nowArr,otherArr);
+						}else{
+							return false;
+						}
 					}
 				}
 			}
@@ -1202,19 +1270,45 @@ module game {
 			}else if(nowDuiPoint<otherPoint){
 				return false;
 			}else{
-				return this.checkWulong(PorkUtilExtends.getRestCard1(nowDui,nowArr),PorkUtilExtends.getRestCard1(otherDui,otherArr));
+				let a:number = this.checkWulong(PorkUtilExtends.getRestCard1(nowDui,nowArr),PorkUtilExtends.getRestCard1(otherDui,otherArr),false);
+				if(this.isNewType()){
+					if(a==0){
+						return this.CheckTypeBigger(nowArr,otherArr);
+					}else{
+						return a==1;
+					}
+					
+				}else{
+					return a==1;
+				}
 			}
 			// return true;
 		}
-		public static checkWulong(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>):boolean
+		//后面新增的一个玩法，如果大小相同，则比较花色
+		public checkNew():void
+		{
+			
+		}
+		public static checkWulong(nowArr:Array<PorkVO>,otherArr:Array<PorkVO>,ischeckNewType:boolean):number
 		{
 			for(let i:number=0;i<nowArr.length;i++){
 				if(nowArr[i].point>otherArr[i].point){
-					return true;
+					return 1;
 				}else if(nowArr[i].point<otherArr[i].point){
-					return false;
+					return -1;
 				}else{
 					continue;
+				}
+			}
+			if(this.isNewType()&&ischeckNewType){
+				for(let j:number=0;j<nowArr.length;j++){
+					if(nowArr[j].type>otherArr[j].type){
+						return 1;
+					}else if(nowArr[j].type<otherArr[j].type){
+						return -1;
+					}else{
+						continue;
+					}
 				}
 			}
 			// for(let i:number=0;i<nowArr.length;i++){
@@ -1226,7 +1320,7 @@ module game {
 			// 		break;
 			// 	}
 			// }
-			return false;
+			return 0;
 		}
 		//获取单
 		// public static getSingBigger():boolean{
@@ -1269,6 +1363,18 @@ module game {
 				return 2;
 			}
 			return 1;
+		}
+		private static CheckTypeBigger(arr1:Array<PorkVO>,arr2:Array<PorkVO>):boolean{
+			for(let i:number=0;i<arr1.length;i++){
+				if(arr1[i].type>arr2[i].type){
+					return true;
+				}else if(arr1[i].type<arr2[i].type){
+					return false;
+				}else{
+					continue;
+				}
+			}
+			return false;
 		}
 	}
 }

@@ -36,4 +36,5 @@ enum ModuleEnum {
     BOFANGMA,
     JIESANSORT,
     CHARGE,
+    ModelShuoMing
 }

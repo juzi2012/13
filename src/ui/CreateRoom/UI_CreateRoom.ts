@@ -9,9 +9,11 @@ module UI.CreateRoom {
 		public m_JuShuCtrl:fairygui.Controller;
 		public m_NumCtrl:fairygui.Controller;
 		public m_NumCtrl1:fairygui.Controller;
+		public m_tonghuaType:fairygui.Controller;
 		public m_panelBg:fairygui.GComponent;
 		public m_btn_type0:fairygui.GButton;
 		public m_btn_type1:fairygui.GButton;
+		public m_btn_type5:fairygui.GButton;
 		public m_btn_type2:fairygui.GButton;
 		public m_btn_type3:fairygui.GButton;
 		public m_btn_type4:fairygui.GButton;
@@ -40,6 +42,9 @@ module UI.CreateRoom {
 		public m_jiama:fairygui.GGroup;
 		public m_checkbox_jiayise:fairygui.GButton;
 		public m_jiayise:fairygui.GGroup;
+		public m_btn_shuoming:fairygui.GButton;
+		public m_btn_tonghuatype0:fairygui.GButton;
+		public m_btn_tonghuatype1:fairygui.GButton;
 
 		public static URL:string = "ui://83u5vz94sej48";
 
@@ -59,12 +64,14 @@ module UI.CreateRoom {
 			this.m_JuShuCtrl = this.getControllerAt(2);
 			this.m_NumCtrl = this.getControllerAt(3);
 			this.m_NumCtrl1 = this.getControllerAt(4);
+			this.m_tonghuaType = this.getControllerAt(5);
 			this.m_panelBg = <fairygui.GComponent><any>(this.getChildAt(0));
 			this.m_btn_type0 = <fairygui.GButton><any>(this.getChildAt(4));
 			this.m_btn_type1 = <fairygui.GButton><any>(this.getChildAt(5));
-			this.m_btn_type2 = <fairygui.GButton><any>(this.getChildAt(6));
-			this.m_btn_type3 = <fairygui.GButton><any>(this.getChildAt(7));
-			this.m_btn_type4 = <fairygui.GButton><any>(this.getChildAt(8));
+			this.m_btn_type5 = <fairygui.GButton><any>(this.getChildAt(6));
+			this.m_btn_type2 = <fairygui.GButton><any>(this.getChildAt(7));
+			this.m_btn_type3 = <fairygui.GButton><any>(this.getChildAt(8));
+			this.m_btn_type4 = <fairygui.GButton><any>(this.getChildAt(9));
 			this.m_btn_paytype0 = <fairygui.GButton><any>(this.getChildAt(10));
 			this.m_btn_paytype1 = <fairygui.GButton><any>(this.getChildAt(11));
 			this.m_btn_junum0 = <fairygui.GButton><any>(this.getChildAt(12));
@@ -90,6 +97,9 @@ module UI.CreateRoom {
 			this.m_jiama = <fairygui.GGroup><any>(this.getChildAt(49));
 			this.m_checkbox_jiayise = <fairygui.GButton><any>(this.getChildAt(50));
 			this.m_jiayise = <fairygui.GGroup><any>(this.getChildAt(52));
+			this.m_btn_shuoming = <fairygui.GButton><any>(this.getChildAt(53));
+			this.m_btn_tonghuatype0 = <fairygui.GButton><any>(this.getChildAt(54));
+			this.m_btn_tonghuatype1 = <fairygui.GButton><any>(this.getChildAt(55));
 		}
 	}
 }

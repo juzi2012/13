@@ -45,6 +45,7 @@ class RegModuleTask{
         this.regModule(ModuleEnum.BOFANGMA, LayerEnum.POPUP, game.ChaKanMaPanel, []);
         this.regModule(ModuleEnum.JIESANSORT, LayerEnum.POPUP, game.JieSanSort, []);
         this.regModule(ModuleEnum.CHARGE, LayerEnum.POPUP, game.ChargeModule, []);
+        this.regModule(ModuleEnum.ModelShuoMing, LayerEnum.POPUP, game.MoShiShuoMingModule, []);
         
     }
 

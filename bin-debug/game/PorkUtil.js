@@ -88,6 +88,10 @@ var game;
             // }
             return 0;
         };
+        PorkUtil.isNewType = function () {
+            return game.GameModel.ins.roomModel.rinfo.rp == 7;
+            // return true;
+        };
         /**
          * 是否包含对子
          */
@@ -982,7 +986,7 @@ var game;
                 this.SortCard(nowArr);
                 this.SortCard(otherArr);
                 if (paixing1 == 1) {
-                    return this.checkWulong(nowArr, otherArr);
+                    return this.checkWulong(nowArr, otherArr, true) == 1;
                 }
                 else if (paixing1 == 2) {
                     return this.checkDuizi(nowArr, otherArr);
@@ -1038,7 +1042,12 @@ var game;
                 return false;
             }
             else {
-                return false;
+                if (this.isNewType()) {
+                    return this.CheckTypeBigger(nowArr, otherArr);
+                }
+                else {
+                    return false;
+                }
             }
         };
         PorkUtil.checkTiezhi = function (nowArr, otherArr) {
@@ -1072,6 +1081,11 @@ var game;
             else if (now[0].point < other[0].point) {
                 return false;
             }
+            else {
+                if (this.isNewType()) {
+                    return this.CheckTypeBigger(normalArr, normalArr1);
+                }
+            }
             return false;
         };
         PorkUtil.checkHulu = function (nowArr, otherArr) {
@@ -1093,21 +1107,72 @@ var game;
                     return false;
                 }
                 else {
-                    return false;
+                    if (this.isNewType()) {
+                        return this.CheckTypeBigger(nowArr, otherArr);
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
             // return false;
         };
         PorkUtil.checkTonghua = function (nowArr, otherArr) {
-            for (var i = 0; i < nowArr.length; i++) {
-                if (nowArr[i].point > otherArr[i].point) {
-                    return true;
-                }
-                else if (nowArr[i].point < otherArr[i].point) {
-                    return false;
+            if (this.isNewType()) {
+                if (game.GameModel.ins.roomModel.rinfo.th == 2) {
+                    if (nowArr[0].type > otherArr[0].type) {
+                        return true;
+                    }
+                    else if (nowArr[0].type < otherArr[0].type) {
+                        return false;
+                    }
+                    else {
+                        for (var a = 0; a < nowArr.length; a++) {
+                            if (nowArr[a].point > otherArr[a].point) {
+                                return true;
+                            }
+                            else if (nowArr[a].point < otherArr[a].point) {
+                                return false;
+                            }
+                            else {
+                                continue;
+                            }
+                        }
+                    }
                 }
                 else {
-                    continue;
+                    for (var b = 0; b < nowArr.length; b++) {
+                        if (nowArr[b].point > otherArr[b].point) {
+                            return true;
+                        }
+                        else if (nowArr[b].point < otherArr[b].point) {
+                            return false;
+                        }
+                        else {
+                            if (nowArr[0].type > otherArr[0].type) {
+                                return true;
+                            }
+                            else if (nowArr[0].type < otherArr[0].type) {
+                                return false;
+                            }
+                            else {
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < nowArr.length; i++) {
+                    if (nowArr[i].point > otherArr[i].point) {
+                        return true;
+                    }
+                    else if (nowArr[i].point < otherArr[i].point) {
+                        return false;
+                    }
+                    else {
+                        continue;
+                    }
                 }
             }
             return false;
@@ -1126,8 +1191,8 @@ var game;
                 return true;
             }
             else if (nowArr[0].point == otherArr[0].point) {
-                if (nowArr[0].type >= otherArr[0].type) {
-                    return true;
+                if (this.isNewType()) {
+                    return this.CheckTypeBigger(nowArr, otherArr);
                 }
                 else {
                     return false;
@@ -1144,7 +1209,18 @@ var game;
                 return true;
             }
             else if (nowPt == otherPt) {
-                return this.checkWulong(game.PorkUtilExtends.getRestCard1(nowsantiao, nowArr), game.PorkUtilExtends.getRestCard1(othersantiao, otherArr));
+                var aa = this.checkWulong(game.PorkUtilExtends.getRestCard1(nowsantiao, nowArr), game.PorkUtilExtends.getRestCard1(othersantiao, otherArr), false);
+                if (this.isNewType()) {
+                    if (aa == 0) {
+                        return this.CheckTypeBigger(nowArr, otherArr);
+                    }
+                    else {
+                        return aa == 1;
+                    }
+                }
+                else {
+                    return aa == 1;
+                }
             }
             return false;
         };
@@ -1195,7 +1271,12 @@ var game;
                         return false;
                     }
                     else {
-                        return true;
+                        if (this.isNewType()) {
+                            return this.CheckTypeBigger(nowArr, otherArr);
+                        }
+                        else {
+                            return false;
+                        }
                     }
                 }
             }
@@ -1213,20 +1294,47 @@ var game;
                 return false;
             }
             else {
-                return this.checkWulong(game.PorkUtilExtends.getRestCard1(nowDui, nowArr), game.PorkUtilExtends.getRestCard1(otherDui, otherArr));
+                var a = this.checkWulong(game.PorkUtilExtends.getRestCard1(nowDui, nowArr), game.PorkUtilExtends.getRestCard1(otherDui, otherArr), false);
+                if (this.isNewType()) {
+                    if (a == 0) {
+                        return this.CheckTypeBigger(nowArr, otherArr);
+                    }
+                    else {
+                        return a == 1;
+                    }
+                }
+                else {
+                    return a == 1;
+                }
             }
             // return true;
         };
-        PorkUtil.checkWulong = function (nowArr, otherArr) {
+        //后面新增的一个玩法，如果大小相同，则比较花色
+        PorkUtil.prototype.checkNew = function () {
+        };
+        PorkUtil.checkWulong = function (nowArr, otherArr, ischeckNewType) {
             for (var i = 0; i < nowArr.length; i++) {
                 if (nowArr[i].point > otherArr[i].point) {
-                    return true;
+                    return 1;
                 }
                 else if (nowArr[i].point < otherArr[i].point) {
-                    return false;
+                    return -1;
                 }
                 else {
                     continue;
+                }
+            }
+            if (this.isNewType() && ischeckNewType) {
+                for (var j = 0; j < nowArr.length; j++) {
+                    if (nowArr[j].type > otherArr[j].type) {
+                        return 1;
+                    }
+                    else if (nowArr[j].type < otherArr[j].type) {
+                        return -1;
+                    }
+                    else {
+                        continue;
+                    }
                 }
             }
             // for(let i:number=0;i<nowArr.length;i++){
@@ -1238,7 +1346,7 @@ var game;
             // 		break;
             // 	}
             // }
-            return false;
+            return 0;
         };
         //获取单
         // public static getSingBigger():boolean{
@@ -1282,6 +1390,20 @@ var game;
                 return 2;
             }
             return 1;
+        };
+        PorkUtil.CheckTypeBigger = function (arr1, arr2) {
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i].type > arr2[i].type) {
+                    return true;
+                }
+                else if (arr1[i].type < arr2[i].type) {
+                    return false;
+                }
+                else {
+                    continue;
+                }
+            }
+            return false;
         };
         return PorkUtil;
     }());

@@ -7,7 +7,8 @@ var game;
         function RoomInfo() {
             this.zuid = ""; //庄家uid
             this.zz = 0; //坐庄模式
-            this.jp = []; //是否是加一色	
+            this.jp = []; //是否是加一色number
+            this.th = 1; //1是先比大小，2时先比花色
         }
         return RoomInfo;
     }());
@@ -67,6 +68,7 @@ var game;
             this.rinfo.snum = msg.rinfo.snum;
             this.rinfo.zz = msg.rinfo.zz;
             this.rinfo.jp = msg.rinfo.jp;
+            this.rinfo.th = msg.rinfo.th;
             if (this.rinfo.zz == 1) {
                 this.rinfo.zuid = this.zuid;
             }
@@ -115,6 +117,7 @@ var game;
             this.rinfo.zuid = msg.dealer;
             this.rinfo.zz = msg.rinfo.zz;
             this.rinfo.jp = msg.rinfo.jp;
+            this.rinfo.th = msg.rinfo.th;
             this.reConnectState = msg.status;
             if (this.users == null) {
                 this.users = new Array();

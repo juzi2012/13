@@ -63,7 +63,7 @@ var VersionController = (function () {
                 //通过httpReques获得配置资源信息
                 var request = new egret.HttpRequest();
                 request.responseType = egret.HttpResponseType.TEXT;
-                request.open(_this.versionConfigPath, egret.HttpMethod.GET);
+                request.open(_this.versionConfigPath + "?v=" + Math.random() * Math.random(), egret.HttpMethod.GET);
                 request.send();
                 request.addEventListener(egret.Event.COMPLETE, function (event) {
                     var request = event.currentTarget;
@@ -142,6 +142,9 @@ var VersionController = (function () {
                 var ext = url.slice(url.lastIndexOf("."));
                 // 原始的文件夹+crc32码+后缀扩展名
                 url = this.versionPath + version + ext;
+            }
+            else {
+                url = url + "?v=" + Math.random() * Math.random();
             }
         }
         url = this.resourceRoot + url;

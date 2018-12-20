@@ -37,6 +37,8 @@ class C2T_Message_CreateRoom{
 	public fc:number;
 	// jp:加花色 int数组，不加花色留空) }花色对应值:0:方块 1:梅花2：红桃 3:黑桃
 	public jp:Array<number>;
+	// 1 先比大小，2 先比花色
+	public th:number;
 }
 class C2T_Message_EnterRoom{
 	public constructor() {

@@ -42,7 +42,7 @@ var game;
             game.GameModel.ins.gold = msg.gold;
             App.MessageCenter.dispatch(game.MsgEnum.UPDATE_MYINFO, msg);
         };
-        ServerEngine.createRoom = function (ty, pn, jn, zz, jm, fc, jp, handle) {
+        ServerEngine.createRoom = function (ty, pn, jn, zz, jm, fc, jp, th, handle) {
             App.Socket.addCmdListener(MsgType.CreateRoom, handle);
             var createRoomMsg = new C2T_Msg();
             createRoomMsg.Aid = MsgType.CreateRoom;
@@ -54,6 +54,7 @@ var game;
             msg.jm = jm;
             msg.fc = fc;
             msg.jp = jp;
+            msg.th = th;
             createRoomMsg.Msg = msg;
             App.Socket.send(createRoomMsg);
         };

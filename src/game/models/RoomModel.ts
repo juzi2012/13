@@ -13,7 +13,8 @@ module game {
 		public snum:number;//"snum":8,//总局数
 		public zuid:string=""; //庄家uid
 		public zz:number=0; //坐庄模式
-		public jp:Array<number>=[]; //是否是加一色	
+		public jp:Array<number>=[]; //是否是加一色number
+		public th:number=1;//1是先比大小，2时先比花色
 	}
 	export class User{
 		public constructor(){
@@ -91,6 +92,7 @@ module game {
 			this.rinfo.snum = msg.rinfo.snum;
 			this.rinfo.zz = msg.rinfo.zz;
 			this.rinfo.jp = msg.rinfo.jp;
+			this.rinfo.th = msg.rinfo.th;
 			if(this.rinfo.zz==1){
 				this.rinfo.zuid = this.zuid; 
 			}
@@ -140,6 +142,7 @@ module game {
 			this.rinfo.zuid = msg.dealer;
 			this.rinfo.zz = msg.rinfo.zz;
 			this.rinfo.jp = msg.rinfo.jp;
+			this.rinfo.th = msg.rinfo.th;
 			this.reConnectState = msg.status;
 			if(this.users==null){
 				this.users = new Array<User>();
