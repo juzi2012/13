@@ -55,6 +55,12 @@ var game;
             if (data != null && data.fromPlay == true) {
                 ModuleMgr.ins.showModule(ModuleEnum.ZHANJI);
             }
+            else {
+                if (game.GameModel.ins.showActivity == true) {
+                    ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
+                    game.GameModel.ins.showActivity = false;
+                }
+            }
         };
         GameMainModule.prototype.updatePlayerInfo = function () {
             this.mContent.m_txt_name.text = game.GameModel.ins.uname;

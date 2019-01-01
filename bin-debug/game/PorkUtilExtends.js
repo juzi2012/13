@@ -731,7 +731,7 @@ var game;
                             arr1.push(gAry.pop());
                         }
                         else {
-                            continue;
+                            return null;
                         }
                     }
                 }
@@ -773,7 +773,7 @@ var game;
                                     arr2.push(gAry.pop());
                                 }
                                 else {
-                                    continue;
+                                    return null;
                                 }
                             }
                         }
@@ -814,7 +814,7 @@ var game;
                                             arr3.push(gAry.pop());
                                         }
                                         else {
-                                            continue;
+                                            return null;
                                         }
                                     }
                                 }

@@ -280,7 +280,7 @@ module game {
 		}
 		private onShowBuyCard():void
 		{
-			let url:string = GameModel.ins.BuySerever+"userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl="+GameModel.ins.BuySereverRedirect;
+			let url:string = GameModel.ins.BuySerever+"&userId="+GameModel.ins.uid+"&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl="+GameModel.ins.BuySereverRedirect;
 			// window.open(url,"_blank");
 			top.location.href=url;
 		}

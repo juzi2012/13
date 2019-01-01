@@ -8,6 +8,7 @@ module game {
     	public SocketPort:string;
 		public BindServer:string;
 		public CheckBindServer:string;
+		public showActivity:boolean=true;
 		public constructor() {
 			if(App.GlobalData.IsDebug==0){
 				this.key = App.GlobalData.key;

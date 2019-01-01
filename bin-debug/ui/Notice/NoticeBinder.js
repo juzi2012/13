@@ -11,6 +11,7 @@ var UI;
             }
             NoticeBinder.bindAll = function () {
                 fairygui.UIObjectFactory.setPackageItemExtension(Notice.UI_Notice.URL, Notice.UI_Notice);
+                fairygui.UIObjectFactory.setPackageItemExtension(Notice.UI_NoticeTab.URL, Notice.UI_NoticeTab);
             };
             return NoticeBinder;
         }());

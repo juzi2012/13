@@ -11,6 +11,7 @@ var UI;
             }
             ActivityBinder.bindAll = function () {
                 fairygui.UIObjectFactory.setPackageItemExtension(Activity.UI_Activity.URL, Activity.UI_Activity);
+                fairygui.UIObjectFactory.setPackageItemExtension(Activity.UI_ActivityTab.URL, Activity.UI_ActivityTab);
             };
             return ActivityBinder;
         }());

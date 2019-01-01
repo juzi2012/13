@@ -25,5 +25,7 @@ class RegRunTimeClassTask{
         fairygui.UIObjectFactory.setPackageItemExtension(UI.MainUI.UI_HeadImage1.URL, game.PlayerHeadImg1);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Game.UI_UserInfoPosItem.URL, game.UserInfoLocationItem);
         fairygui.UIObjectFactory.setPackageItemExtension(UI.Charge.UI_ChargeItem.URL, game.ChargeItem);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.Activity.UI_ActivityTab.URL, game.ActivityRender);
+        fairygui.UIObjectFactory.setPackageItemExtension(UI.Notice.UI_NoticeTab.URL, game.NoticeRender);
     }
 }

@@ -43,7 +43,13 @@ module game {
 			super.show(data);
 			if(data!=null && data.fromPlay==true){
 				ModuleMgr.ins.showModule(ModuleEnum.ZHANJI);
+			}else{
+				if(GameModel.ins.showActivity==true){
+					ModuleMgr.ins.showModule(ModuleEnum.ACTIVITY);
+					GameModel.ins.showActivity=false;
+				}
 			}
+			
 		}
 		private updatePlayerInfo():void
 		{

@@ -5,6 +5,7 @@ var game;
 (function (game) {
     var GameModel = (function () {
         function GameModel() {
+            this.showActivity = true;
             this.uname = "Jack";
             this.uid = "383928393";
             this.card = 0;

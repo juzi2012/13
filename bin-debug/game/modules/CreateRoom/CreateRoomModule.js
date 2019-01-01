@@ -285,7 +285,7 @@ var game;
         CreateRoomModule.prototype.onError = function () {
         };
         CreateRoomModule.prototype.onShowBuyCard = function () {
-            var url = game.GameModel.ins.BuySerever + "userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=" + game.GameModel.ins.BuySereverRedirect;
+            var url = game.GameModel.ins.BuySerever + "&userId=" + game.GameModel.ins.uid + "&appId=6000015&payId=103&taocanId=3&serverId=1&from=1&redirectUrl=" + game.GameModel.ins.BuySereverRedirect;
             // window.open(url,"_blank");
             top.location.href = url;
         };

@@ -169,7 +169,7 @@ var game;
             game.ChatModel.ins.init();
             //显示邀请
             if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn && game.GameModel.ins.uid == game.GameModel.ins.roomModel.fuid) {
-                this.mContent.m_btn_invite.visible = true;
+                this.mContent.m_btn_invite.visible = false;
             }
             if (this.qiangContent == null) {
                 this.qiangContent = new fairygui.GComponent();
@@ -216,7 +216,7 @@ var game;
             //有人进来就发送一次消息，来更新我在其他玩家中的位置信息
             game.LocationModel.ins.sendPosChat();
             if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn) {
-                this.mContent.m_btn_invite.visible = true;
+                this.mContent.m_btn_invite.visible = false;
             }
             else {
                 this.mContent.m_btn_invite.visible = false;
@@ -241,7 +241,7 @@ var game;
                 if (playerHead != null) {
                     playerHead.init();
                     if (game.GameModel.ins.roomModel.users.length < game.GameModel.ins.roomModel.rinfo.pn) {
-                        this.mContent.m_btn_invite.visible = true;
+                        this.mContent.m_btn_invite.visible = false;
                     }
                     else {
                         this.mContent.m_btn_invite.visible = false;

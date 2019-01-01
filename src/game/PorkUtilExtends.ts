@@ -817,7 +817,7 @@ module game {
 							i-=1;
 							arr1.push(gAry.pop());
 						}else{
-							continue;
+							return null;
 						}
 					}
 				}
@@ -857,7 +857,7 @@ module game {
 										i-=1;
 										arr2.push(gAry.pop());
 									}else{
-										continue;
+										return null;
 									}
 								}
 							}
@@ -895,7 +895,7 @@ module game {
 													a-=1;
 													arr3.push(gAry.pop());
 												}else{
-													continue;
+													return null;
 												}
 											}
 										}
